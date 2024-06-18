@@ -1,0 +1,17 @@
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerRepository.deps.json
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerRepository.runtimeconfig.json
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerRepository.dll
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerRepository.pdb
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerEntity.dll
+D:\Project\demoProject\ExpenseTrackerRepository\bin\Debug\net7.0\ExpenseTrackerEntity.pdb
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.csproj.AssemblyReference.cache
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.AssemblyInfoInputs.cache
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.AssemblyInfo.cs
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.csproj.CoreCompileInputs.cache
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.csproj.CopyComplete
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.dll
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\refint\ExpenseTrackerRepository.dll
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.pdb
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ExpenseTrackerRepository.genruntimeconfig.cache
+D:\Project\demoProject\ExpenseTrackerRepository\obj\Debug\net7.0\ref\ExpenseTrackerRepository.dll

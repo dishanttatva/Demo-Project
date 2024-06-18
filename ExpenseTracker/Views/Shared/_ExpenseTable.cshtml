@@ -1,0 +1,50 @@
+﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+
+@if (Model.Expenses.Count() > 0)
+{
+
+
+    <table class="table my-5">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+
+                <th scope="col">Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var index = 1;
+            }
+            @foreach (var item in Model.Expenses)
+            {
+
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@item.Name</td>
+                    <td>@item.Amount</td>
+                    <td>@item.CreatedDate</td>
+                    <td>
+                        <a onclick="OpenModal(@item.ExpenseId)" class="btn btn-outline-primary">Edit</a>
+
+                        <a asp-action="DeleteExpense" asp-route-id="@item.ExpenseId" class="btn btn-outline-danger">Delete</a>
+                    </td>
+
+                </tr>
+                index++;
+            }
+            <tr>
+                <th scope="row"><p class="fs-5">Total</p></th>
+                <td colspan="4">@Model.Sum</td>
+            </tr>
+
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="fs-3 my-5">No Expenses Available</p>
+}

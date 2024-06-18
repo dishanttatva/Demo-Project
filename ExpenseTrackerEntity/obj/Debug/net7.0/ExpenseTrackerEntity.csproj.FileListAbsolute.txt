@@ -1,0 +1,14 @@
+D:\Project\demoProject\ExpenseTrackerEntity\bin\Debug\net7.0\ExpenseTrackerEntity.deps.json
+D:\Project\demoProject\ExpenseTrackerEntity\bin\Debug\net7.0\ExpenseTrackerEntity.runtimeconfig.json
+D:\Project\demoProject\ExpenseTrackerEntity\bin\Debug\net7.0\ExpenseTrackerEntity.dll
+D:\Project\demoProject\ExpenseTrackerEntity\bin\Debug\net7.0\ExpenseTrackerEntity.pdb
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.csproj.AssemblyReference.cache
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.AssemblyInfoInputs.cache
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.AssemblyInfo.cs
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.csproj.CoreCompileInputs.cache
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.dll
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\refint\ExpenseTrackerEntity.dll
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.pdb
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ExpenseTrackerEntity.genruntimeconfig.cache
+D:\Project\demoProject\ExpenseTrackerEntity\obj\Debug\net7.0\ref\ExpenseTrackerEntity.dll

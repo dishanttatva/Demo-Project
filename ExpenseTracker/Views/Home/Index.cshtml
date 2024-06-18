@@ -1,0 +1,140 @@
+﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout2";
+}
+
+<div class="container">
+    <div class="row">
+        @* <button class="">Add a Category</button> *@
+        <button type="button" class="btn btn-outline-primary my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+           Add a Expense
+        </button>
+        <div class="d-flex justify-content-end">
+            <select class="form-select w-25" onchange="LoadPartialView()" id="dropdown" asp-for="CategoryId" aria-label="Default select example">
+                <option selected value="0">Select Your category</option>
+
+
+                @foreach (var item in Model.Categories)
+                {
+                    <option value="@item.CategoryId">@item.Name</option>
+                }
+
+
+            </select>
+        </div>
+        <div id="showTable"></div>
+    </div>
+    
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <p class="fs-2">Create a Expense</p>
+            </div>
+            <form method="post" asp-action="CreateExpense" class="mx-1 mx-md-4 p-4">
+
+                @if(Model.Categories.Count != 0)
+                {
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense name</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
+                                <option selected value="">Select Your category</option>
+
+
+                                @foreach (var item in Model.Categories)
+                                {
+                                    <option value="@item.CategoryId">@item.Name</option>
+                                }
+
+
+                            </select>
+                            <label class="form-label">select your category</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="ExpenseDate" type="date" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Date</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Amount</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="Description" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                    </div>
+                }
+                else
+                {
+                    <a asp-action="Categories" class="btn btn-primary btn-lg">Add a Category First</a>
+                }
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<div id="showmodal"></div>
+<script>
+    function OpenModal(id) {
+
+        $('#showmodal').load('/Home/ShowExpenseModal/' + id, () => {
+            const modal = new bootstrap.Modal(document.getElementById('expense'));
+            modal.show();
+        });
+    }
+    $(document).ready(function () {
+
+        LoadPartialView();
+    });
+    function LoadPartialView() {
+        var categoryId = document.getElementById('dropdown').value;
+        $.ajax({
+            url: '/Home/ExpenseTable',
+            method: 'GET',
+
+            data: {
+                categoryId: categoryId
+            },
+            success: function (response) {
+
+                $('#showTable').html(response);
+
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+</script>

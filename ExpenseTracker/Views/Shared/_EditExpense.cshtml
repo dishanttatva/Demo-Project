@@ -1,0 +1,78 @@
+﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+
+<div class="modal fade" id="expense" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <p class="fs-2">Edit a Expense</p>
+            </div>
+            <form method="post" asp-action="EditExpense" class="mx-1 mx-md-4 p-4">
+
+                    <input type="text" asp-for="ExpenseId" hidden/>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense name</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
+                                
+
+
+                                @foreach (var item in Model.Categories)
+                                {
+                                @if (item.CategoryId == Model.CategoryId)
+                                {
+                                    <option value="@item.CategoryId" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.CategoryId">@item.Name</option>
+                                }
+                            }
+
+
+                            </select>
+                            <label class="form-label">select your category</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                        <input asp-for="ExpenseDate" type="date" asp-format="{0:yyyy-MM-dd}" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Date</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Amount</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                            <input asp-for="Description" type="text" id="form3Example3c" class="form-control" />
+                            <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Edit</button>
+                    </div>
+                
+
+
+            </form>
+        </div>
+    </div>
+</div>

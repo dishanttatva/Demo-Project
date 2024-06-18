@@ -1,0 +1,107 @@
+﻿@model ExpenseTrackerEntity.ViewModel.UserDetailsVM;
+@{
+    Layout = "_Layout2";
+}
+<div class="container-fluid mt-3 ">
+    <div class="row my-3 d-flex justify-content-center">
+
+        <div class=" col-lg-8 col-md-10 ">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="fs-1 m-0">User Profile</span>
+                <a asp-action="Index" class=" btn btn-outline-info">
+                    <strong>&lt;</strong> Back
+                </a>
+            </div>
+            <form asp-action="UpdateProfile" >
+                <div class="bg-white form-div mt-3 shadow-lg p-2 container-fluid">
+                    <h3>General Information</h3>
+                    <fieldset id="dis" disabled>
+
+
+                        <div class="row mt-5 ">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-floating mb-3">
+
+                                    <input asp-for="FirstName" type="text" class="form-control" id="floatingInput"
+                                           placeholder="name@example.com">
+                                    <label value="12" for="floatingInput">First Name</label>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="LastName" type="text" class="form-control" id="floatingInput"
+                                           placeholder="name@example.com">
+                                    <label for="floatingInput">Last Name</label>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 ">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="DateOfBirth" asp-format="{0:yyyy-MM-dd}"
+                                           type="date" class="form-control" id="floatingInput"
+                                           placeholder="name@example.com">
+                                    <label for="floatingInput">Date of Birth</label>
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <h3 class="mt-5">Contact Information</h3>
+                        <div class="row mt-3 ">
+
+                            <div class="col-lg-5 col-md-5 ">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="PhoneNumber" type="text" class="form-control" id="ConfirmPassword"
+                                           placeholder="name@example.com">
+                                    <label for="floatingInput">Contact Number</label>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Email" type="email" class="form-control" id="Email"
+                                           placeholder="name@example.com">
+                                    <label for="floatingInput">Email</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                  
+                       
+
+
+
+                    </fieldset>
+                    <div class="d-flex justify-content-end my-3">
+                        <button id="Edit" type="button" onclick="changebtn()" data-text="Save" class="btn mx-1" style="border:1px solid #00bde7; color:#00bde7">Edit</button>
+                        <button id="Save" type="submit" data-text="Save" class="btn d-none mx-1" style="border:1px solid #00bde7; background:#00bde7">Save</button>
+                        <button id="Cancel" type="reset" onclick="changebtn2()" class="btn mx-1 d-none" style="border:1px solid #00bde7; color:#00bde7">Cancel</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function changebtn2() {
+        document.getElementById("dis").disabled = true;
+        document.getElementById('Edit').classList.remove('d-none');
+        document.getElementById('Save').classList.add('d-none');
+        document.getElementById('Cancel').classList.add('d-none');
+
+    }
+    function changebtn() {
+        document.getElementById("dis").disabled = false;
+        document.getElementById('Edit').classList.add('d-none');
+        document.getElementById('Save').classList.remove('d-none');
+        document.getElementById('Cancel').classList.remove('d-none');
+
+    }
+</script>
