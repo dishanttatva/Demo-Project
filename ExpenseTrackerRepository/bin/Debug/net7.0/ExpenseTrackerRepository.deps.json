@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "ExpenseTrackerRepository/1.0.0": {
         "dependencies": {
+          "ChartJSCore": "3.10.1",
           "ExpenseTrackerEntity": "1.0.0",
           "Microsoft.AspNet.WebHelpers": "3.3.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.19",
@@ -18,6 +19,17 @@
         },
         "runtime": {
           "ExpenseTrackerRepository.dll": {}
+        }
+      },
+      "ChartJSCore/3.10.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ChartJSCore.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.10.1.0"
+          }
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -302,6 +314,14 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
       "Npgsql/7.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
@@ -371,6 +391,7 @@
       },
       "ExpenseTrackerEntity/1.0.0": {
         "dependencies": {
+          "ChartJSCore": "3.10.1",
           "Microsoft.AspNet.WebHelpers": "3.3.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.19",
           "Microsoft.EntityFrameworkCore": "7.0.15",
@@ -387,6 +408,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ChartJSCore/3.10.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-X4qlrFhb3p3UC9eQsghgG7NN0lqjt0r8av0jhNFBELbIcO6jTHqWEza3eo8YT6FFvooSMCMMAoWSdqJJKG4IJw==",
+      "path": "chartjscore/3.10.1",
+      "hashPath": "chartjscore.3.10.1.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -625,6 +653,13 @@
       "sha512": "sha512-KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
     },
     "Npgsql/7.0.0": {
       "type": "package",

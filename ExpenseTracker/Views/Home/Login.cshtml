@@ -1,5 +1,20 @@
-﻿@model ExpenseTrackerEntity.Models.User;
-
+﻿@model ExpenseTrackerEntity.ViewModel.LoginVM;
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success("@TempData["success"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error("@TempData["error"]");
+    </script>
+}
 <section class="vh-100" style="background-color: #eee;">
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -19,19 +34,26 @@
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div  class="form-outline flex-fill mb-0">
                                             <input asp-for="Email" type="email" id="form3Example3c" class="form-control" />
-                                            <label class="form-label" for="form3Example3c">Your Email</label>
+                                            <label class="form-label" for="form3Example3c">Your Email</label><br />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="d-flex flex-row align-items-center ">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div  class="form-outline flex-fill mb-0">
                                             <input asp-for="Password" type="password" id="form3Example4c" class="form-control" />
-                                            <label class="form-label" for="form3Example4c">Password</label>
+                                            <label class="form-label" for="form3Example4c">Password</label><br />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
 
-                                 
+                                    <div class="form-check d-flex justify-content-end mb-5">
+
+                                        <label class="form-check-label" for="form2Example3">
+                                            <a asp-action="ForgotPassword" asp-controller="Login">Forgot Password</a>
+                                        </label>
+                                    </div>
 
                                     <div class="form-check d-flex justify-content-center mb-5">
                                        
@@ -39,6 +61,8 @@
                                             <a asp-action="Register" asp-controller="Login">Create Account</a>
                                         </label>
                                     </div>
+
+                                    
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                         <button type="submit" class="btn btn-primary btn-lg">Log In</button>

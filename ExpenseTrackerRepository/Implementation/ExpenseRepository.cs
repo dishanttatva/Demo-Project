@@ -27,6 +27,7 @@ namespace ExpenseTrackerRepository.Implementation
             {
                 return user.Id;
             }
+            
             return 0;
         }
 
@@ -101,17 +102,40 @@ namespace ExpenseTrackerRepository.Implementation
            _context.SaveChanges();
         }
 
-        public HomeVM GetExpenses(int categoryId, int userId)
+        public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount)
         {
-            if (categoryId == 0)
+            List<Expense> Expenses = _context.Expenses.Where(x => x.UserId == userId).ToList();
+            if (categoryId != 0)
             {
-                return new HomeVM() { 
-                    Expenses = _context.Expenses.Where(x => x.UserId == userId).ToList(),
-                    Sum= _context.Expenses.Where(x=>x.UserId==userId).Sum(x=>x.Amount),
-                };
+                Expenses= Expenses.Where(x=>x.CategoryId == categoryId).ToList();
+            }
+            if (OrderByDate)
+            {
+                Expenses = Expenses.OrderBy(x => x.CreatedDate).ToList();
+            }
+            if (OrderByAmount)
+            {
+                Expenses = Expenses.OrderBy(x => x.Amount).ToList();
+            }
+            var pageCount = Expenses.Count();
+
+            if (CurrentPage != 0 && ItemsPerPage != 0)
+            {
+                Expenses = Expenses.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+            }
+           
+            if(categoryId==0){
+                 return new HomeVM() {
+                ItemsPerPage = ItemsPerPage,
+                PageCount = pageCount,
+                Expenses = Expenses,
+                Sum = _context.Expenses.Where(x => x.UserId == userId).Sum(x => x.Amount),
+            };
             }
             return new HomeVM() {
-                Expenses= _context.Expenses.Where(x => x.UserId == userId && x.CategoryId == categoryId).ToList(),
+                ItemsPerPage = ItemsPerPage,
+                PageCount = pageCount,
+                Expenses = Expenses,
                 Sum = _context.Expenses.Where(x => x.UserId == userId && x.CategoryId==categoryId).Sum(x => x.Amount),
             };
 
@@ -146,6 +170,37 @@ namespace ExpenseTrackerRepository.Implementation
         {
             _context.Expenses.Remove(expense);
             _context.SaveChanges();
+        }
+
+        public bool isCategorySaved(string categoryName, int? userId)
+        {
+            Category category= _context.Categories.FirstOrDefault(x=>x.Name.Trim().ToLower()==categoryName.Trim().ToLower())??new();
+            return category.CategoryId != 0 ? true : false;
+        }
+
+        public bool isEmail(string? emailClaim)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.Email == emailClaim)??new();
+            if (user.Id != 0) return true;
+            return false;
+        }
+
+        public User ChangePassword(string? emailClaim,string Password)
+        {
+            User user= _context.Users.FirstOrDefault(x=>x.Email == emailClaim)??new();
+            user.Password= Crypto.HashPassword(Password);
+            return user;
+        }
+
+        public int GetSumAmountByDate(DateOnly date,int UserId)
+        {
+            return _context.Expenses.Where(x => x.UserId == UserId && x.CreatedDate == date).Sum(x => x.Amount);
+        }
+
+        public int GetSumAmountByMonth(int month, int year, int userId)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.CreatedDate.Month == month && x.CreatedDate.Year==year).Sum(x => x.Amount);
+
         }
     }
 }

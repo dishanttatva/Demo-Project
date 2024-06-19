@@ -27,7 +27,6 @@ public class HomeController : Controller
             int UserId = _service.ValidateToken(Request.Cookies["myToken"]);
             HttpContext.Session.SetInt32("UserId", UserId);
             HomeVM data = _service.GetCategories(UserId);
-            //data.Expenses = _service.GetExpenses(UserId);
             return View(data);
         }
         return RedirectToAction("Login","Login");
@@ -41,7 +40,8 @@ public class HomeController : Controller
     public IActionResult LogOut()
     {
         Response.Cookies.Delete("myToken");
-        return RedirectToAction(nameof(Index));
+        TempData["success"] = "LogOut successful";
+        return RedirectToAction("Login","Login");
     }
     [HttpGet]
     public IActionResult Categories()
@@ -53,13 +53,15 @@ public class HomeController : Controller
     public IActionResult CreateCategory(HomeVM viewModel)
     {
         var UserId = HttpContext.Session.GetInt32("UserId");
-        _service.CreateCategory(viewModel.CategoryName, UserId);
+        bool flag= _service.CreateCategory(viewModel.CategoryName, UserId);
+        TempData["success"] = "Category has been created";
         return RedirectToAction(nameof(Categories));
     }
    public IActionResult DeleteCategory(int id)
     {
         var UserId = HttpContext.Session.GetInt32("UserId");
         _service.DeleteCategory(id, UserId);
+        TempData["success"] = "Category has been deleted";
         return RedirectToAction(nameof(Categories));
     }
     public IActionResult ShowModal(int id)
@@ -73,6 +75,7 @@ public class HomeController : Controller
     {
         var userId= HttpContext.Session.GetInt32("UserId");
         _service.EditCategory(model, userId);
+        TempData["success"] = "Category has been updated";
         return RedirectToAction(nameof(Categories));
     }
     [HttpGet]
@@ -88,6 +91,7 @@ public class HomeController : Controller
         if(ModelState.IsValid)
         {
             _service.EditProfile(user,userId);
+            TempData["success"] = "Profile has been updated";
             return RedirectToAction(nameof(MyProfile));
         }
         return View("~/Views/Home/MyProfile.cshtml", user);
@@ -96,12 +100,10 @@ public class HomeController : Controller
     public IActionResult CreateExpense(HomeVM viewModel) 
     {
         var userId = HttpContext.Session.GetInt32("UserId");
-        if (ModelState.IsValid)
-        {
-            _service.AddExpense(viewModel, userId);
-            return RedirectToAction(nameof(Index));
-        }
-        return View("~/Views/Home/Index.cshtml", viewModel);
+        _service.AddExpense(viewModel, userId);
+        TempData["success"] = "Expense has been Added";
+        return RedirectToAction(nameof(Index));
+        
     }
 
     public IActionResult ShowExpenseModal(int id)
@@ -116,6 +118,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         _service.EditExpense(model, userId);
+        TempData["success"] = "Expense has been Updated";
         return RedirectToAction(nameof(Index));
     }
 
@@ -123,14 +126,41 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         _service.DeleteExpense(id, userId);
+        TempData["success"] = "Expense has been Deleted";
         return RedirectToAction(nameof(Index));
     }
+
     [HttpGet]
-    public IActionResult ExpenseTable(int categoryId)
+    public IActionResult ExpenseTable(int categoryId,int CurrentPage, int ItemsPerPage,bool OrderByDate,bool OrderByAmount)
     {
         var userId = (int)HttpContext.Session.GetInt32("UserId");
-        HomeVM viewModel= _service.GetExpenses(categoryId, userId);
-       
+        HomeVM viewModel= _service.GetExpenses(categoryId, userId,CurrentPage,ItemsPerPage,OrderByDate,OrderByAmount);
+        ViewBag.Page = CurrentPage;
         return PartialView("_ExpenseTable", viewModel);
     }
+    public IActionResult Chart()
+    {
+        //var UserId = (int)HttpContext.Session.GetInt32("UserId");
+        //SalesData salesData = _service.GetDailyReportData(UserId);
+        return View();   
+    }
+
+    public IActionResult ChartGraph(int id)
+    {
+        var UserId = (int)HttpContext.Session.GetInt32("UserId");
+        SalesData salesData=new();
+        switch (id)
+        {
+            case 1:  salesData = _service.GetDailyReportData(UserId);
+                    salesData.Type = "1";
+                    break;
+            case 3: salesData = _service.GetMonthlyReportData(UserId);
+                    salesData.Type = "3";
+                    break;
+        }
+       
+        return PartialView("_ChartGraph",salesData);
+    }
+
+
 }

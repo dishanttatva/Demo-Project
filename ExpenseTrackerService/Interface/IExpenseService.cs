@@ -10,20 +10,26 @@ namespace ExpenseTrackerService.Interface
 {
     public interface IExpenseService
     {
-        void RegisterUser(User model);
+        void RegisterUser(RegisterVM model);
          string ValidateUser(LoginVM viewModel);
         int ValidateToken(string token);
-        void CreateCategory(string categoryName, int? userId);
+        bool CreateCategory(string categoryName, int? userId);
         HomeVM GetCategories(int userId);
         void DeleteCategory(int id, int? userId);
         Category GetCategory(int id, int? userId);
-        void EditCategory(Category model, int? userId);
+        bool EditCategory(Category model, int? userId);
         UserDetailsVM GetUserDetials(int? v);
         void EditProfile(UserDetailsVM user,int? userId);
         void AddExpense(HomeVM viewModel, int? userId);
-        HomeVM GetExpenses(int categoryId,int userId);
+        HomeVM GetExpenses(int categoryId,int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount);
         HomeVM GetExpenseData(int id, int? userId);
         void EditExpense(HomeVM model, int? userId);
         void DeleteExpense(int id, int? userId);
+        void SendMail(string email, string token);
+        string GenerateToken(string email);
+        bool ValidateEmailToken(LoginVM vm);
+        SalesData GetDailyReportData(int UserId);
+        SalesData GetMonthlyReportData(int userId);
+        //string ValidatePassword(string email);
     }
 }

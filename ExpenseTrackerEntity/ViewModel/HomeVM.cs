@@ -24,5 +24,7 @@ namespace ExpenseTrackerEntity.ViewModel
         public int ExpenseId { get; set; }
         public string? CategoryName { get; set; }
         public string? Description { get; set; }
+        public double ItemsPerPage {  get; set; }
+        public double PageCount {  get; set; }
     }
 }

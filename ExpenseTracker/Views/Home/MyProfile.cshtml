@@ -2,6 +2,22 @@
 @{
     Layout = "_Layout2";
 }
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success("@TempData["success"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error("@TempData["error"]");
+    </script>
+}
 <div class="container-fluid mt-3 ">
     <div class="row my-3 d-flex justify-content-center">
 
@@ -89,7 +105,12 @@
         </div>
     </div>
 </div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
+
+    
     function changebtn2() {
         document.getElementById("dis").disabled = true;
         document.getElementById('Edit').classList.remove('d-none');

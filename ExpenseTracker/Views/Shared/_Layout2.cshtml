@@ -1,9 +1,4 @@
-﻿
-
-
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,6 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ExpenseTracker.styles.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
 </head>
 <body>
     @* <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -56,7 +56,7 @@
                         <a class="nav-link fs-5" asp-action="Categories">My Categories</a>
                     </li>
                 </ul>
-                <a asp-action="LogOut" asp-controller="Home" class="btn btn-outline-success my-2 mx-2 my-sm-0" type="button">LogOut</a>
+                <a asp-action="LogOut" asp-controller="Home" class="btn btn-outline-danger my-2 mx-2 my-sm-0" type="button">LogOut</a>
                 
             </div>
         </div>

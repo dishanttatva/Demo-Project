@@ -23,10 +23,15 @@ namespace ExpenseTrackerRepository.Interface
         User GetUserDetail(int? u);
        
         void SaveExpense(Expense expense);
-        HomeVM GetExpenses(int categoryId, int userId);
+        HomeVM GetExpenses(int categoryId, int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount);
         HomeVM GetExpenseData(int id, int? userId);
         Expense GetExpense(int expenseId, int? userId);
         void UpdateExpense(Expense expense);
         void DeleteExpense(Expense expense);
+        bool isCategorySaved(string categoryName, int? userId);
+        bool isEmail(string? emailClaim);
+        User ChangePassword(string? emailClaim,string Password);
+        int GetSumAmountByDate(DateOnly date,int UserId);
+        int GetSumAmountByMonth(int month,int year, int userId);
     }
 }

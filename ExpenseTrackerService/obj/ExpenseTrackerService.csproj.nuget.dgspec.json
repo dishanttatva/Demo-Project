@@ -40,6 +40,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ChartJSCore": {
+              "target": "Package",
+              "version": "[3.10.1, )"
+            },
             "Microsoft.AspNet.WebHelpers": {
               "target": "Package",
               "version": "[3.3.0, )"
@@ -129,6 +133,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ChartJSCore": {
+              "target": "Package",
+              "version": "[3.10.1, )"
+            },
             "Microsoft.AspNet.WebHelpers": {
               "target": "Package",
               "version": "[3.3.0, )"
@@ -218,6 +226,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ChartJSCore": {
+              "target": "Package",
+              "version": "[3.10.1, )"
+            },
             "Microsoft.AspNet.WebHelpers": {
               "target": "Package",
               "version": "[3.3.0, )"

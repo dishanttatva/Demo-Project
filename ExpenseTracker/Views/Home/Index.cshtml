@@ -3,11 +3,26 @@
     ViewData["Title"] = "Home Page";
     Layout = "_Layout2";
 }
-
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success("@TempData["success"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error("@TempData["error"]");
+    </script>
+}
 <div class="container">
     <div class="row">
         @* <button class="">Add a Category</button> *@
-        <button type="button" class="btn btn-outline-primary my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
            Add a Expense
         </button>
         <div class="d-flex justify-content-end">
@@ -24,6 +39,17 @@
             </select>
         </div>
         <div id="showTable"></div>
+
+        <div class="d-flex justify-content-end">
+            <select  onchange="LoadPartialView()" id="pageDropdown" asp-for="CategoryId" aria-label="Default select example">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                
+
+
+            </select>
+        </div>
     </div>
     
 </div>
@@ -42,7 +68,7 @@
                 @if(Model.Categories.Count != 0)
                 {
                     <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        
                         <div class="form-outline flex-fill mb-0">
                             <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
                             <label class="form-label" for="form3Example3c">Enter your Expense name</label>
@@ -50,7 +76,7 @@
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                       
                         <div class="form-outline flex-fill mb-0">
                             <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
                                 <option selected value="">Select Your category</option>
@@ -68,7 +94,7 @@
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        
                         <div class="form-outline flex-fill mb-0">
                             <input asp-for="ExpenseDate" type="date" id="form3Example3c" class="form-control" />
                             <label class="form-label" for="form3Example3c">Enter your Expense Date</label>
@@ -76,7 +102,7 @@
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        
                         <div class="form-outline flex-fill mb-0">
                             <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
                             <label class="form-label" for="form3Example3c">Enter your Expense Amount</label>
@@ -84,7 +110,7 @@
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                       
                         <div class="form-outline flex-fill mb-0">
                             <input asp-for="Description" type="text" id="form3Example3c" class="form-control" />
                             <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
@@ -107,6 +133,29 @@
 </div>
 <div id="showmodal"></div>
 <script>
+    // function OrderByDate()
+    // {
+    //     var categoryId = document.getElementById('dropdown').value;
+    //     var itemsPerPage = document.getElementById('pageDropdown').value;
+    //     $.ajax({
+    //         url: '/Home/OrderByDate',
+    //         method: 'GET',
+
+    //         data: {
+    //             categoryId: categoryId,
+    //             CurrentPage: 1,
+    //             ItemsPerPage: itemsPerPage
+    //         },
+    //         success: function (response) {
+
+    //             $('#showTable').html(response);
+
+    //         },
+    //         error: function (error) {
+    //             console.error('Error in AJAX', error);
+    //         }
+    //     });
+    // }
     function OpenModal(id) {
 
         $('#showmodal').load('/Home/ShowExpenseModal/' + id, () => {
@@ -118,23 +167,73 @@
 
         LoadPartialView();
     });
-    function LoadPartialView() {
+    function LoadPartialView(orderbyDate,orderByValue) {
         var categoryId = document.getElementById('dropdown').value;
-        $.ajax({
-            url: '/Home/ExpenseTable',
-            method: 'GET',
+        var itemsPerPage = document.getElementById('pageDropdown').value;
+            $.ajax({
+                url: '/Home/ExpenseTable',
+                method: 'GET',
 
-            data: {
-                categoryId: categoryId
+                data: {
+                    categoryId: categoryId,
+                    CurrentPage: 1,
+                    ItemsPerPage: itemsPerPage,
+                    OrderByDate: orderbyDate,
+                    OrderByAmount: orderByValue,
             },
-            success: function (response) {
+                success: function (response) {
 
-                $('#showTable').html(response);
+                    $('#showTable').html(response);
 
-            },
-            error: function (error) {
-                console.error('Error in AJAX', error);
-            }
-        });
+                },
+                error: function (error) {
+                    console.error('Error in AJAX', error);
+                }
+            });
+    }
+    function pagination(number) {
+        var categoryId = document.getElementById('dropdown').value;
+        var itemsPerPage = document.getElementById('pageDropdown').value;
+            $.ajax({
+                url: '/Home/ExpenseTable',
+                method: 'GET',
+
+                data: {
+                    categoryId: categoryId,
+                    CurrentPage: number,
+                    ItemsPerPage: itemsPerPage
+                },
+                success: function (response) {
+
+                    $('#showTable').html(response);
+                    $('#number').html(number);
+                },
+                error: function (error) {
+                    console.error('Error in AJAX', error);
+                }
+            });
+    }
+    function Increament(totalpages) {
+
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b + 1;
+
+
+        if (b <= totalpages) {
+
+            pagination(b);
+        }
+
+    }
+    function Decreament() {
+
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b - 1;
+
+        if (b > 0) {
+            pagination(b);
+        }
     }
 </script>

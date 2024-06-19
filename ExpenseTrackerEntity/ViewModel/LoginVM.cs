@@ -14,5 +14,6 @@ namespace ExpenseTrackerEntity.ViewModel
         [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; } = null!;    
         public int UserId { get; set; }
+        public string? Token { get; set; }
     }
 }

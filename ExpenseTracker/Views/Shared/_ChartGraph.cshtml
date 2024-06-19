@@ -1,0 +1,90 @@
+﻿@model ExpenseTrackerEntity.ViewModel.SalesData;
+<div class="chart-container">
+   
+    <canvas id="salesChart"></canvas>
+</div>
+<script>
+   
+       
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        
+        var salesData = @Html.Raw(Json.Serialize(Model));
+    console.log(salesData);
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: salesData.labels,
+                datasets: [{
+                    label: salesData.type=="1"?'Daily Sales':salesData.type=="2"?'Weekly Sales':'Monthly Sales',
+                    data: salesData.budget,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+ 
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     var ctx = document.getElementById('salesChart').getContext('2d');
+    //     var salesData = @Html.Raw(Json.Serialize(Model));
+
+    //     new Chart(ctx, {
+    //         type: 'line',
+    //         data: {
+    //             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    //             datasets: [{
+    //                 label: 'Monthly Sales',
+    //                 data: salesData,
+    //                 borderColor: 'rgba(75, 192, 192, 1)',
+    //                 borderWidth: 2,
+    //                 fill: false
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             scales: {
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero: true
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // });
+   
+
+
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     fetch('/Home/GetSalesChartData')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             var ctx = document.getElementById('salesChart').getContext('2d');
+        //             new Chart(ctx, {
+        //                 type: 'line',
+        //                 data: data,
+        //                 options: {
+        //                     responsive: true,
+        //                     scales: {
+        //                         yAxes: [{
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     }
+        //                 }
+        //             }
+        //                 });
+        // }
+        // });
+</script>
