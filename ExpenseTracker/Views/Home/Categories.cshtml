@@ -21,11 +21,11 @@
 }
 <div class="container">
     <div class="row">
-        
+
         <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add a Category
         </button>
-        @if (Model.Categories.Count > 0)
+        @if (Model.Categories?.Count > 0)
         {
 
 
@@ -38,24 +38,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{var index = 1;}
+                    @{
+                        var index = 1;
+                    }
                     @foreach (var item in Model.Categories)
                     {
-                        
+
                         <tr>
                             <th scope="row">@index</th>
-                        <td>@item.Name</td>
+                            <td>@item.Name</td>
                             <td>
                                 <a onclick="OpenModal(@item.CategoryId)" class="btn btn-outline-primary">Edit</a>
 
-                        <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-outline-danger">Delete</a></td>
-                        
-                    </tr>
-                    index++;
-                }
-               
-                
-            </tbody>
+                                <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-outline-danger">Delete</a>
+                            </td>
+
+                        </tr>
+                        index++;
+                    }
+
+
+                </tbody>
             </table>
         }
         else
@@ -75,15 +78,16 @@
             <div class="modal-header d-flex justify-content-center align-items-center">
                 <p class="fs-2">Create a Category</p>
             </div>
-            <form method="post" asp-action="CreateCategory" class="mx-1 mx-md-4 p-4">
+            <form onsubmit="return validateForm()" method="post" asp-action="CreateCategory" class="mx-1 mx-md-4 p-4">
 
 
 
                 <div class="d-flex flex-row align-items-center mb-4">
-                   
-                    <div  class="form-outline flex-fill mb-0">
+
+                    <div class="form-outline flex-fill mb-0">
                         <input asp-for="CategoryName" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your category name</label>
+                        <label class="form-label" for="form3Example3c">Enter your category name</label><br />
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -99,9 +103,18 @@
 <script>
     function OpenModal(id) {
 
-        $('#showmodal').load('/Home/ShowModal/' + id, () => {
+        $('#showmodal').load('/Home/ShowEditCategoryModal/' + id, () => {
             const modal = new bootstrap.Modal(document.getElementById('category'));
             modal.show();
         });
     }
+
+    function validateForm() {
+
+        if (!$('#myform').valid()) {
+            return false;
+        }
+        return true;
+    }
+
 </script>

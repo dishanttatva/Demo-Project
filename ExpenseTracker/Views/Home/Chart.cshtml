@@ -1,8 +1,6 @@
-﻿
-@* <div class="chart-container">
-    <h1>Hello</h1>
-    <canvas id="salesChart"></canvas>
-</div> *@
+﻿@{
+    Layout = "_Layout2";
+}
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" onclick="LoadPartialView(1)" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Day</button>
@@ -15,67 +13,23 @@
     </li>
 
 </ul>
-<div id="showTable"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md">
+            <div id="showTable" ></div>
+        </div>
+        <div class="col-lg-6 col-md">
+            <div id="showTable2" ></div>
+        </div>
+    </div>
+</div>
 <script>
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     var ctx = document.getElementById('salesChart').getContext('2d');
-    //     var salesData = @Html.Raw(Json.Serialize(Model));
-
-    //     new Chart(ctx, {
-    //         type: 'line',
-    //         data: {
-    //             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    //             datasets: [{
-    //                 label: 'Monthly Sales',
-    //                 data: salesData,
-    //                 borderColor: 'rgba(75, 192, 192, 1)',
-    //                 borderWidth: 2,
-    //                 fill: false
-    //             }]
-    //         },
-    //         options: {
-    //             responsive: true,
-    //             scales: {
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         beginAtZero: true
-    //                     }
-    //                 }]
-    //             }
-    //         }
-    //     });
-    // });
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     var ctx = document.getElementById('salesChart').getContext('2d');
-    //     var salesData = @Html.Raw(Json.Serialize(Model));
-
-    //     new Chart(ctx, {
-    //         type: 'line',
-    //         data: {
-    //             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    //             datasets: [{
-    //                 label: 'Monthly Sales',
-    //                 data: salesData,
-    //                 borderColor: 'rgba(75, 192, 192, 1)',
-    //                 borderWidth: 2,
-    //                 fill: false
-    //             }]
-    //         },
-    //         options: {
-    //             responsive: true,
-    //             scales: {
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         beginAtZero: true
-    //                     }
-    //                 }]
-    //             }
-    //         }
-    //     });
-    // });
+    
     $(document).ready(function () {
 
         LoadPartialView(1);
+        LoadPartialView2(1);
     });
     function LoadPartialView(id) {
         
@@ -95,31 +49,27 @@
                 console.error('Error in AJAX', error);
             }
         });
+        LoadPartialView2(id);
     }
+    function LoadPartialView2(id) {
+        $.ajax({
+            url: '/Home/PieGraph',
+            method: 'GET',
 
+            data: {
+                id: id
+            },
+            success: function (response) {
+
+                $('#showTable2').html(response);
+
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
     
 
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     fetch('/Home/GetSalesChartData')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             var ctx = document.getElementById('salesChart').getContext('2d');
-    //             new Chart(ctx, {
-    //                 type: 'line',
-    //                 data: data,
-    //                 options: {
-    //                     responsive: true,
-    //                     scales: {
-    //                         yAxes: [{
-    //                             ticks: {
-    //                                 beginAtZero: true
-    //                             }
-    //                         }]
-    //                     }
-    //                 }
-    //             }
-    //                 });
-    // }
-    // });
 </script>
 

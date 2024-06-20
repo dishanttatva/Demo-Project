@@ -1,19 +1,15 @@
 ﻿using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
-//using ExpenseTracker.Models;
 using ExpenseTrackerRepository.Interface;
 using ExpenseTrackerService.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Helpers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ExpenseTrackerService.Implimentation
 {
@@ -27,7 +23,7 @@ namespace ExpenseTrackerService.Implimentation
             _configuration = configuration;
 
         }
-        
+
         public void RegisterUser(RegisterVM model)
         {
             User data = new()
@@ -88,12 +84,12 @@ namespace ExpenseTrackerService.Implimentation
                 ClockSkew = TimeSpan.Zero // Adjust the clock skew if needed
             };
             var principal = tokenHandler.ValidateToken(token, tokenvalidationParameters, out var validatedToken);
-            var reqid = principal.FindFirst("UserId")?.Value;
+            var userId = principal.FindFirst("UserId")?.Value;
 
 
-            if (reqid != null)
+            if (userId != null)
             {
-                return int.Parse(reqid);
+                return int.Parse(userId);
             }
 
             return 0;
@@ -104,7 +100,7 @@ namespace ExpenseTrackerService.Implimentation
             Category category = new()
             {
                 Name = categoryName,
-                CreatedBy = (int)userId,
+                CreatedBy = (int?)userId??0,
             };
             if (!_repository.isCategorySaved(categoryName, userId))
             {
@@ -124,17 +120,17 @@ namespace ExpenseTrackerService.Implimentation
             _repository.DeleteCategory(id, userId);
         }
 
-        public Category GetCategory(int id, int? userId)
+        public CategoryVM GetCategory(int id, int? userId)
         {
             return _repository.GetCategory(id, userId);
         }
 
-        public bool EditCategory(Category model, int? userId)
+        public bool EditCategory(CategoryVM model, int? userId)
         {
-            Category category = _repository.GetCategory(model.CategoryId, userId);
-            if (!_repository.isCategorySaved(model.Name, userId))
+            Category category = _repository.GetCategoryModel(model.CategoryId, (int?)userId??0);
+            if (!_repository.isCategorySaved(model.CategoryName, userId))
             {
-                category.Name = model.Name;
+                category.Name = model.CategoryName;
                 _repository.UpdateCategory(category);
                 return true;
             }
@@ -161,9 +157,9 @@ namespace ExpenseTrackerService.Implimentation
         {
             Expense expense = new()
             {
-                UserId = (int)userId,
-                CategoryId = (int)viewModel.CategoryId,
-                Amount = (int)viewModel.Amount,
+                UserId = (int?)userId??0,
+                CategoryId = (int?)viewModel.CategoryId??0,
+                Amount = (int?)viewModel.Amount??0,
                 Description = viewModel.Description,
                 CreatedDate = viewModel.ExpenseDate,
                 Name = viewModel.ExpenseName,
@@ -187,8 +183,8 @@ namespace ExpenseTrackerService.Implimentation
             expense.Name = model.ExpenseName;
             expense.Description = model.Description;
             expense.CreatedDate = model.ExpenseDate;
-            expense.CategoryId = (int)model.CategoryId;
-            expense.Amount = (int)model.Amount;
+            expense.CategoryId = (int?)model.CategoryId??0;
+            expense.Amount = (int?)model.Amount??0;
             _repository.UpdateExpense(expense);
         }
 
@@ -205,11 +201,11 @@ namespace ExpenseTrackerService.Implimentation
             var receiver = email ?? "";
 
             var subject = "Reset Password";
-            var message = "Tap on link for Reset the Password : https://localhost:7145/Login/PasswordChange?token=" + token;
+            var message = "Tap on link for Reset the Password : https://localhost:7145/expense-tracker/change-password?token=" + token;
 
 
             var mail = "tatva.dotnet.dishantsoni@outlook.com";
-            var password = "Dishant@2002";
+            var password = "I'm not written password beacuase of security";
 
             var client = new SmtpClient("smtp.office365.com")
             {
@@ -243,8 +239,6 @@ namespace ExpenseTrackerService.Implimentation
         public bool ValidateEmailToken(LoginVM vm)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-         
-
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "");
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -261,10 +255,11 @@ namespace ExpenseTrackerService.Implimentation
 
             var emailClaim = principal.FindFirst(ClaimTypes.Email)?.Value;
             bool isEmail = _repository.isEmail(emailClaim);
-            if (isEmail) {
-               User user= _repository.ChangePassword(emailClaim,vm.Password);
+            if (isEmail)
+            {
+                User user = _repository.ChangePassword(emailClaim, vm.Password);
                 _repository.UpdateUser(user);
-                return true; 
+                return true;
             }
             return false;
         }
@@ -272,58 +267,81 @@ namespace ExpenseTrackerService.Implimentation
         public SalesData GetDailyReportData(int UserId)
         {
 
-            SalesData data=new SalesData ();
+            SalesData data = new SalesData();
             DateOnly TodayDate = DateOnly.FromDateTime(DateTime.Now);
-            for(int i=1;i<=TodayDate.Day;i++)
+            for (int i = 1; i <= TodayDate.Day; i++)
             {
                 DateOnly date = DateOnly.FromDateTime(new DateTime(TodayDate.Year, TodayDate.Month, i));
-                
-                data.labels.Add(i.ToString("D2"));
-                data.budget.Add(_repository.GetSumAmountByDate(date,UserId));
+
+                data.labels?.Add(i.ToString("D2"));
+                data.budget?.Add(_repository.GetSumAmountByDate(date, UserId));
             }
             return data;
         }
+        public enum MonthEnum
+        {
+            Jan = 1,
+            Feb = 2,
+            Mar = 3,
+            Apr = 4,
+            May = 5,
+            Jun = 6,
+            Jul = 7,
+            Aug = 8,
+            Sep = 9,
+            Oct = 10,
+            Nov = 11,
+            Dec = 12
+        }
+        public enum WeekEnum
+        {
+            First = 1,
+            Second = 2,
+            Third = 3,
+            Fourth = 4,
+            Fifth = 5,
 
+        }
         public SalesData GetMonthlyReportData(int userId)
         {
-            
-            SalesData data=new SalesData();
+
+            SalesData data = new SalesData();
             DateOnly TodayDate = DateOnly.FromDateTime(DateTime.Now);
-            for(int i=1;i<=TodayDate.Month; i++)
+            for (int i = 1; i <= TodayDate.Month; i++)
             {
-                data.labels.Add(i.ToString("D2"));
-                data.budget.Add(_repository.GetSumAmountByMonth(i,TodayDate.Year, userId));
+                MonthEnum monthEnum = (MonthEnum)i;
+                string monthName = monthEnum.ToString();
+                data.labels?.Add(monthName);
+                data.budget?.Add(_repository.GetSumAmountByMonth(i, TodayDate.Year, userId));
             }
             return data;
         }
 
-        //public string ValidatePassword(string email)
-        //{
-        //    int userId = _repository.validate(email);
+        public SalesData GetWeeklyReportData(int userId)
+        {
+            SalesData data = new SalesData();
+            DateOnly TodayDate = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly firstDate = new DateOnly(TodayDate.Year, TodayDate.Month, 1);
+            int DayOfWeek = (int)firstDate.DayOfWeek;
+            DateOnly Date = firstDate.AddDays(7 - DayOfWeek);
+            int amount = _repository.GetSumAmountByWeek(userId, firstDate, Date);
+            int index = 1;
+            data.labels?.Add("First");
+            index++;
+            data.budget?.Add(amount);
+            DateOnly lastDate = new DateOnly(TodayDate.Year, TodayDate.Month, DateTime.DaysInMonth(TodayDate.Year, TodayDate.Month));
+            while (Date < lastDate)
+            {
+                WeekEnum weekEnum = (WeekEnum)index;
+                string weekName = weekEnum.ToString();
+                data.labels?.Add(weekName);
+                data.budget?.Add(_repository.GetSumAmountByWeek(userId, Date, Date.AddDays(+7)));
+                Date = Date.AddDays(+7);
+                index++;
+            }
+            return data;
+        }
 
-        //    if (userId != 0)
-        //    {
 
-        //        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
-        //        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        //        var claims = new List<Claim>
-        //     {
-        //       new Claim("UserId", userId.ToString()),
-        //     };
-
-
-
-        //        var token = new JwtSecurityToken(
-        //            issuer: _configuration["Jwt:Issuer"],
-        //            audience: _configuration["Jwt:Audience"],
-        //            claims: claims,
-        //            expires: DateTime.Now.AddMinutes(30),
-        //            signingCredentials: credentials);
-
-        //        return new JwtSecurityTokenHandler().WriteToken(token);
-
-        //    }
-        //    return "";
-        //}
     }
 }

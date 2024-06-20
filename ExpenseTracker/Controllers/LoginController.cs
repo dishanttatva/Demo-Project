@@ -13,7 +13,7 @@ namespace ExpenseTracker.Controllers
         {
             _service = service;
         }
-        [HttpGet]
+        [HttpGet("expense-tracker/register")]
         public IActionResult Register()
         {
             return View("~/Views/Home/Register.cshtml");
@@ -23,8 +23,8 @@ namespace ExpenseTracker.Controllers
         {
             return View("~/Views/Home/Login.cshtml");
         }
-        [HttpPost]
-        public IActionResult RegisterUser(RegisterVM model)
+        [HttpPost("expense-tracker/register")]
+        public IActionResult Register(RegisterVM model)
         {
             if (ModelState.IsValid)
             {
@@ -35,7 +35,7 @@ namespace ExpenseTracker.Controllers
             return View("~/Views/Home/Register.cshtml",model);
         }
         [HttpPost]
-        public IActionResult LogIn(LoginVM viewModel)
+        public IActionResult Login(LoginVM viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -58,14 +58,14 @@ namespace ExpenseTracker.Controllers
             }
             return View("~/Views/Home/Login.cshtml", viewModel);
         }
-        [HttpGet]
+        [HttpGet("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword()
         {
             LoginVM vm = new();
             return View("~/Views/Home/FP.cshtml",vm);
         }
 
-        [HttpPost]
+        [HttpPost("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword(LoginVM model)
         {
             string token = _service.GenerateToken(model.Email);
@@ -73,14 +73,14 @@ namespace ExpenseTracker.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        [HttpGet]
+        [HttpGet("expense-tracker/change-password")]
         public IActionResult ChangePassword(string token)
         {
             LoginVM vm= new LoginVM();
             vm.Token = token;
             return View("~/Views/Home/ChangePassword.cshtml", vm);
         }
-        [HttpPost]
+        [HttpPost("expense-tracker/change-password")]
         public IActionResult ChangePassword(LoginVM vm)
         {
             bool isValid = _service.ValidateEmailToken(vm);

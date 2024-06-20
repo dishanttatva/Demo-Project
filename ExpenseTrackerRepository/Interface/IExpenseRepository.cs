@@ -16,7 +16,7 @@ namespace ExpenseTrackerRepository.Interface
         void SaveCategory(Category category);
         HomeVM GetCategories(int userId);
         void DeleteCategory(int id, int? userId);
-        Category GetCategory(int id, int? userId);
+        CategoryVM GetCategory(int id, int? userId);
         void UpdateCategory(Category category1);
         UserDetailsVM GetUserDetails(int? v);
         void UpdateUser(User user);
@@ -33,5 +33,7 @@ namespace ExpenseTrackerRepository.Interface
         User ChangePassword(string? emailClaim,string Password);
         int GetSumAmountByDate(DateOnly date,int UserId);
         int GetSumAmountByMonth(int month,int year, int userId);
+        Category GetCategoryModel(int categoryId, int userId);
+        int GetSumAmountByWeek( int userId, DateOnly firstDate, DateOnly date);
     }
 }

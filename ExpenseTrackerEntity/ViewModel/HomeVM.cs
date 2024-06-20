@@ -12,6 +12,7 @@ namespace ExpenseTrackerEntity.ViewModel
     {
         public List<Expense>? Expenses { get; set; }
         public List<Category>? Categories { get; set; }
+        public Category? Category { get; set; }
         public int Sum { get; set; }
         [Required(ErrorMessage ="Name is required")]
         public string ExpenseName { get; set; }
@@ -22,7 +23,8 @@ namespace ExpenseTrackerEntity.ViewModel
         [Required(ErrorMessage = "Category is required")]
         public int? CategoryId { get; set; } = null!;
         public int ExpenseId { get; set; }
-        public string? CategoryName { get; set; }
+        [Required(ErrorMessage = "CategoryName is required")]
+        public string CategoryName { get; set; } = null!;
         public string? Description { get; set; }
         public double ItemsPerPage {  get; set; }
         public double PageCount {  get; set; }

@@ -1,19 +1,20 @@
-﻿@model ExpenseTrackerEntity.Models.Category;
+﻿@model ExpenseTrackerEntity.ViewModel.CategoryVM;
 <div class="modal fade" id="category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center align-items-center">
                 <p class="fs-2">Edit your Category</p>
             </div>
-            <form method="post" asp-action="EditCategory" class="mx-1 mx-md-4 p-4">
+            <form method="post" id="myform" onsubmit="return validateForm()" asp-action="EditCategory" class="mx-1 mx-md-4 p-4">
 
 
                 <input type="text" asp-for="CategoryId" hidden/>
                 <div class="d-flex flex-row align-items-center mb-4">
                     
                     <div class="form-outline flex-fill mb-0">
-                        <input asp-for="Name" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Edit your category name</label>
+                        <input asp-for="CategoryName" type="text" id="form3Example3c" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Edit your category name</label><br />
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -25,3 +26,14 @@
         </div>
     </div>
 </div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    function validateForm() {
+       
+        if (!$('#myform').valid()) {
+            return false;
+        }
+        return true;
+    }
+</script>

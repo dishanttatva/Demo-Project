@@ -23,18 +23,21 @@
                             <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
                                 
 
-
+                            @if(Model!=null && Model.Categories != null)
+                            {
                                 @foreach (var item in Model.Categories)
                                 {
-                                @if (item.CategoryId == Model.CategoryId)
-                                {
-                                    <option value="@item.CategoryId" selected>@item.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.CategoryId">@item.Name</option>
+                                    @if (item.CategoryId == Model.CategoryId)
+                                    {
+                                        <option value="@item.CategoryId" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.CategoryId">@item.Name</option>
+                                    }
                                 }
                             }
+                            
 
 
                             </select>

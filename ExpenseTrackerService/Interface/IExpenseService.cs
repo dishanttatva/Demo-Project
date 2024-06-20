@@ -16,8 +16,8 @@ namespace ExpenseTrackerService.Interface
         bool CreateCategory(string categoryName, int? userId);
         HomeVM GetCategories(int userId);
         void DeleteCategory(int id, int? userId);
-        Category GetCategory(int id, int? userId);
-        bool EditCategory(Category model, int? userId);
+        CategoryVM GetCategory(int id, int? userId);
+        bool EditCategory(CategoryVM model, int? userId);
         UserDetailsVM GetUserDetials(int? v);
         void EditProfile(UserDetailsVM user,int? userId);
         void AddExpense(HomeVM viewModel, int? userId);
@@ -30,6 +30,7 @@ namespace ExpenseTrackerService.Interface
         bool ValidateEmailToken(LoginVM vm);
         SalesData GetDailyReportData(int UserId);
         SalesData GetMonthlyReportData(int userId);
+        SalesData GetWeeklyReportData(int userId);
         //string ValidatePassword(string email);
     }
 }

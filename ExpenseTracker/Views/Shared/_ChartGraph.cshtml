@@ -9,7 +9,7 @@
         var ctx = document.getElementById('salesChart').getContext('2d');
         
         var salesData = @Html.Raw(Json.Serialize(Model));
-    console.log(salesData);
+    
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -33,6 +33,9 @@
                 }
             }
         });
+
+
+   
  
     // document.addEventListener('DOMContentLoaded', () => {
     //     var ctx = document.getElementById('salesChart').getContext('2d');

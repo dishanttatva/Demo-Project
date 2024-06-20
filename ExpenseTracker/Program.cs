@@ -4,10 +4,7 @@ using ExpenseTrackerRepository.Interface;
 using ExpenseTrackerService.Implimentation;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ExpenseTrackerEntity.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,17 +12,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
-// builder.Services.AddDbContext<ApplicationDbContext>(options =>
-// {
-//     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
-// });
+
 builder.Services.AddDbContext<DemoProjectContext>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        // Configure JWT validation parameters (issuer, audience, etc.)
-        // ...
+        
 
         options.Events = new JwtBearerEvents
         {
@@ -39,9 +32,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {
-               options.LoginPath = "/Home/Index"; // Your login path
-               options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Cookie expiration time
-                                                                  // Other options as needed
+               options.LoginPath = "/Home/Index"; 
+               options.ExpireTimeSpan = TimeSpan.FromMinutes(60); 
            });
 builder.Services.AddSession(options =>
 {

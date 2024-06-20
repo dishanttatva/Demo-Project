@@ -26,9 +26,12 @@
                     <td>@item.Amount</td>
                     <td>@item.CreatedDate</td>
                     <td>
-                        <a onclick="OpenModal(@item.ExpenseId)" class="btn btn-outline-primary">Edit</a>
-
-                        <a asp-action="DeleteExpense" asp-route-id="@item.ExpenseId" class="btn btn-outline-danger">Delete</a>
+                        <div class="d-flex">
+                        <button type="button" onclick="OpenModal(@item.ExpenseId)" class="btn btn-outline-primary d-lg-block d-none mx-1">Edit</button>
+                            <button class="btn btn-success btn-sm rounded-0 d-lg-none d-block mx-1" type="button"><i class="fa fa-edit"></i></button>
+                            <a onclick="DeleteModal(@item.ExpenseId)" class="btn btn-outline-danger mx-1 d-lg-block d-none">Delete</a>
+                            <button class="btn btn-danger btn-sm rounded-0 d-lg-none mx-1 d-block" type="button" ><i class="fa fa-trash"></i></button>
+                        </div>
                     </td>
 
                 </tr>
@@ -77,6 +80,3 @@ else
 }
 
 
-<script>
-   
-</script>
