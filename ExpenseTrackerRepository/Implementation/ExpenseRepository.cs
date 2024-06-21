@@ -25,16 +25,16 @@ namespace ExpenseTrackerRepository.Implementation
 
 
 
-        public void RegisterUser(User model)
+        public async Task RegisterUser(User model)
         {
             _context.Users.Add(model);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void SaveCategory(Category category)
+        public async Task  SaveCategory(Category category)
         {
             _context.Categories.Add(category);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
 
         public HomeVM GetCategories(int userId)
@@ -45,11 +45,11 @@ namespace ExpenseTrackerRepository.Implementation
             };
         }
 
-        public void DeleteCategory(int id, int? userId)
+        public async Task DeleteCategory(int id, int? userId)
         {
             Category category = _context.Categories.FirstOrDefault(x => x.CategoryId == id && x.CreatedBy == userId) ?? new();
             _context.Categories.Remove(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public CategoryVM GetCategory(int id, int? userId)
@@ -63,10 +63,10 @@ namespace ExpenseTrackerRepository.Implementation
             return viewModel;
         }
 
-        public void UpdateCategory(Category category1)
+        public async Task UpdateCategory(Category category1)
         {
             _context.Categories.Update(category1);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public UserDetailsVM GetUserDetails(int? v)
@@ -83,10 +83,10 @@ namespace ExpenseTrackerRepository.Implementation
             };
         }
 
-        public void UpdateUser(User user)
+        public async Task UpdateUser(User user)
         {
             _context.Users.Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public User GetUserDetail(int? u)
@@ -94,34 +94,38 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Users.FirstOrDefault(x => x.Id == u) ?? new();
         }
 
-        public void SaveExpense(Expense expense)
+        public async Task SaveExpense(Expense expense)
         {
             _context.Expenses.Add(expense);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount)
+        public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount,string search)
         {
             List<Expense> Expenses = _context.Expenses.Where(x => x.UserId == userId).ToList();
             if (categoryId != 0)
             {
                 Expenses = Expenses.Where(x => x.CategoryId == categoryId).ToList();
             }
-            if (OrderByDate)
-            {
-                Expenses = Expenses.OrderBy(x => x.CreatedDate).ToList();
-            }
-            if (OrderByAmount)
-            {
-                Expenses = Expenses.OrderBy(x => x.Amount).ToList();
-            }
-            var pageCount = Expenses.Count();
 
+            var pageCount = Expenses.Count();
+            if (search != "" && search != null && search != "undefined")
+            {
+                Expenses = Expenses.Where(x => x.Name.StartsWith(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
             if (CurrentPage != 0 && ItemsPerPage != 0)
             {
                 Expenses = Expenses.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
             }
-
+           
+            if (OrderByDate)
+            {
+                Expenses = Expenses.OrderByDescending(x => x.CreatedDate).ToList();
+            }
+            if (OrderByAmount)
+            {
+                Expenses = Expenses.OrderByDescending(x => x.Amount).ToList();
+            }
             if (categoryId == 0)
             {
                 return new HomeVM()
@@ -161,16 +165,16 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Expenses.FirstOrDefault(x => x.ExpenseId == expenseId && x.UserId == userId) ?? new();
         }
 
-        public void UpdateExpense(Expense expense)
+        public async Task UpdateExpense(Expense expense)
         {
             _context.Expenses.Update(expense);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteExpense(Expense expense)
+        public async Task DeleteExpense(Expense expense)
         {
             _context.Expenses.Remove(expense);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public bool isCategorySaved(string categoryName, int? userId)
@@ -211,6 +215,16 @@ namespace ExpenseTrackerRepository.Implementation
         public int GetSumAmountByWeek(int userId, DateOnly firstDate, DateOnly date)
         {
             return _context.Expenses.Where(x => x.UserId == userId && x.CreatedDate >= firstDate && x.CreatedDate <= date).Sum(x => x.Amount);
+        }
+
+        public async Task DeleteExpensesByCategoryId(int id, int? userId)
+        {
+            IQueryable<Expense> expenses= _context.Expenses.Where(x=>x.CategoryId==id && x.UserId==userId);
+            foreach(var item in expenses)
+            {
+                _context.Expenses.Remove(item);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

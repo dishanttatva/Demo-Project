@@ -11,7 +11,8 @@
     var pieData = {
         labels: salesData.labels,
         datasets: [{
-            data: salesData.budget, 
+            data: salesData.budget,
+            label: salesData.type == "1" ? 'Daily Sales' : salesData.type == "2" ? 'Weekly Sales' : 'Monthly Sales',
             backgroundColor: ['#000000', '#8B0000', '#a9a9a9', '#000075', '#ffd8b1', '#808000', '#aaffc3', '#800000', '#fffac8', '#9A6324', '#dcbeff', '#469990', '#fabed4', '#bfef45', '#f032e6', '#42d4f4', '#911eb4', '#f58231', '#4363d8', '#ffe119', '#3cb44b'],
             borderWidth: 1,
         }]

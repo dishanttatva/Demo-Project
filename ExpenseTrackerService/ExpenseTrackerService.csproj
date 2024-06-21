@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="ChartJSCore" Version="3.10.1" />
+    <PackageReference Include="itext7" Version="8.0.3" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.3" />
+    <PackageReference Include="itext7.bouncy-castle-fips-adapter" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNet.WebHelpers" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />

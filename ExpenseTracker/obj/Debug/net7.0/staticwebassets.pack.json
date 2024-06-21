@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart.png",
+      "PackagePath": "staticwebassets\\images\\chart.png"
+    },
+    {
+      "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart2.png",
+      "PackagePath": "staticwebassets\\images\\chart2.png"
+    },
+    {
       "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

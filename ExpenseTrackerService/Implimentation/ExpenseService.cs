@@ -2,6 +2,8 @@
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerRepository.Interface;
 using ExpenseTrackerService.Interface;
+using iText.IO.Image;
+using iText.Kernel.Pdf;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -118,6 +120,7 @@ namespace ExpenseTrackerService.Implimentation
         public void DeleteCategory(int id, int? userId)
         {
             _repository.DeleteCategory(id, userId);
+            _repository.DeleteExpensesByCategoryId(id, userId);
         }
 
         public CategoryVM GetCategory(int id, int? userId)
@@ -167,9 +170,9 @@ namespace ExpenseTrackerService.Implimentation
             _repository.SaveExpense(expense);
         }
 
-        public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount)
+        public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount,string search)
         {
-            return _repository.GetExpenses(categoryId, userId, CurrentPage, ItemsPerPage, OrderByDate, OrderByAmount);
+            return _repository.GetExpenses(categoryId, userId, CurrentPage, ItemsPerPage, OrderByDate, OrderByAmount,search);
         }
 
         public HomeVM GetExpenseData(int id, int? userId)
@@ -342,6 +345,22 @@ namespace ExpenseTrackerService.Implimentation
             return data;
         }
 
+        public byte[] GeneratePdf(string imagePath)
+        {
+            
 
+            using (MemoryStream stream = new MemoryStream())
+            {
+                PdfWriter writer = new PdfWriter(stream);
+                PdfDocument pdf = new PdfDocument(writer);
+                iText.Layout.Document document = new iText.Layout.Document(pdf);
+                iText.Layout.Element.Image graphImage = new(ImageDataFactory.Create(imagePath));
+                graphImage.SetFixedPosition(100, 300);
+                graphImage.ScaleToFit(400, 200);
+                document.Add(graphImage);
+                document.Close();
+                return stream.ToArray();
+            }
+        }
     }
 }

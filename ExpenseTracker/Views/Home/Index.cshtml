@@ -23,38 +23,43 @@
     <div class="row">
         @* <button class="">Add a Category</button> *@
         <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-           Add a Expense
+            Add a Expense
         </button>
         <div class="d-flex justify-content-end">
             <select class="form-select w-25" onchange="LoadPartialView()" id="dropdown" asp-for="CategoryId" aria-label="Default select example">
                 <option selected value="0">Select Your category</option>
 
-                @if(Model!=null && Model.Categories != null)
+                @if (Model != null && Model.Categories != null)
                 {
                     @foreach (var item in Model.Categories)
                     {
                         <option value="@item.CategoryId">@item.Name</option>
                     }
                 }
-                
+
 
 
             </select>
         </div>
+        <div>
+            <input id="search" type="search" class="form-control w-25" onchange="LoadPartialView(false,false)" placeholder="Search by name">
+        </div>
+
         <div id="showTable"></div>
 
         <div class="d-flex justify-content-end">
-            <select  onchange="LoadPartialView()" id="pageDropdown" asp-for="CategoryId" aria-label="Default select example">
+            <select onchange="LoadPartialView()" id="pageDropdown" asp-for="CategoryId" aria-label="Default select example">
                 <option value="2">2</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
-                
+
 
 
             </select>
         </div>
+
     </div>
-    
+
 </div>
 
 
@@ -67,7 +72,7 @@
                 <p class="fs-2">Create a Expense</p>
             </div>
             <form id="myForm" onsubmit="return validateForm()" method="post" asp-action="CreateExpense" class="mx-1 mx-md-4 p-4">
-                @if(Model!=null && Model.Categories != null)
+                @if (Model != null && Model.Categories != null)
                 {
                     @if (Model.Categories.Count != 0)
                     {
@@ -135,7 +140,7 @@
                         <a asp-action="Categories" class="btn btn-primary btn-lg">Add a Category First</a>
                     }
                 }
-                
+
 
 
             </form>
@@ -154,7 +159,7 @@
         }
         return true;
     }
-    
+
     function OpenModal(id) {
 
         $('#showmodal').load('/Home/ShowExpenseModal/' + id, () => {
@@ -172,71 +177,74 @@
 
         LoadPartialView();
     });
-    function LoadPartialView(orderbyDate,orderByValue) {
+
+    function LoadPartialView(orderbyDate, orderByValue) {
         var categoryId = document.getElementById('dropdown').value;
         var itemsPerPage = document.getElementById('pageDropdown').value;
-            $.ajax({
-                url: '/Home/ExpenseTable',
-                method: 'GET',
+        var serach = document.getElementById('search').value;
 
-                data: {
-                    categoryId: categoryId,
-                    CurrentPage: 1,
-                    ItemsPerPage: itemsPerPage,
-                    OrderByDate: orderbyDate,
-                    OrderByAmount: orderByValue,
+        $.ajax({
+            url: '/Home/ExpenseTable',
+            method: 'GET',
+
+            data: {
+                categoryId: categoryId,
+                CurrentPage: 1,
+                ItemsPerPage: itemsPerPage,
+                OrderByDate: orderbyDate,
+                OrderByAmount: orderByValue,
+                search: serach,
             },
-                success: function (response) {
+            success: function (response) {
 
-                    $('#showTable').html(response);
+                $('#showTable').html(response);
 
-                },
-                error: function (error) {
-                    console.error('Error in AJAX', error);
-                }
-            });
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
     }
-    function pagination(number) {
+    function pagination(number, orderbyDate, orderByValue) {
         var categoryId = document.getElementById('dropdown').value;
         var itemsPerPage = document.getElementById('pageDropdown').value;
-            $.ajax({
-                url: '/Home/ExpenseTable',
-                method: 'GET',
+        var serach = document.getElementById('search').value;
+        if(number==0){
+            number = $('#number').text();
+        }
+        $.ajax({
+            url: '/Home/ExpenseTable',
+            method: 'GET',
 
-                data: {
-                    categoryId: categoryId,
-                    CurrentPage: number,
-                    ItemsPerPage: itemsPerPage
-                },
-                success: function (response) {
-
-                    $('#showTable').html(response);
-                    $('#number').html(number);
-                },
-                error: function (error) {
-                    console.error('Error in AJAX', error);
-                }
-            });
+            data: {
+                categoryId: categoryId,
+                CurrentPage: number,
+                ItemsPerPage: itemsPerPage,
+                OrderByDate: orderbyDate,
+                OrderByAmount: orderByValue,
+                search: serach
+            },
+            success: function (response) {
+                $('#showTable').html(response);
+                $('#number').html(number);
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
     }
     function Increament(totalpages) {
-
         var a = $('#number').text();
         var b = parseInt(a);
         b = b + 1;
-
-
         if (b <= totalpages) {
-
             pagination(b);
         }
-
     }
     function Decreament() {
-
         var a = $('#number').text();
         var b = parseInt(a);
         b = b - 1;
-
         if (b > 0) {
             pagination(b);
         }

@@ -1,0 +1,31 @@
+﻿@model ExpenseTrackerEntity.ViewModel.SalesData;
+<div class="chart-container">
+
+    <canvas id="BarGraph" style="height:300px"></canvas>
+</div>
+
+<script>
+    var ctx3 = document.getElementById('BarGraph').getContext('2d');
+    var salesData = @Html.Raw(Json.Serialize(Model));
+        var myBarChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: salesData.labels,
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: salesData.budget,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)', // Customize the bar color
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Adjust as needed
+                scales: {
+                    y: {
+                        beginAtZero: true // Start y-axis from zero
+                    }
+                }
+            }
+        });
+</script> 

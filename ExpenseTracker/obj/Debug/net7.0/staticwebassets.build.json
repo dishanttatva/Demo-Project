@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "So6N3n1aR+SoojfmiMPwG9t8PNQGeGFj8E2YmM1mIXI=",
+  "Hash": "9qDTGiA9MUBo/bA+u77EG7Z8HsX2F9MItaLVYKEn1WU=",
   "Source": "ExpenseTracker",
   "BasePath": "_content/ExpenseTracker",
   "Mode": "Default",
@@ -83,6 +83,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart.png",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "_content/ExpenseTracker",
+      "RelativePath": "images/chart.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\chart.png"
+    },
+    {
+      "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart2.png",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "_content/ExpenseTracker",
+      "RelativePath": "images/chart2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\chart2.png"
     },
     {
       "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\js\\site.js",

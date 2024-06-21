@@ -71,6 +71,18 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [
@@ -164,6 +176,18 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [
@@ -257,6 +281,18 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [

@@ -21,7 +21,7 @@ namespace ExpenseTrackerService.Interface
         UserDetailsVM GetUserDetials(int? v);
         void EditProfile(UserDetailsVM user,int? userId);
         void AddExpense(HomeVM viewModel, int? userId);
-        HomeVM GetExpenses(int categoryId,int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount);
+        HomeVM GetExpenses(int categoryId,int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount,string search);
         HomeVM GetExpenseData(int id, int? userId);
         void EditExpense(HomeVM model, int? userId);
         void DeleteExpense(int id, int? userId);
@@ -31,6 +31,7 @@ namespace ExpenseTrackerService.Interface
         SalesData GetDailyReportData(int UserId);
         SalesData GetMonthlyReportData(int userId);
         SalesData GetWeeklyReportData(int userId);
+        byte[] GeneratePdf(string imagePath);
         //string ValidatePassword(string email);
     }
 }

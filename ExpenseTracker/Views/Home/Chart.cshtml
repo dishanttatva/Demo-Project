@@ -14,16 +14,25 @@
 
 </ul>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6 col-md">
+        <div class="col-lg-5 col-md mx-5 my-5">
             <div id="showTable" ></div>
         </div>
-        <div class="col-lg-6 col-md">
+        <div class="col-lg-5 col-md mx-5 my-5">
             <div id="showTable2" ></div>
         </div>
+        
+    </div>
+    <div >
+    <div class="my-5">
+        <div id="showTable3"></div>
     </div>
 </div>
+    <div class="d-flex justify-content-center align-items-center">
+<button onclick="DownloadPdf()" class="btn btn-outline-primary">Download Pdf</button>
+    </div>
+    </div>
 <script>
     
     $(document).ready(function () {
@@ -50,6 +59,7 @@
             }
         });
         LoadPartialView2(id);
+        LoadPartialView3(id);
     }
     function LoadPartialView2(id) {
         $.ajax({
@@ -69,7 +79,50 @@
             }
         });
     }
-    
+    function LoadPartialView3(id) {
+        $.ajax({
+            url: '/Home/BarGraph',
+            method: 'GET',
+
+            data: {
+                id: id
+            },
+            success: function (response) {
+
+                $('#showTable3').html(response);
+
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+    function DownloadPdf() {
+        var canvas = document.getElementById('salesChart');
+        var canvas2 = document.getElementById('pieChart');
+        var dataURL = canvas.toDataURL();
+        var dataURL2 = canvas.toDataURL();
+
+
+        $.ajax({
+            url: '/Home/SaveChartImages',
+            method: 'POST',
+
+            data: {
+                dataURL:dataURL,
+                dataURL2:dataURL2,
+            },
+            success: function (response) {
+
+                
+
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+
+    }
 
 </script>
 

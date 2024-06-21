@@ -12,22 +12,22 @@ namespace ExpenseTrackerRepository.Interface
     {
         int validate(string email,string password);
        
-        void RegisterUser(User model);
-        void SaveCategory(Category category);
+        Task RegisterUser(User model);
+        Task SaveCategory(Category category);
         HomeVM GetCategories(int userId);
-        void DeleteCategory(int id, int? userId);
+        Task DeleteCategory(int id, int? userId);
         CategoryVM GetCategory(int id, int? userId);
-        void UpdateCategory(Category category1);
+        Task UpdateCategory(Category category1);
         UserDetailsVM GetUserDetails(int? v);
-        void UpdateUser(User user);
+        Task UpdateUser(User user);
         User GetUserDetail(int? u);
        
-        void SaveExpense(Expense expense);
-        HomeVM GetExpenses(int categoryId, int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount);
+        Task SaveExpense(Expense expense);
+        HomeVM GetExpenses(int categoryId, int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search);
         HomeVM GetExpenseData(int id, int? userId);
         Expense GetExpense(int expenseId, int? userId);
-        void UpdateExpense(Expense expense);
-        void DeleteExpense(Expense expense);
+        Task UpdateExpense(Expense expense);
+        Task DeleteExpense(Expense expense);
         bool isCategorySaved(string categoryName, int? userId);
         bool isEmail(string? emailClaim);
         User ChangePassword(string? emailClaim,string Password);
@@ -35,5 +35,6 @@ namespace ExpenseTrackerRepository.Interface
         int GetSumAmountByMonth(int month,int year, int userId);
         Category GetCategoryModel(int categoryId, int userId);
         int GetSumAmountByWeek( int userId, DateOnly firstDate, DateOnly date);
+        Task DeleteExpensesByCategoryId(int id, int? userId);
     }
 }

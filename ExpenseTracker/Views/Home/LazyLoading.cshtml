@@ -25,28 +25,31 @@
             </tr>
         </thead>
         <tbody>
-           
+          
             @{
                 double pageCount = Model.PageCount;
                 double itemsPerPage = Model.ItemsPerPage; 
-                
-                var totalPages = Math.Ceiling(pageCount / itemsPerPage);
-                
+                var totalPages = Math.Ceiling(pageCount / itemsPerPage);   
             }
+            <tr id="before">
+                <td><p class="fs-5">Total</p></td>
+                <td colspan="4"><p id="total" class="fs-5"></p></td>
+            </tr>
         </tbody>
     </table>
             
         
     
 </div>
-  
+  <div id="sum"></div>
 <script>
     var number = 2;
     var ulElement = document.getElementById('hello'); 
    
     ulElement.addEventListener('scroll', function () {
         if (ulElement.scrollTop + ulElement.offsetHeight == ulElement.scrollHeight) {
-            if (number <= @totalPages) {
+            if (number <= @totalPages) 
+            {
                 LazyLoading(number);
                 number++;
             }
@@ -61,6 +64,7 @@
     {
         var categoryId = document.getElementById('dropdown').value;
         var itemsPerPage = document.getElementById('pageDropdown').value;
+        var search = document.getElementById('search').value;
         document.getElementById('spinner').classList.remove('d-none');
         $.ajax({
             url: '/Home/ExpenseTableWithLazyLoading',
@@ -72,6 +76,7 @@
                 ItemsPerPage: itemsPerPage,
                 OrderByDate:false,
                 OrderByAmount:false,
+                search:search,
             },
            
             success: function (response) {
@@ -81,11 +86,9 @@
                     document.getElementById('spinner').classList.add('d-none');
                     var content = "";
                     for (const item of response.expenses) {
-                        
-                        var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-                        var newRow = tbodyRef.insertRow(); 
-
-                       
+                        var beforeTr = document.getElementById('before');
+                        var newRow = document.createElement('tr');
+                        beforeTr.parentNode.insertBefore(newRow, beforeTr);                       
                         var newCell1 = newRow.insertCell();
                         newCell1.innerHTML = `${item.name}`;
 
@@ -103,8 +106,11 @@
                                             <button class="btn btn-danger btn-sm rounded-0 d-lg-none mx-1 d-block" type = "button"> <i onclick="DeleteModal(${item.ExpenseId})" class="fa fa-trash"></i></button>
                                             </div>`
                     }
+                  
                 }, 1000);
                
+               
+                document.getElementById('total').innerHTML = `${response.sum}`;
 
             },
             error: function (error) {
