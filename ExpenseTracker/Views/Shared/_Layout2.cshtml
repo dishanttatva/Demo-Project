@@ -52,20 +52,32 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active fs-3" asp-action="Index" asp-controller="Home">Expense Tracker</a>
-                    </li>
-                    <li class="nav-item d-flex justify-content-center align-items-center">
-                        <a class="nav-link fs-5" asp-action="MyProfile">My Profile</a>
-                    </li>
-                    <li class="nav-item d-flex justify-content-center align-items-center">
-                        <a class="nav-link fs-5" asp-action="Categories">My Categories</a>
+                        <a class="nav-link active fs-3" asp-action="Index" asp-controller="Expense">Expense Tracker</a>
                     </li>
                             <li class="nav-item d-flex justify-content-center align-items-center">
-                                <a class="nav-link fs-5" asp-action="Chart">My Trends</a>
+                                <a class="nav-link fs-5" asp-action="SplitExpense" asp-controller="Expense">Split Expense</a>
+                            </li>
+                    <li class="nav-item d-flex justify-content-center align-items-center">
+                        <a class="nav-link fs-5" asp-action="MyProfile" asp-controller="Expense">My Profile</a>
+                    </li>
+                    <li class="nav-item d-flex justify-content-center align-items-center">
+                        <a class="nav-link fs-5" asp-action="Categories" asp-controller="Category">My Categories</a>
+                    </li>
+                            <li class="nav-item d-flex justify-content-center align-items-center">
+                                <a class="nav-link fs-5" asp-action="Chart" asp-controller="Expense">My Trends</a>
                             </li>
                 </ul>
-                <a asp-action="LogOut" asp-controller="Home" class="btn btn-outline-danger my-2 mx-2 my-sm-0" type="button">LogOut</a>
-                
+                <a asp-action="LogOut" asp-controller="Expense" class="btn btn-outline-danger my-2 mx-2 my-sm-0" type="button">LogOut</a>
+                      @*   <div class="dropdown dropstart">
+                            <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true" ></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Log Out</a></li>
+                              
+                            </ul>
+                        </div> *@
             </div>
         </div>
     </nav>

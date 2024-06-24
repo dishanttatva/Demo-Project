@@ -43,7 +43,7 @@
     function LoadPartialView(id) {
         
         $.ajax({
-            url: '/Home/ChartGraph',
+            url: '/Expense/ChartGraph',
             method: 'GET',
 
             data: {
@@ -63,7 +63,7 @@
     }
     function LoadPartialView2(id) {
         $.ajax({
-            url: '/Home/PieGraph',
+            url: '/Expense/PieGraph',
             method: 'GET',
 
             data: {
@@ -81,7 +81,7 @@
     }
     function LoadPartialView3(id) {
         $.ajax({
-            url: '/Home/BarGraph',
+            url: '/Expense/BarGraph',
             method: 'GET',
 
             data: {
@@ -105,7 +105,7 @@
 
 
         $.ajax({
-            url: '/Home/SaveChartImages',
+            url: '/Expense/SaveChartImages',
             method: 'POST',
 
             data: {

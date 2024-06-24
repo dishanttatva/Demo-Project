@@ -362,5 +362,109 @@ namespace ExpenseTrackerService.Implimentation
                 return stream.ToArray();
             }
         }
+
+        public bool ValidateEmail(string email)
+        {
+            return _repository.ValidateEmail(email);
+        }
+
+        public void QuickRegister(string email, string password, string firstname, DateOnly dateofbirth)
+        {
+            User user = new()
+            {
+                Email = email,
+                Password = Crypto.HashPassword(password),
+                FirstName = firstname,
+                DateOfBirth = dateofbirth,
+                UserName=firstname,
+            };
+            _repository.RegisterUser(user);
+        }
+
+        public bool ValidateEmails(SpliteExpenseVM vm)
+        {
+            if (vm.Emails == null) { return false; }
+            else if (vm.Emails.Count != vm.Totals) { return false; }
+            else if (vm.Emails.Count() == 0) { return false; }
+            else {
+                var seenValues = new HashSet<string>();
+                foreach (var item in vm.Emails)
+                {
+
+                    if (seenValues.Contains(item))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        seenValues.Add(item);
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void SendMailForSplitAmount(List<string>? emails, int amount, int total)
+        {
+            foreach(var email in emails)
+            {
+                var receiver = email ?? "";
+
+                var subject = "Split Expense";
+                var message = "You are having the split expense with amount of "+ amount/total;
+
+
+                var mail = "tatva.dotnet.dishantsoni@outlook.com";
+                var password = "Dishant@2002";
+
+                var client = new SmtpClient("smtp.office365.com")
+                {
+                    Port = 587,
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(mail, password)
+                };
+
+                client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+            }
+        }
+
+        public void SplitExpense(List<string>? emails, int splittedAmount,int total)
+        {
+            foreach(var email in emails)
+            {
+                var userId =  _repository.GetUserIdByEmail(email);
+                Expense expense = new Expense()
+                {
+                    UserId = userId,
+                    Amount = splittedAmount / total,
+                    Description = "Splitted amount",
+                    CreatedDate = DateOnly.FromDateTime(DateTime.Now),
+                    CategoryId = -1,
+                    Name="Splitted amount",
+                };
+                _repository.SaveExpense(expense);
+            }
+        }
+
+        public void SendMailForCreateAccount(string email, string password)
+        {
+            var receiver = email ?? "";
+
+            var subject = "Created Account for Expense Tracker";
+            var message = "Your account has been created. Email: " +email + "Password is : "+ password;
+
+
+            var mail = "tatva.dotnet.dishantsoni@outlook.com";
+            var securityPassword = "Dishant@2002";
+
+            var client = new SmtpClient("smtp.office365.com")
+            {
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(mail, securityPassword)
+            };
+
+            client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+        }
     }
 }

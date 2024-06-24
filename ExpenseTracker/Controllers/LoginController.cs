@@ -16,12 +16,12 @@ namespace ExpenseTracker.Controllers
         [HttpGet("expense-tracker/register")]
         public IActionResult Register()
         {
-            return View("~/Views/Home/Register.cshtml");
+            return View();
         }
         [HttpGet]
         public IActionResult Login()
         {
-            return View("~/Views/Home/Login.cshtml");
+            return View();
         }
         [HttpPost("expense-tracker/register")]
         public IActionResult Register(RegisterVM model)
@@ -32,7 +32,7 @@ namespace ExpenseTracker.Controllers
                 TempData["success"] = "User Registered Successfully";
                 return RedirectToAction(nameof(Login));
             }
-            return View("~/Views/Home/Register.cshtml",model);
+            return View(model);
         }
         [HttpPost]
         public IActionResult Login(LoginVM viewModel)
@@ -50,26 +50,27 @@ namespace ExpenseTracker.Controllers
                     };
                     HttpContext.Response.Cookies.Append("myToken", token, cookieOptions);
                     TempData["success"] = "Login Successfull";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Expense");
                 }
                 TempData["error"] = "Invalid Credentials";
                 return RedirectToAction(nameof(Login));
 
             }
-            return View("~/Views/Home/Login.cshtml", viewModel);
+            return View(viewModel);
         }
         [HttpGet("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword()
         {
             LoginVM vm = new();
-            return View("~/Views/Home/FP.cshtml",vm);
+            return View(vm);
         }
 
         [HttpPost("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword(LoginVM model)
         {
             string token = _service.GenerateToken(model.Email);
-            _service.SendMail(model.Email,token);
+            _service.SendMailForCreateAccount(model.Email,token);
+            TempData["success"] = "Email sent successfully";
             return RedirectToAction(nameof(Login));
         }
 
@@ -78,7 +79,7 @@ namespace ExpenseTracker.Controllers
         {
             LoginVM vm= new LoginVM();
             vm.Token = token;
-            return View("~/Views/Home/ChangePassword.cshtml", vm);
+            return View(vm);
         }
         [HttpPost("expense-tracker/change-password")]
         public IActionResult ChangePassword(LoginVM vm)
@@ -87,5 +88,6 @@ namespace ExpenseTracker.Controllers
             TempData["success"] = "Password Changed Successfully";
             return RedirectToAction(nameof(Login));
         }
+        
     }
 }

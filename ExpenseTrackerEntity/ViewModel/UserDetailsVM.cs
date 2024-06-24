@@ -26,6 +26,6 @@ namespace ExpenseTrackerEntity.ViewModel
         [MaxLength(10,ErrorMessage ="Phone number should be length of 10")]
         public string? PhoneNumber { get; set; }
 
-        
+        public string? Password { get; set; }
     }
 }

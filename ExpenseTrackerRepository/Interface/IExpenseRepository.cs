@@ -22,7 +22,7 @@ namespace ExpenseTrackerRepository.Interface
         Task UpdateUser(User user);
         User GetUserDetail(int? u);
        
-        Task SaveExpense(Expense expense);
+        void SaveExpense(Expense expense);
         HomeVM GetExpenses(int categoryId, int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search);
         HomeVM GetExpenseData(int id, int? userId);
         Expense GetExpense(int expenseId, int? userId);
@@ -36,5 +36,7 @@ namespace ExpenseTrackerRepository.Interface
         Category GetCategoryModel(int categoryId, int userId);
         int GetSumAmountByWeek( int userId, DateOnly firstDate, DateOnly date);
         Task DeleteExpensesByCategoryId(int id, int? userId);
+        bool ValidateEmail(string email);
+        int GetUserIdByEmail(string email);
     }
 }

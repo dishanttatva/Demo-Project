@@ -28,7 +28,7 @@
         <div class="d-flex justify-content-end">
             <select class="form-select w-25" onchange="LoadPartialView()" id="dropdown" asp-for="CategoryId" aria-label="Default select example">
                 <option selected value="0">Select Your category</option>
-
+                <option value="-1">Split Amount</option>
                 @if (Model != null && Model.Categories != null)
                 {
                     @foreach (var item in Model.Categories)
@@ -162,13 +162,13 @@
 
     function OpenModal(id) {
 
-        $('#showmodal').load('/Home/ShowExpenseModal/' + id, () => {
+        $('#showmodal').load('/Expense/ShowExpenseModal/' + id, () => {
             const modal = new bootstrap.Modal(document.getElementById('expense'));
             modal.show();
         });
     }
     function DeleteModal(id) {
-        $('#showmodal').load('/Home/ShowDeleteExpenseModal/' + id, () => {
+        $('#showmodal').load('/Expense/ShowDeleteExpenseModal/' + id, () => {
             const modal = new bootstrap.Modal(document.getElementById('delete'));
             modal.show();
         });
@@ -184,7 +184,7 @@
         var serach = document.getElementById('search').value;
 
         $.ajax({
-            url: '/Home/ExpenseTable',
+            url: '/Expense/ExpenseTable',
             method: 'GET',
 
             data: {
@@ -213,7 +213,7 @@
             number = $('#number').text();
         }
         $.ajax({
-            url: '/Home/ExpenseTable',
+            url: '/Expense/ExpenseTable',
             method: 'GET',
 
             data: {

@@ -32,6 +32,12 @@ namespace ExpenseTrackerService.Interface
         SalesData GetMonthlyReportData(int userId);
         SalesData GetWeeklyReportData(int userId);
         byte[] GeneratePdf(string imagePath);
+        bool ValidateEmail(string email);
+        void QuickRegister(string email, string password, string firstname, DateOnly dateofbirth);
+        bool ValidateEmails(SpliteExpenseVM vm);
+        void SendMailForSplitAmount(List<string>? emails,int amount, int total);
+        void SplitExpense(List<string>? emails, int splittedAmount,int totals);
+        void SendMailForCreateAccount(string email, string password);
         //string ValidatePassword(string email);
     }
 }

@@ -103,7 +103,7 @@
 <script>
     function OpenModal(id) {
 
-        $('#showmodal').load('/Home/ShowEditCategoryModal/' + id, () => {
+        $('#showmodal').load('/Category/ShowEditCategoryModal/' + id, () => {
             const modal = new bootstrap.Modal(document.getElementById('category'));
             modal.show();
         });

@@ -1,6 +1,7 @@
 ﻿using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerRepository.Interface;
+using System.Reflection.Metadata.Ecma335;
 using System.Web.Helpers;
 
 namespace ExpenseTrackerRepository.Implementation
@@ -94,10 +95,10 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Users.FirstOrDefault(x => x.Id == u) ?? new();
         }
 
-        public async Task SaveExpense(Expense expense)
+        public void SaveExpense(Expense expense)
         {
             _context.Expenses.Add(expense);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public HomeVM GetExpenses(int categoryId, int userId, int CurrentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount,string search)
@@ -225,6 +226,18 @@ namespace ExpenseTrackerRepository.Implementation
                 _context.Expenses.Remove(item);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public bool ValidateEmail(string email)
+        {
+            User user= _context.Users.FirstOrDefault(x => x.Email == email) ?? new();
+            return user.Id != 0 ? true : false;
+        }
+
+        public int GetUserIdByEmail(string email)
+        {
+            User user= _context.Users.FirstOrDefault(x => x.Email == email)??new();
+            return user.Id;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ExpenseTrackerEntity.ViewModel
         [Required(ErrorMessage = "FirstName is Required")]
         public string FirstName { get; set; } = null!;
 
-        [Required(ErrorMessage = "LastName is Required")]
+        
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "DateOfBirth is Required")]

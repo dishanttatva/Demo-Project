@@ -1,0 +1,76 @@
+﻿@model ExpenseTrackerEntity.ViewModel.UserDetailsVM;
+
+<div class="modal fade" id="register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <p class="fs-2">Create a Account</p>
+            </div>
+
+            <form class="mx-1 mx-md-4 p-4">
+                <input type="text" asp-for="Email" hidden />
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="Email" value="@Model.Email" type="email" id="email" class="form-control" disabled />
+                        <label class="form-label" for="form3Example3c">Enter your member email</label>
+                    </div>
+                </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="DateOfBirth" type="date" id="date" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your member DateOfBirth</label>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="Password" type="text" id="password" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your member Password</label>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="FirstName" type="text" id="firstname" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your member firstname</label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="button" onclick="return RegisterUser()" data-dismiss="modal">Create account</button>
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+<script>
+    function RegisterUser() {
+      
+        $.ajax({
+            url: '/Expense/QuickRegister',
+            method: 'POST',
+
+            data: {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                firstname: document.getElementById('firstname').value,
+                dateofbirth: document.getElementById('date').value
+             
+            },
+            success: function (response) {
+                $('#register-modal').modal('hide');
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+    
+</script>

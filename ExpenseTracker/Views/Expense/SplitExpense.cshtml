@@ -1,0 +1,142 @@
+﻿@model ExpenseTrackerEntity.ViewModel.SpliteExpenseVM;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout2";
+}
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success("@TempData["success"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error("@TempData["error"]");
+    </script>
+}
+<div class="container">
+    <div class="row">
+        @* <button class="">Add a Category</button> *@
+        
+        <button type="button" onclick="AddMember()" class="btn btn-outline-success my-2 w-100">
+            Add a Member
+        </button>
+      
+        <form onsubmit="return countTotal()" asp-action="SplitExpense" method="post">
+            <input type="number" class="w-50" asp-for="SplittedAmount" id="splitamount" placeholder="Enter the splited amount" />
+       <div id="members">
+     
+       </div>
+            <button type="submit" class="btn btn-outline-primary mt-4">Split the Expense</button>
+            
+        </form>
+    </div>
+
+</div>
+<div id="showmodal"></div>
+
+<script>
+    var index = 1;
+    function AddMember() {
+        
+
+        var members = document.getElementById('members');
+        var div = document.createElement('div');
+        div.className='mt-2'
+        var inputField = document.createElement('input');
+        inputField.type = 'email';
+        inputField.placeholder = 'Enter member email';
+        
+        inputField.setAttribute('id', 'input' + index);
+        inputField.className = 'mx-1';
+        inputField.className = 'w-50';
+        div.appendChild(inputField);
+
+
+        var buttonElement = document.createElement('button');
+        buttonElement.type = 'button'; // Set the button type
+        buttonElement.textContent = 'Validate'; // Set the button text
+        buttonElement.setAttribute('id', index);
+        buttonElement.classList.add('btn');
+        buttonElement.classList.add('btn-outline-warning');
+       
+        buttonElement.classList.add('mx-1');
+        buttonElement.addEventListener('click', function (event) {
+
+            if (document.getElementById('input' + event.target.id).value != "") {
+                $.ajax({
+                    url: '/Expense/ValidateEmail',
+                    method: 'POST',
+
+                    data: {
+                        email: document.getElementById('input' + event.target.id).value
+                    },
+                    success: function (response) {
+
+                        if (response.result) {
+                            document.getElementById(event.target.id).classList.add('d-none');
+                            var input = document.getElementById('input' + event.target.id);
+                            input.setAttribute('name', 'Emails');
+                            input.readOnly = true;
+                        }
+                        else {
+                            OpenModal(document.getElementById('input' + event.target.id).value);
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error in AJAX', error);
+                    }
+                });
+            }
+          
+        });
+
+        div.appendChild(buttonElement);
+        var removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent='Remove';
+        removeButton.setAttribute('id','remove'+index);
+        removeButton.classList.add('btn');
+        removeButton.classList.add('btn-outline-danger');
+        removeButton.classList.add('mx-1');
+        removeButton.addEventListener('click', function (event) {
+            var id = event.target.id.slice(6);
+            
+            var removeInput = document.getElementById('input' + id);
+           
+            div.removeChild(removeInput);
+            var validateButton = document.getElementById(id);
+            div.removeChild(validateButton);
+           
+            var removeButton = document.getElementById( event.target.id);
+            div.removeChild(removeButton);
+            
+            index--;
+        });
+        div.appendChild(removeButton);
+        members.appendChild(div);
+        index++;
+    }
+    function countTotal() {
+        var total= document.createElement('input');
+        total.type='text';
+        total.value = index-1;
+        total.name = 'Totals';
+        total.classList.add('hidden');
+        var members = document.getElementById('members');
+        members.appendChild(total);
+    }
+    function OpenModal(email)
+    {
+       
+        $('#showmodal').load('/Expense/RegisterModal?email=' + email, () => {
+            const modal = new bootstrap.Modal(document.getElementById('register-modal'));
+            modal.show();
+        });
+    }
+</script>
