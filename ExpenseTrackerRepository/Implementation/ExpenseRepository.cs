@@ -239,5 +239,87 @@ namespace ExpenseTrackerRepository.Implementation
             User user= _context.Users.FirstOrDefault(x => x.Email == email)??new();
             return user.Id;
         }
+
+        public void SaveRecurrence(Recurrence recurrence)
+        {
+           _context.Recurrences.Add(recurrence);
+           _context.SaveChanges();
+        }
+
+        public Recurrence CheckDueDate()
+        {
+           return _context.Recurrences.FirstOrDefault(x=>x.DueDate == DateOnly.FromDateTime(DateTime.Now) && x.IsDeleted!=true && x.IsAlertSend!=true);
+        }
+
+        public void UpdateRecurrence(Recurrence recurrence)
+        {
+           
+            _context.Recurrences.Update(recurrence);
+            _context.SaveChanges();
+        }
+
+        public string GetEmailFromUserId(int? createdBy)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == createdBy)?.Email??"";
+        }
+
+        public HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
+        {
+            List<Recurrence> recurrences = _context.Recurrences.Where(x => x.CreatedBy == userId && x.IsDeleted!=true).ToList();
+            
+
+            var pageCount = recurrences.Count();
+            if (search != "" && search != null && search != "undefined")
+            {
+                recurrences = recurrences.Where(x => x.RecurrenceName.StartsWith(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (currentPage != 0 && itemsPerPage != 0)
+            {
+                recurrences = recurrences.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage).ToList();
+            }
+
+            if (orderByDate)
+            {
+                recurrences = recurrences.OrderByDescending(x => x.StartDate).ToList();
+            }
+            if (orderByAmount)
+            {
+                recurrences = recurrences.OrderByDescending(x => x.Amount).ToList();
+            }
+            if (categoryId == 0)
+            {
+                return new HomeVM()
+                {
+                    ItemsPerPage = itemsPerPage,
+                    PageCount = pageCount,
+                    Recurrences = recurrences,
+                    Sum = _context.Expenses.Where(x => x.UserId == userId).Sum(x => x.Amount),
+                };
+            }
+            return new HomeVM()
+            {
+                ItemsPerPage = itemsPerPage,
+                PageCount = pageCount,
+                Recurrences = recurrences,
+                Sum = _context.Expenses.Where(x => x.UserId == userId && x.CategoryId == categoryId).Sum(x => x.Amount),
+            };
+        }
+
+        public HomeVM GetRecurrenceData(int id, int? userId)
+        {
+            return _context.Recurrences.Where(x => x.RecurrenceId == id && x.CreatedBy == userId && x.IsDeleted!=true).Select(x => new HomeVM()
+            {
+                ExpenseName = x.RecurrenceName,
+                ExpenseDate = (System.DateOnly)(x.StartDate),
+                Amount = x.Amount,
+                FrequencyId= x.FreequencyId,
+                RecurrenceId = id,
+            }).First();
+        }
+
+        public Recurrence GetRecurrence(int recurrenceId, int? userId)
+        {
+           return _context.Recurrences.FirstOrDefault(x=>x.RecurrenceId==recurrenceId && x.CreatedBy==userId && x.IsDeleted!=true);
+        }
     }
 }

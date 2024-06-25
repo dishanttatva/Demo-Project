@@ -26,4 +26,6 @@ public partial class User
     public DateOnly UpdatedAt { get; set; }
 
     public virtual ICollection<Expense> Expenses { get; } = new List<Expense>();
+
+    public virtual ICollection<Recurrence> Recurrences { get; } = new List<Recurrence>();
 }

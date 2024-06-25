@@ -69,7 +69,7 @@ public class ExpenseController : Controller
         HomeVM data = _service.GetExpenseData(id, UserId);
         return PartialView("_EditExpense", data);
     }
-
+   
     [HttpPost]
     public IActionResult EditExpense(HomeVM model)
     {
@@ -97,80 +97,7 @@ public class ExpenseController : Controller
         return PartialView("_ExpenseTable", viewModel);
     }
 
-    [HttpGet("expense-tracker/my-trends")]
-    public IActionResult Chart()
-    {
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult ChartGraph(int id)
-    {
-        var UserId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-        SalesData salesData = new();
-        switch (id)
-        {
-            case 1:
-                salesData = _service.GetDailyReportData(UserId);
-                salesData.Type = "1";
-                break;
-            case 2:
-                salesData = _service.GetWeeklyReportData(UserId);
-                salesData.Type = "2";
-                break;
-            case 3:
-                salesData = _service.GetMonthlyReportData(UserId);
-                salesData.Type = "3";
-                break;
-        }
-
-        return PartialView("_ChartGraph", salesData);
-    }
-
-    [HttpGet]
-    public IActionResult PieGraph(int id)
-    {
-        var UserId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-        SalesData salesData = new();
-        switch (id)
-        {
-            case 1:
-                salesData = _service.GetDailyReportData(UserId);
-                salesData.Type = "1";
-                break;
-            case 2:
-                salesData = _service.GetWeeklyReportData(UserId);
-                salesData.Type = "2";
-                break;
-            case 3:
-                salesData = _service.GetMonthlyReportData(UserId);
-                salesData.Type = "3";
-                break;
-        }
-        return PartialView("_PieGraph", salesData);
-    }
-    [HttpGet]
-    public IActionResult BarGraph(int id)
-    {
-        var UserId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-        SalesData salesData = new();
-        switch (id)
-        {
-            case 1:
-                salesData = _service.GetDailyReportData(UserId);
-                salesData.Type = "1";
-                break;
-            case 2:
-                salesData = _service.GetWeeklyReportData(UserId);
-                salesData.Type = "2";
-                break;
-            case 3:
-                salesData = _service.GetMonthlyReportData(UserId);
-                salesData.Type = "3";
-                break;
-        }
-        return PartialView("_BarGraph", salesData);
-    }
+   
     [HttpGet]
     public IActionResult ShowDeleteExpenseModal(int id)
     {
@@ -192,74 +119,9 @@ public class ExpenseController : Controller
         return Json(viewModel);
     }
 
-    [HttpPost]
-    public IActionResult SaveChartImages(string dataURL, string dataURL2)
-    {
-        var base64Data = dataURL.Split(',')[1];
-        var imageBytes = Convert.FromBase64String(base64Data);
-
-        // Save the image to a file (optional: adjust the file path and format)
-        var imagePath = Path.Combine("wwwroot", "images", "chart2.png");
-        System.IO.File.WriteAllBytes(imagePath, imageBytes);
-
-        // Return a success message or the image file path
-        return RedirectToAction(nameof(DownloadPdf), new { imagePath = imagePath });
-    }
-    [HttpGet]
-    public IActionResult DownloadPdf(string imagePath)
-    {
-        byte[] data = _service.GeneratePdf(imagePath);
-        return File(data, "application/pdf", "Chart.pdf");
-    }
-    [HttpGet]
-    public IActionResult SplitExpense()
-    {
-        return View();
-    }
-    public IActionResult ValidateEmail(string email)
-    {
-        bool isValidateEmail = _service.ValidateEmail(email);
-        return Json(new { result = isValidateEmail });
-    }
-    public IActionResult RegisterModal(string email)
-    {
-        UserDetailsVM vm = new UserDetailsVM();
-        vm.Email = email;
-        return PartialView("_RegisterModal", vm);
-    }
-    [HttpPost]
-    public IActionResult QuickRegister(string email, string password, string firstname, DateOnly dateofbirth)
-    {
-        if(!email.Contains("@") || !email.Contains('.'))
-        {
-            TempData["error"] = "Email is not valid";
-            return Ok();
-        }
-        _service.QuickRegister(email, password, firstname, dateofbirth);
-        _service.SendMailForCreateAccount(email, password);
-        TempData["success"] = "Account created successfully";
-        return RedirectToAction(nameof(SplitExpense));
-    }
-    [HttpPost]
-    public IActionResult SplitExpense(SpliteExpenseVM vm)
-    {
-
-        bool isValidate = _service.ValidateEmails(vm);
-        if (vm.SplittedAmount == 0)
-        {
-            TempData["error"] = "Split amount should not 0";
-            return RedirectToAction(nameof(SplitExpense));
-        }
-        if(isValidate)
-        {
-            _service.SendMailForSplitAmount(vm.Emails,vm.SplittedAmount,vm.Totals);
-            _service.SplitExpense(vm.Emails, vm.SplittedAmount,vm.Totals);
-            TempData["success"]="Split Expense has been created";
-        }
-        else
-        {
-            TempData["error"] = "Please Validate all the users";
-        }
-        return RedirectToAction(nameof(SplitExpense));
-    }
+    
+   
+    
+  
+   
 }

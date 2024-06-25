@@ -20,8 +20,8 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Expense/Chart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxDaGFydC5jc2h0bWw=
+[D:/Project/demoProject/ExpenseTracker/Views/Category/_EditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0VkaXRDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/Index.cshtml]
@@ -34,10 +34,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxNeVByb2ZpbGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Project/demoProject/ExpenseTracker/Views/Expense/SplitExpense.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxTcGxpdEV4cGVuc2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Login/ChangePassword.cshtml]
@@ -56,20 +52,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_BarGraph.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CYXJHcmFwaC5jc2h0bWw=
+[D:/Project/demoProject/ExpenseTracker/Views/Recurrence/RecurenceExpense.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjdXJyZW5jZVxSZWN1cmVuY2VFeHBlbnNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_ChartGraph.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DaGFydEdyYXBoLmNzaHRtbA==
+[D:/Project/demoProject/ExpenseTracker/Views/Recurrence/_DeleteRecurrence.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjdXJyZW5jZVxfRGVsZXRlUmVjdXJyZW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Recurrence/_EditRecurrence.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjdXJyZW5jZVxfRWRpdFJlY3VycmVuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Recurrence/_RecurrenceTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjdXJyZW5jZVxfUmVjdXJyZW5jZVRhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Report/Chart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XENoYXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Report/_BarGraph.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XF9CYXJHcmFwaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Report/_ChartGraph.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XF9DaGFydEdyYXBoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Report/_PieGraph.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XF9QaWVHcmFwaC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Shared/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_EditCategory.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FZGl0Q2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Shared/_EditExpense.cshtml]
@@ -84,16 +100,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_PieGraph.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QaWVHcmFwaC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_RegisterModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZWdpc3Rlck1vZGFsLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Project/demoProject/ExpenseTracker/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/SplitExpense/SplitExpense.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3BsaXRFeHBlbnNlXFNwbGl0RXhwZW5zZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/SplitExpense/_RegisterModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3BsaXRFeHBlbnNlXF9SZWdpc3Rlck1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/_ViewImports.cshtml]

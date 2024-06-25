@@ -34,10 +34,17 @@ namespace ExpenseTrackerService.Interface
         byte[] GeneratePdf(string imagePath);
         bool ValidateEmail(string email);
         void QuickRegister(string email, string password, string firstname, DateOnly dateofbirth);
-        bool ValidateEmails(SpliteExpenseVM vm);
-        void SendMailForSplitAmount(List<string>? emails,int amount, int total);
-        void SplitExpense(List<string>? emails, int splittedAmount,int totals);
+        string ValidateEmails(SpliteExpenseVM vm);
+        void SendMailForSplitAmount(SpliteExpenseVM vm);
+        void SplitExpense(SpliteExpenseVM vm);
         void SendMailForCreateAccount(string email, string password);
+        void AddRecurrenceExpense(HomeVM vm, int userId);
+        Recurrence CheckDueDate();
+        void TriggerAlert(Recurrence recurrence);
+        HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        HomeVM GetRecurrenceData(int id, int? userId);
+        void EditRecurrence(HomeVM model, int? userId);
+        void DeleteRecurrence(int id, int? userId);
         //string ValidatePassword(string email);
     }
 }

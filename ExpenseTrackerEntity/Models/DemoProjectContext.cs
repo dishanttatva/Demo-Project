@@ -19,11 +19,13 @@ public partial class DemoProjectContext : DbContext
 
     public virtual DbSet<Expense> Expenses { get; set; }
 
+    public virtual DbSet<Recurrence> Recurrences { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("User ID=postgres;Password=Dishant@2002;Server=localhost;Port=5432;Database=DemoProject;Integrated Security=true;Pooling=true;");
+        => optionsBuilder.UseNpgsql("User ID = postgres;Password=Dishant@2002;Server=localhost;Port=5432;Database=DemoProject;Integrated Security=true;Pooling=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +43,27 @@ public partial class DemoProjectContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.Expenses).HasForeignKey(d => d.CategoryId);
 
             entity.HasOne(d => d.User).WithMany(p => p.Expenses).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<Recurrence>(entity =>
+        {
+            entity.HasKey(e => e.RecurrenceId).HasName("Recurrence_pkey");
+
+            entity.ToTable("Recurrence");
+
+            entity.Property(e => e.RecurrenceId).HasColumnName("Recurrence_id");
+            entity.Property(e => e.Amount).HasColumnName("amount");
+            entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
+            entity.Property(e => e.DueDate).HasColumnName("Due_Date");
+            entity.Property(e => e.FreequencyId).HasColumnName("Freequency_Id");
+            entity.Property(e => e.RecurrenceName)
+                .HasColumnType("character varying")
+                .HasColumnName("Recurrence_Name");
+            entity.Property(e => e.StartDate).HasColumnName("Start_Date");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Recurrences)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("Recurrence_Created_By_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

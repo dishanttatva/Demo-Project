@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Helpers;
@@ -381,11 +382,11 @@ namespace ExpenseTrackerService.Implimentation
             _repository.RegisterUser(user);
         }
 
-        public bool ValidateEmails(SpliteExpenseVM vm)
+        public string ValidateEmails(SpliteExpenseVM vm)
         {
-            if (vm.Emails == null) { return false; }
-            else if (vm.Emails.Count != vm.Totals) { return false; }
-            else if (vm.Emails.Count() == 0) { return false; }
+            if (vm.Emails == null) { return "Please select atleast 2 members"; }
+            else if (vm.Emails.Count != vm.Totals) { return "Please Validate all the members"; }
+            else if (vm.Emails.Count() <= 1) { return "Please select atleast 2 members"; }
             else {
                 var seenValues = new HashSet<string>();
                 foreach (var item in vm.Emails)
@@ -393,7 +394,7 @@ namespace ExpenseTrackerService.Implimentation
 
                     if (seenValues.Contains(item))
                     {
-                        return false;
+                        return "Please enter unique emails";
                     }
                     else
                     {
@@ -401,18 +402,27 @@ namespace ExpenseTrackerService.Implimentation
                     }
                 }
             }
-            return true;
+            return "";
         }
 
-        public void SendMailForSplitAmount(List<string>? emails, int amount, int total)
+        public void SendMailForSplitAmount(SpliteExpenseVM vm)
         {
-            foreach(var email in emails)
+
+            for(int i=0;i<vm.Emails.Count();i++)
             {
-                var receiver = email ?? "";
+                var receiver = vm.Emails[i] ?? "";
 
                 var subject = "Split Expense";
-                var message = "You are having the split expense with amount of "+ amount/total;
+                var message = "";
+                if (vm.SplittedAmount != 0)
+                {
 
+                message= "You are having the split expense with amount of "+ vm.SplittedAmount/vm.Totals;
+                }
+                else
+                {
+                    message = "You are having the split expense with amount of " + vm.SplitAmounts[i];
+                }
 
                 var mail = "tatva.dotnet.dishantsoni@outlook.com";
                 var password = "Dishant@2002";
@@ -428,15 +438,15 @@ namespace ExpenseTrackerService.Implimentation
             }
         }
 
-        public void SplitExpense(List<string>? emails, int splittedAmount,int total)
+        public void SplitExpense(SpliteExpenseVM vm)
         {
-            foreach(var email in emails)
+            for (int i= 0;i<vm.Emails.Count();i++)
             {
-                var userId =  _repository.GetUserIdByEmail(email);
+                var userId = _repository.GetUserIdByEmail(vm.Emails[i]);
                 Expense expense = new Expense()
                 {
                     UserId = userId,
-                    Amount = splittedAmount / total,
+                    Amount = vm.SplittedAmount != 0 ? vm.SplittedAmount / vm.Totals : vm.SplitAmounts[i],
                     Description = "Splitted amount",
                     CreatedDate = DateOnly.FromDateTime(DateTime.Now),
                     CategoryId = -1,
@@ -465,6 +475,93 @@ namespace ExpenseTrackerService.Implimentation
             };
 
             client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+        }
+
+        public void AddRecurrenceExpense(HomeVM vm, int userId)
+        {
+            Recurrence recurrence = new Recurrence()
+            {
+                RecurrenceName=vm.ExpenseName,
+                Amount=vm.Amount,
+                FreequencyId=vm.FrequencyId,
+                StartDate=vm.ExpenseDate,
+                DueDate= vm.FrequencyId==1?vm.ExpenseDate.AddDays(+1):vm.FrequencyId==2?vm.ExpenseDate.AddDays(+7):vm.ExpenseDate.AddMonths(+1),
+                CreatedBy=userId,
+            };
+            _repository.SaveRecurrence(recurrence);
+        }
+
+        public Recurrence CheckDueDate()
+        {
+            Recurrence recurrence = _repository.CheckDueDate();
+            if (recurrence != null)
+            {
+                
+              
+                if (recurrence.FreequencyId == 1)
+                {
+                    recurrence.DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(+1));
+                }
+                else if (recurrence.FreequencyId == 2)
+                {
+                    recurrence.DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(+7));
+                }
+                else
+                {
+                    recurrence.DueDate = DateOnly.FromDateTime(DateTime.Now.AddMonths(+1));
+
+                }
+                _repository.UpdateRecurrence(recurrence);
+            }
+            return recurrence;
+        }
+
+        public void TriggerAlert(Recurrence recurrence)
+        {
+            var receiver = _repository.GetEmailFromUserId(recurrence.CreatedBy);
+
+            var subject = "Alert for Recurring Expense";
+            var message = "Alert for the recurring expense of "+recurrence.RecurrenceName + " Created on "+recurrence.StartDate+ " of amount: "+recurrence.Amount;
+
+
+            var mail = "tatva.dotnet.dishantsoni@outlook.com";
+            var securityPassword = "Dishant@2002";
+
+            var client = new SmtpClient("smtp.office365.com")
+            {
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(mail, securityPassword)
+            };
+
+            client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
+        }
+
+        public HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
+        {
+            return _repository.GetRecurrences(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, search);
+        }
+
+        public HomeVM GetRecurrenceData(int id, int? userId)
+        {
+            return _repository.GetRecurrenceData(id, userId);
+        }
+
+        public void EditRecurrence(HomeVM model, int? userId)
+        {
+            Recurrence recurrence = _repository.GetRecurrence(model.RecurrenceId, userId);
+            recurrence.RecurrenceName = model.ExpenseName;
+            recurrence.StartDate = model.ExpenseDate;
+            recurrence.FreequencyId= (int?)model.CategoryId ?? 0;
+            recurrence.Amount = (int?)model.Amount ?? 0;
+            _repository.UpdateRecurrence(recurrence);
+        }
+
+        public void DeleteRecurrence(int id, int? userId)
+        {
+            Recurrence recurrence= _repository.GetRecurrence(id, userId);
+            recurrence.IsDeleted = true;
+            _repository.UpdateRecurrence(recurrence);
         }
     }
 }

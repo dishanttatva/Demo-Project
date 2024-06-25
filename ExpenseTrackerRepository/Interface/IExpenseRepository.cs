@@ -38,5 +38,12 @@ namespace ExpenseTrackerRepository.Interface
         Task DeleteExpensesByCategoryId(int id, int? userId);
         bool ValidateEmail(string email);
         int GetUserIdByEmail(string email);
+        void SaveRecurrence(Recurrence recurrence);
+        Recurrence CheckDueDate();
+        void UpdateRecurrence(Recurrence recurrence);
+        string GetEmailFromUserId(int? createdBy);
+        HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        HomeVM GetRecurrenceData(int id, int? userId);
+        Recurrence GetRecurrence(int expenseId, int? userId);
     }
 }

@@ -1,0 +1,232 @@
+﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout2";
+}
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success("@TempData["success"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error("@TempData["error"]");
+    </script>
+}
+<div class="container">
+    <div class="row">
+        @* <button class="">Add a Category</button> *@
+        <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add a Reccurence Expense
+        </button>
+        
+        
+
+        <div id="showTable"></div>
+
+        <div class="d-flex justify-content-end">
+            <select onchange="LoadPartialView()" id="pageDropdown" asp-for="CategoryId" aria-label="Default select example">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+
+
+
+            </select>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <p class="fs-2">Create a Recurrence Expense</p>
+            </div>
+            <form id="myForm" onsubmit="return validateForm()" method="post" asp-action="CreateRecurenceExpense" class="mx-1 mx-md-4 p-4">
+                @if (Model != null && Model.Categories != null)
+                {
+                    @if (Model.Categories.Count != 0)
+                    {
+                        <div class="d-flex flex-row align-items-center mb-4">
+
+                            <div class="form-outline flex-fill mb-0">
+                                <input asp-for="ExpenseName" type="text" id="ExpenseName" class="form-control" />
+                                <label class="form-label" for="form3Example3c">Enter your Expense name</label><br />
+                                <span asp-validation-for="ExpenseName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <div class="form-outline flex-fill mb-0">
+                                <select class="form-select" id="CategoryDropdown" asp-for="FrequencyId" aria-label="Default select example">
+                                    <option selected disabled value="">Select the Freequency</option>
+                                    <option value="1">Daily</option>
+                                    <option value="2">Weekly</option>
+                                   <option value="3">Monthly</option>
+                                </select>
+                                <label class="form-label">select your category</label><br />
+                                <span asp-validation-for="FrequencyId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+
+                            <div class="form-outline flex-fill mb-0">
+                                <input asp-for="ExpenseDate" type="date" id="ExpenseDate" class="form-control" />
+                                <label class="form-label" for="form3Example3c">Enter your Expense Date</label><br />
+                                <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+
+                            <div class="form-outline flex-fill mb-0">
+                                <input asp-for="Amount" type="text" id="ExpenseAmount" class="form-control" />
+                                <label class="form-label" for="form3Example3c">Enter your Expense Amount</label><br />
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+
+                            <div class="form-outline flex-fill mb-0">
+                                <input asp-for="Description" type="text" id="ExpenseDescription" class="form-control" />
+                                <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
+
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="Categories" class="btn btn-primary btn-lg">Add a Category First</a>
+                    }
+                }
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<div id="showmodal"></div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+
+    function validateForm() {
+        if (!$('#myForm').valid()) {
+            return false;
+        }
+        return true;
+    }
+
+    function OpenModal(id) {
+
+        $('#showmodal').load('/Recurrence/ShowRecurrenceModal/' + id, () => {
+            const modal = new bootstrap.Modal(document.getElementById('recurrence'));
+            modal.show();
+        });
+    }
+    function DeleteModal(id) {
+        $('#showmodal').load('/Recurrence/ShowDeleteRecurrenceModal/' + id, () => {
+            const modal = new bootstrap.Modal(document.getElementById('delete'));
+            modal.show();
+        });
+    }
+    $(document).ready(function () {
+
+        LoadPartialView();
+    });
+
+    function LoadPartialView(orderbyDate, orderByValue) {
+   
+        var itemsPerPage = document.getElementById('pageDropdown').value;
+       
+
+        $.ajax({
+            url: '/Recurrence/RecurrenceTable',
+            method: 'GET',
+
+            data: {
+                
+                CurrentPage: 1,
+                ItemsPerPage: itemsPerPage,
+                OrderByDate: orderbyDate,
+                OrderByAmount: orderByValue,
+               
+            },
+            success: function (response) {
+
+                $('#showTable').html(response);
+
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+    function pagination(number, orderbyDate, orderByValue) {
+       
+        var itemsPerPage = document.getElementById('pageDropdown').value;
+      
+        if (number == 0) {
+            number = $('#number').text();
+        }
+        $.ajax({
+            url: '/Recurrence/RecurrenceTable',
+            method: 'GET',
+
+            data: {
+                
+                CurrentPage: number,
+                ItemsPerPage: itemsPerPage,
+                OrderByDate: orderbyDate,
+                OrderByAmount: orderByValue,
+                
+            },
+            success: function (response) {
+                $('#showTable').html(response);
+                $('#number').html(number);
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+    function Increament(totalpages) {
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b + 1;
+        if (b <= totalpages) {
+            pagination(b);
+        }
+    }
+    function Decreament() {
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b - 1;
+        if (b > 0) {
+            pagination(b);
+        }
+    }
+</script>

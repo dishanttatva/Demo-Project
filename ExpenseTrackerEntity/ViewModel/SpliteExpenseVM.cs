@@ -10,6 +10,7 @@ namespace ExpenseTrackerEntity.ViewModel
     {
         public List<string>? Emails { get; set; }
         public int SplittedAmount { get; set; }
+        public List<int>? SplitAmounts {  get; set; }
         public int Totals { get; set; }
     }
 }

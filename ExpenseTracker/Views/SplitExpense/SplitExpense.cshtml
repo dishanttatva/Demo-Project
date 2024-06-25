@@ -26,10 +26,14 @@
         <button type="button" onclick="AddMember()" class="btn btn-outline-success my-2 w-100">
             Add a Member
         </button>
-      
+        <select class="form-select w-50 my-3" onchange="SplitType()" id="dropdown" aria-label="Default select example">
+            <option selected disabled value="0">Select SplitExpense Type</option>
+            <option value="1">Split Equally</option>
+            <option value="2">Split Dynamically</option>
+        </select>
         <form onsubmit="return countTotal()" asp-action="SplitExpense" method="post">
-            <input type="number" class="w-50" asp-for="SplittedAmount" id="splitamount" placeholder="Enter the splited amount" />
-       <div id="members">
+            <input type="number" class="w-50 mt-2" asp-for="SplittedAmount" id="splitamount" placeholder="Enter the splited amount" />
+       <div id="members" style="min-height:400px" class="shadow bg-light">
      
        </div>
             <button type="submit" class="btn btn-outline-primary mt-4">Split the Expense</button>
@@ -42,35 +46,53 @@
 
 <script>
     var index = 1;
+   
+  
     function AddMember() {
         
-
+        
         var members = document.getElementById('members');
         var div = document.createElement('div');
         div.className='mt-2'
         var inputField = document.createElement('input');
         inputField.type = 'email';
         inputField.placeholder = 'Enter member email';
+       
         
         inputField.setAttribute('id', 'input' + index);
-        inputField.className = 'mx-1';
-        inputField.className = 'w-50';
+        inputField.className = 'mx-2';
+        inputField.classList.add('input');
+        inputField.classList.add('w-50');
         div.appendChild(inputField);
 
-
+        var valueField = document.createElement('input');
+        valueField.type = 'number';
+        valueField.placeholder = 'Enter the amount for splitting';
+        valueField.setAttribute('id', 'value' + index);
+        valueField.classList.add('mx-2')
+        valueField.classList.add('w-25') 
+        if (document.getElementById('dropdown').value != 2) {
+            valueField.classList.add('d-none');
+        }
+       
+        valueField.classList.add('value');
+        div.appendChild(valueField);
+        
         var buttonElement = document.createElement('button');
         buttonElement.type = 'button'; // Set the button type
         buttonElement.textContent = 'Validate'; // Set the button text
         buttonElement.setAttribute('id', index);
         buttonElement.classList.add('btn');
+        buttonElement.classList.add('button');
         buttonElement.classList.add('btn-outline-warning');
        
+
         buttonElement.classList.add('mx-1');
         buttonElement.addEventListener('click', function (event) {
-
+          
             if (document.getElementById('input' + event.target.id).value != "") {
                 $.ajax({
-                    url: '/Expense/ValidateEmail',
+                    url: '/SplitExpense/ValidateEmail',
                     method: 'POST',
 
                     data: {
@@ -83,6 +105,9 @@
                             var input = document.getElementById('input' + event.target.id);
                             input.setAttribute('name', 'Emails');
                             input.readOnly = true;
+                            var value = document.getElementById('value' + event.target.id);
+                            value.setAttribute('name', 'SplitAmounts');
+                            value.readOnly = true;
                         }
                         else {
                             OpenModal(document.getElementById('input' + event.target.id).value);
@@ -97,19 +122,26 @@
         });
 
         div.appendChild(buttonElement);
+       
+
         var removeButton = document.createElement('button');
         removeButton.type = 'button';
         removeButton.textContent='Remove';
         removeButton.setAttribute('id','remove'+index);
         removeButton.classList.add('btn');
         removeButton.classList.add('btn-outline-danger');
+        removeButton.classList.add('remove-button');
         removeButton.classList.add('mx-1');
+        
         removeButton.addEventListener('click', function (event) {
             var id = event.target.id.slice(6);
             
             var removeInput = document.getElementById('input' + id);
            
             div.removeChild(removeInput);
+
+            var valueInput = document.getElementById('value' + id);
+            div.removeChild(valueInput);
             var validateButton = document.getElementById(id);
             div.removeChild(validateButton);
            
@@ -134,9 +166,24 @@
     function OpenModal(email)
     {
        
-        $('#showmodal').load('/Expense/RegisterModal?email=' + email, () => {
+        $('#showmodal').load('/SplitExpense/RegisterModal?email=' + email, () => {
             const modal = new bootstrap.Modal(document.getElementById('register-modal'));
             modal.show();
         });
+    }
+    function SplitType() {
+        var dropdown = document.getElementById('dropdown').value;
+        if (dropdown == 1) {
+            document.getElementById('splitamount').classList.remove('d-none');
+            document.querySelectorAll('.value').forEach((element) => {
+                element.classList.add('d-none');
+            });
+        }
+        else if (dropdown == 2) {
+            document.getElementById('splitamount').classList.add('d-none');
+            document.querySelectorAll('.value').forEach((element) => {
+                element.classList.remove('d-none');
+            });
+        }
     }
 </script>
