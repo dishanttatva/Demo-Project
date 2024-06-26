@@ -1,4 +1,4 @@
-﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+﻿@model ExpenseTrackerEntity.ViewModel.RecurrenceVM;
 
 <div class="modal fade" id="recurrence" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -6,14 +6,16 @@
             <div class="modal-header d-flex justify-content-center align-items-center">
                 <p class="fs-2">Edit a Expense</p>
             </div>
-            <form method="post" asp-action="EditRecurrence" class="mx-1 mx-md-4 p-4">
+            <form method="post" id="myForm" onsubmit="return validateForm()" asp-action="EditRecurrence" class="mx-1 mx-md-4 p-4">
 
                 <input type="text" asp-for="RecurrenceId" hidden />
                 <div class="d-flex flex-row align-items-center mb-4">
 
                     <div class="form-outline flex-fill mb-0">
-                        <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense name</label>
+                        <input asp-for="RecurrenceName" type="text" id="form3Example3c" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your Expense name</label><br />
+                        <span asp-validation-for="RecurrenceName" class="text-danger"></span>
+
                     </div>
                 </div>
 
@@ -21,27 +23,33 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <select class="form-select" asp-for="FrequencyId" aria-label="Default select example">
+                            @foreach(var freequency in Model.Freequencies)
+                            {
+                                <option value="@freequency.FreequencyId">@freequency.Name</option>
+                            }
 
-
-                            @if (Model != null)
+                           @*  @if (Model != null)
                             {
                                <option value="1">Daily</option>
                                <option value="2">Weekly</option>
                                <option value="3">Monthly</option>
-                            }
+                            } *@
 
 
 
                         </select>
-                        <label class="form-label">select recurrence Freequency</label>
+                        <label class="form-label">select recurrence Freequency</label><br />
+                        <span asp-validation-for="FrequencyId" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="d-flex flex-row align-items-center mb-4">
 
                     <div class="form-outline flex-fill mb-0">
-                        <input asp-for="ExpenseDate" type="date" asp-format="{0:yyyy-MM-dd}" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Recurrence Date</label>
+                        <input asp-for="RecurrenceDate" type="date" asp-format="{0:yyyy-MM-dd}" id="form3Example3c" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your Recurrence Date</label><br />
+                        <span asp-validation-for="RecurrenceDate" class="text-danger"></span>
+
                     </div>
                 </div>
 
@@ -49,7 +57,9 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Recurrence Amount</label>
+                        <label class="form-label" for="form3Example3c">Enter your Recurrence Amount</label><br />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+
                     </div>
                 </div>
 
@@ -65,3 +75,14 @@
         </div>
     </div>
 </div>
+<script>
+    function validateForm() {
+        
+        if (!$('#myForm').valid()) {
+            return false;
+            
+        }
+        return true;
+       
+    }
+</script>

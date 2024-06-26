@@ -14,7 +14,7 @@ namespace ExpenseTrackerRepository.Interface
        
         Task RegisterUser(User model);
         Task SaveCategory(Category category);
-        HomeVM GetCategories(int userId);
+        List<Category> GetCategories(int userId);
         Task DeleteCategory(int id, int? userId);
         CategoryVM GetCategory(int id, int? userId);
         Task UpdateCategory(Category category1);
@@ -42,8 +42,23 @@ namespace ExpenseTrackerRepository.Interface
         Recurrence CheckDueDate();
         void UpdateRecurrence(Recurrence recurrence);
         string GetEmailFromUserId(int? createdBy);
-        HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
-        HomeVM GetRecurrenceData(int id, int? userId);
+        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        RecurrenceVM GetRecurrenceData(int id, int? userId);
         Recurrence GetRecurrence(int expenseId, int? userId);
+        void AddBudget(Budget budget);
+        List<Budget> GetBudgets(int userId);
+        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage, bool OrderByAmount);
+        Budget GetBudgetById(int id);
+        void UpdateBudget(Budget budget);
+        List<Budget> GetCategoryWiseBudget(int? userId);
+        List<Expense> GetAllExpenses(int? userId);
+        int GetSumAmountForExpenses(int? userId);
+        int GetSumAmountForCategoryWiseExpenses(int categoryId, int? userId);
+        List<Budget> GetTimeWiseBudget(int? userId);
+        int GetSumAmountForDailyExpenses(DateTime now, int? userId);
+        int GetSumAmountForTimelyExpenses(DateOnly startDate, DateOnly endDate, int? userId);
+        int GetSumForCategoryAndTimelyExpenses(int? userId, int? categroryId, DateOnly startDate, DateOnly endDate);
+        List<Budget> GetBudgetsForAlert(int userId);
+        List<Freequency> GetFreequencies();
     }
 }

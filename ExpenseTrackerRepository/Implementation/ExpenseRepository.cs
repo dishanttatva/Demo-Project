@@ -1,6 +1,7 @@
 ﻿using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerRepository.Interface;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using System.Web.Helpers;
 
@@ -38,12 +39,9 @@ namespace ExpenseTrackerRepository.Implementation
            await _context.SaveChangesAsync();
         }
 
-        public HomeVM GetCategories(int userId)
+        public List<Category> GetCategories(int userId)
         {
-            return new HomeVM()
-            {
-                Categories = _context.Categories.Where(x => x.CreatedBy == userId).ToList(),
-            };
+            return _context.Categories.Where(x=>x.CreatedBy==userId).ToList();
         }
 
         public async Task DeleteCategory(int id, int? userId)
@@ -263,7 +261,7 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Users.FirstOrDefault(x => x.Id == createdBy)?.Email??"";
         }
 
-        public HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
+        public RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
         {
             List<Recurrence> recurrences = _context.Recurrences.Where(x => x.CreatedBy == userId && x.IsDeleted!=true).ToList();
             
@@ -288,31 +286,30 @@ namespace ExpenseTrackerRepository.Implementation
             }
             if (categoryId == 0)
             {
-                return new HomeVM()
+                return new RecurrenceVM()
                 {
                     ItemsPerPage = itemsPerPage,
                     PageCount = pageCount,
                     Recurrences = recurrences,
-                    Sum = _context.Expenses.Where(x => x.UserId == userId).Sum(x => x.Amount),
                 };
             }
-            return new HomeVM()
+            return new RecurrenceVM()
             {
                 ItemsPerPage = itemsPerPage,
                 PageCount = pageCount,
                 Recurrences = recurrences,
-                Sum = _context.Expenses.Where(x => x.UserId == userId && x.CategoryId == categoryId).Sum(x => x.Amount),
             };
         }
 
-        public HomeVM GetRecurrenceData(int id, int? userId)
+        public RecurrenceVM GetRecurrenceData(int id, int? userId)
         {
-            return _context.Recurrences.Where(x => x.RecurrenceId == id && x.CreatedBy == userId && x.IsDeleted!=true).Select(x => new HomeVM()
+            return _context.Recurrences.Where(x => x.RecurrenceId == id && x.CreatedBy == userId && x.IsDeleted!=true).Select(x => new RecurrenceVM()
             {
-                ExpenseName = x.RecurrenceName,
-                ExpenseDate = (System.DateOnly)(x.StartDate),
-                Amount = x.Amount,
-                FrequencyId= x.FreequencyId,
+                RecurrenceName = x.RecurrenceName,
+                RecurrenceDate = (System.DateOnly)(x.StartDate),
+                Amount = (int)x.Amount,
+                FrequencyId= (int)x.FreequencyId,
+                Freequencies=_context.Freequencies.ToList(),
                 RecurrenceId = id,
             }).First();
         }
@@ -320,6 +317,101 @@ namespace ExpenseTrackerRepository.Implementation
         public Recurrence GetRecurrence(int recurrenceId, int? userId)
         {
            return _context.Recurrences.FirstOrDefault(x=>x.RecurrenceId==recurrenceId && x.CreatedBy==userId && x.IsDeleted!=true);
+        }
+
+        public void AddBudget(Budget budget)
+        {
+            _context.Budgets.Add(budget);
+            _context.SaveChanges();
+        }
+
+        public List<Budget> GetBudgets(int userId)
+        {
+            return _context.Budgets.Include(x=>x.Categrory).Where(x=>x.CreatedBy== userId && x.IsDeleted!=true).ToList();    
+        }
+
+        public BudgetVM GetBudgetsData(int userId, int currentPage, int itemsPerPage, bool OrderByAmount)
+        {
+            List<Budget> budgets = _context.Budgets.Where(x => x.CreatedBy == userId && x.IsDeleted != true).Include(x => x.Categrory).ToList();
+            var pageCount = budgets.Count();
+            if (currentPage != 0 && itemsPerPage != 0)
+            {
+                budgets = budgets.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage).ToList();
+            }
+            if (OrderByAmount)
+            {
+                budgets=budgets.OrderByDescending(x=>x.Amount).ToList();
+            }
+            return new BudgetVM()
+            {
+                ItemsPerPage = itemsPerPage,
+                PageCount= pageCount,
+                Budgets =budgets,
+
+            };
+
+        }
+
+        public Budget GetBudgetById(int id)
+        {
+            return _context.Budgets.FirstOrDefault(x => x.BudgetId == id && x.IsDeleted!=true);
+        }
+
+        public void UpdateBudget(Budget budget)
+        {
+            _context.Budgets.Update(budget);
+            _context.SaveChanges();
+        }
+
+        public List<Budget> GetCategoryWiseBudget(int? userId)
+        {
+            return _context.Budgets.Where(x => x.Type == 1 && x.CreatedBy == userId && x.IsDeleted != true).ToList();
+        }
+
+        public List<Expense> GetAllExpenses(int? userId)
+        {
+            return _context.Expenses.Where(x=>x.UserId == userId && x.IsDeleted!=true).ToList();
+        }
+
+        public int GetSumAmountForExpenses(int? userId)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.IsDeleted != true).Sum(x=>x.Amount);
+        }
+
+        public int GetSumAmountForCategoryWiseExpenses(int categoryId, int? userId)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.IsDeleted != true && x.CategoryId==categoryId).Sum(x=>x.Amount);
+        }
+
+        public List<Budget> GetTimeWiseBudget(int? userId)
+        {
+            return _context.Budgets.Where(x => x.Type == 2 && x.CreatedBy == userId && x.IsDeleted != true).ToList();
+        }
+
+        public int GetSumAmountForDailyExpenses(DateTime now, int? userId)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.IsDeleted != true && x.CreatedDate==DateOnly.FromDateTime(now)).Sum(x=>x.Amount);
+        }
+
+        public int GetSumAmountForTimelyExpenses(DateOnly startDate, DateOnly endDate, int? userId)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.IsDeleted != true && x.CreatedDate >= startDate && x.CreatedDate<=endDate).Sum(x => x.Amount);
+        }
+
+        public int GetSumForCategoryAndTimelyExpenses(int? userId, int? categroryId, DateOnly startDate, DateOnly endDate)
+        {
+            return _context.Expenses.Where(x => x.UserId == userId && x.IsDeleted != true && x.CategoryId==categroryId && x.CreatedDate >= startDate && x.CreatedDate<=endDate).Sum(x => x.Amount);
+
+        }
+
+        public List<Budget> GetBudgetsForAlert(int userId)
+        {
+            return _context.Budgets.Where(x=>x.CreatedBy == userId && x.IsDeleted!=true && x.IsAlertSend!=true).ToList();
+        }
+
+        public List<Freequency> GetFreequencies()
+        {
+           return _context.Freequencies.ToList();
         }
     }
 }

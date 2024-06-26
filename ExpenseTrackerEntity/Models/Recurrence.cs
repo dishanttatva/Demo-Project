@@ -24,4 +24,6 @@ public partial class Recurrence
     public int RecurrenceId { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
+
+    public virtual Freequency? Freequency { get; set; }
 }

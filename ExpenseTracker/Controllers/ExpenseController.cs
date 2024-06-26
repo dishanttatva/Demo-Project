@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@ public class ExpenseController : Controller
     [HttpGet("expense-tracker/home")]
     public IActionResult Index()
     {
-        int UserId = _service.ValidateToken(Request.Cookies["myToken"] ?? "");
-        HttpContext.Session.SetInt32("UserId", UserId);
-        HomeVM data = _service.GetCategories(UserId);
+        int userId = _service.ValidateToken(Request.Cookies["myToken"] ?? "");
+        HttpContext.Session.SetInt32("UserId", userId);
+        List<Category> categories= _service.GetCategories(userId);
+        HomeVM data = new() { Categories = categories };
         return View(data);
     }
+
 
     [HttpGet]
     public IActionResult LogOut()
@@ -36,8 +39,16 @@ public class ExpenseController : Controller
     [HttpGet("expense-tracker/my-profile")]
     public IActionResult MyProfile()
     {
-        UserDetailsVM user = _service.GetUserDetials(HttpContext.Session.GetInt32("UserId"));
-        return View(user);
+        try
+        {
+            UserDetailsVM user = _service.GetUserDetials(HttpContext.Session.GetInt32("UserId"));
+            return View(user);
+        }
+        catch (Exception ex)
+        { 
+            ViewBag.ErrorMessage = ex.Message;
+            return View("Error");
+        }
     }
 
     [HttpPost]
@@ -58,6 +69,11 @@ public class ExpenseController : Controller
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         _service.AddExpense(viewModel, userId);
+        Budget budget = _service.CheckOverBudget(userId);
+        if (budget.BudgetId != 0)
+        {
+            _service.SendMailForOverBudget(budget, userId);
+        }
         TempData["success"] = "Expense has been Added";
         return RedirectToAction(nameof(Index));
     }
@@ -65,8 +81,8 @@ public class ExpenseController : Controller
     [HttpGet]
     public IActionResult ShowExpenseModal(int id)
     {
-        var UserId = HttpContext.Session.GetInt32("UserId");
-        HomeVM data = _service.GetExpenseData(id, UserId);
+        var userId = HttpContext.Session.GetInt32("UserId");
+        HomeVM data = _service.GetExpenseData(id, userId);
         return PartialView("_EditExpense", data);
     }
    
@@ -75,6 +91,11 @@ public class ExpenseController : Controller
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         _service.EditExpense(model, userId);
+        Budget budget = _service.CheckOverBudget(userId);
+        if (budget.BudgetId != 0)
+        {
+            _service.SendMailForOverBudget(budget, userId);
+        }
         TempData["success"] = "Expense has been Updated";
         return RedirectToAction(nameof(Index));
     }
@@ -89,10 +110,10 @@ public class ExpenseController : Controller
     }
 
     [HttpGet]
-    public IActionResult ExpenseTable(int categoryId, int currentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search)
+    public IActionResult ExpenseTable(int categoryId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
     {
         var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-        HomeVM viewModel = _service.GetExpenses(categoryId, userId, currentPage, ItemsPerPage, OrderByDate, OrderByAmount, search);
+        HomeVM viewModel = _service.GetExpenses(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, search);
         ViewBag.Page = currentPage;
         return PartialView("_ExpenseTable", viewModel);
     }
@@ -111,17 +132,67 @@ public class ExpenseController : Controller
         return View(viewModel);
     }
 
-    public IActionResult ExpenseTableWithLazyLoading(int categoryId, int currentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search)
+    public IActionResult ExpenseTableWithLazyLoading(int categoryId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
     {
-        var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-        HomeVM viewModel = _service.GetExpenses(categoryId, userId, currentPage, ItemsPerPage, false, false, search);
-        // ViewBag.Page = CurrentPage;
-        return Json(viewModel);
+        try
+        {
+            var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
+            HomeVM viewModel = _service.GetExpenses(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, search);
+            return Json(viewModel);
+        }
+        catch(Exception ex)
+        {
+            ViewBag.ErrorMessage = "An error occurred: " + ex.Message;
+            return View("Error");
+        }
     }
 
-    
-   
-    
-  
-   
+    [HttpGet]
+    public IActionResult Budget()
+    {
+        var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
+        List<Category> categories = _service.GetCategories(userId);
+        List<Freequency> freequencies = _service.GetFreequencies();
+        BudgetVM budgetVM = new BudgetVM() { Categories=categories, Freequencies=freequencies};
+        return View(budgetVM);
+    }
+
+    [HttpPost]
+    public IActionResult CreateBudget(BudgetVM budgetVM)
+    {
+        var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
+        _service.CreateBudget(budgetVM, userId);
+        return RedirectToAction(nameof(Budget));
+    }
+    [HttpGet]
+    public IActionResult BudgetTable(int currentPage,int itemsPerPage,bool orderByAmount)
+    {
+        var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
+        BudgetVM data = _service.GetBudgetsData(userId,currentPage,itemsPerPage,orderByAmount);
+        ViewBag.Page = currentPage;
+        return PartialView("_BudgetTable",data);
+    }
+    public IActionResult ShowBudgetModal(int id)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        BudgetVM data = _service.GetBudget(id, userId);
+        return PartialView("_EditBudget", data);
+    }
+    [HttpPost]
+    public IActionResult EditBudget(BudgetVM budgetVM)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        _service.EditBudget(budgetVM, userId);
+        return RedirectToAction(nameof(Budget));
+    }
+    public IActionResult DeleteBudget(int id)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        _service.DeleteBudget(id, userId);
+        return RedirectToAction(nameof(Budget));
+    }
+    public IActionResult ShowDeleteBudgetModal(int id)
+    {
+        return PartialView("_DeleteBudget", id);
+    }
 }

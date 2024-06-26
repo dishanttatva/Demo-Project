@@ -1,4 +1,5 @@
-﻿using ExpenseTrackerEntity.ViewModel;
+﻿using ExpenseTrackerEntity.Models;
+using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,37 +16,39 @@ namespace ExpenseTracker.Controllers
         [HttpGet]
         public IActionResult RecurenceExpense()
         {
-            int UserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            HomeVM data = _service.GetCategories(UserId);
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<Category> categories= _service.GetCategories(userId);
+            List<Freequency> freequencies = _service.GetFreequencies();
+            RecurrenceVM data = new() { Categories = categories, Freequencies=freequencies };
             return View(data);
         }
         [HttpGet]
         public IActionResult ShowRecurrenceModal(int id)
         {
-            var UserId = HttpContext.Session.GetInt32("UserId");
-            HomeVM data = _service.GetRecurrenceData(id, UserId);
+            var userId = HttpContext.Session.GetInt32("UserId");
+            RecurrenceVM data = _service.GetRecurrenceData(id, userId);
             return PartialView("_EditRecurrence", data);
         }
 
         [HttpPost]
-        public IActionResult CreateRecurenceExpense(HomeVM vm)
+        public IActionResult CreateRecurenceExpense(RecurrenceVM vm)
         {
-            int UserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            _service.AddRecurrenceExpense(vm, UserId);
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            _service.AddRecurrenceExpense(vm, userId);
             TempData["success"] = "Recurrence has been created";
             return RedirectToAction(nameof(RecurenceExpense));
         }
 
         [HttpGet]
-        public IActionResult RecurrenceTable(int categoryId, int currentPage, int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search)
+        public IActionResult RecurrenceTable(int categoryId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
         {
             var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-            HomeVM viewModel = _service.GetRecurrences(categoryId, userId, currentPage, ItemsPerPage, OrderByDate, OrderByAmount, search);
+            RecurrenceVM viewModel = _service.GetRecurrences(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, search);
             ViewBag.Page = currentPage;
             return PartialView("_RecurrenceTable", viewModel);
         }
         [HttpPost]
-        public IActionResult EditRecurrence(HomeVM model)
+        public IActionResult EditRecurrence(RecurrenceVM model)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             _service.EditRecurrence(model, userId);

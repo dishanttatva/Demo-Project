@@ -11,12 +11,11 @@ namespace ExpenseTrackerEntity.ViewModel
     public class HomeVM
     {
         public List<Expense>? Expenses { get; set; }
-        public List<Recurrence>? Recurrences { get; set; }
         public List<Category>? Categories { get; set; }
         public Category? Category { get; set; }
         public int Sum { get; set; }
-        [Required(ErrorMessage ="Name is required")]
-        public string ExpenseName { get; set; }
+        [Required(ErrorMessage = "Name is required")]
+        public string ExpenseName { get; set; } = null!;
         [Required(ErrorMessage = "Date is required")]
         public DateOnly ExpenseDate {  get; set; }
         [Required(ErrorMessage = "Amount is required")]
@@ -27,10 +26,9 @@ namespace ExpenseTrackerEntity.ViewModel
         [Required(ErrorMessage = "CategoryName is required")]
         public string CategoryName { get; set; } = null!;
         [Required(ErrorMessage ="Freequency is required")]
-        public int? FrequencyId { get; set; } = null!;
         public string? Description { get; set; }
         public double ItemsPerPage {  get; set; }
         public double PageCount {  get; set; }
-        public int RecurrenceId { get; set; }
+
     }
 }

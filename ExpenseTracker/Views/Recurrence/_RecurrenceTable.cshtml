@@ -1,4 +1,4 @@
-﻿@model ExpenseTrackerEntity.ViewModel.HomeVM;
+﻿@model ExpenseTrackerEntity.ViewModel.RecurrenceVM;
 
 @if (Model.Recurrences.Count() > 0)
 {
@@ -36,10 +36,7 @@
                 </tr>
 
             }
-            <tr class="table-dark">
-                <th class="fs-5" scope="row"><p class="fs-5">Total</p></th>
-                <td class="fs-5" colspan="4">@Model.Sum</td>
-            </tr>
+            
 
         </tbody>
     </table>

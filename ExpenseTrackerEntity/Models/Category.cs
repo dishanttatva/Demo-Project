@@ -11,5 +11,7 @@ public partial class Category
 
     public int CreatedBy { get; set; }
 
+    public virtual ICollection<Budget> Budgets { get; } = new List<Budget>();
+
     public virtual ICollection<Expense> Expenses { get; } = new List<Expense>();
 }

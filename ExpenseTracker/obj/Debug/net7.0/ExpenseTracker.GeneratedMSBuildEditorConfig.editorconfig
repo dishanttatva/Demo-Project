@@ -24,6 +24,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0VkaXRDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/demoProject/ExpenseTracker/Views/Expense/Budget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxCdWRnZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,6 +38,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxNeVByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Expense/_BudgetTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxfQnVkZ2V0VGFibGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Expense/_ExpenseTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxfRXhwZW5zZVRhYmxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Login/ChangePassword.cshtml]
@@ -84,16 +96,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XF9QaWVHcmFwaC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/demoProject/ExpenseTracker/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/demoProject/ExpenseTracker/Views/Shared/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_EditExpense.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FZGl0RXhwZW5zZS5jc2h0bWw=
+[D:/Project/demoProject/ExpenseTracker/Views/Shared/_DeleteBudget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EZWxldGVCdWRnZXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Shared/_ExpenseTable.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FeHBlbnNlVGFibGUuY3NodG1s
+[D:/Project/demoProject/ExpenseTracker/Views/Shared/_EditBudget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FZGl0QnVkZ2V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Shared/_EditExpense.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FZGl0RXhwZW5zZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Shared/_Layout2.cshtml]

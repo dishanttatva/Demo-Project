@@ -14,7 +14,7 @@ namespace ExpenseTrackerService.Interface
          string ValidateUser(LoginVM viewModel);
         int ValidateToken(string token);
         bool CreateCategory(string categoryName, int? userId);
-        HomeVM GetCategories(int userId);
+        List<Category> GetCategories(int userId);
         void DeleteCategory(int id, int? userId);
         CategoryVM GetCategory(int id, int? userId);
         bool EditCategory(CategoryVM model, int? userId);
@@ -38,13 +38,22 @@ namespace ExpenseTrackerService.Interface
         void SendMailForSplitAmount(SpliteExpenseVM vm);
         void SplitExpense(SpliteExpenseVM vm);
         void SendMailForCreateAccount(string email, string password);
-        void AddRecurrenceExpense(HomeVM vm, int userId);
+        void AddRecurrenceExpense(RecurrenceVM vm, int userId);
         Recurrence CheckDueDate();
         void TriggerAlert(Recurrence recurrence);
-        HomeVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
-        HomeVM GetRecurrenceData(int id, int? userId);
-        void EditRecurrence(HomeVM model, int? userId);
+        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        RecurrenceVM GetRecurrenceData(int id, int? userId);
+        void EditRecurrence(RecurrenceVM model, int? userId);
         void DeleteRecurrence(int id, int? userId);
+        void CreateBudget(BudgetVM budgetVM, int userId);
+        List<Budget> GetBudgets(int userId);
+        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage,bool OrderByAmount);
+        BudgetVM GetBudget(int id, int? userId);
+        void EditBudget(BudgetVM budgetVM, int? userId);
+        void DeleteBudget(int id, int? userId);
+        Budget CheckOverBudget(int? userId);
+        void SendMailForOverBudget(Budget budget, int? userId);
+        List<Freequency> GetFreequencies();
         //string ValidatePassword(string email);
     }
 }

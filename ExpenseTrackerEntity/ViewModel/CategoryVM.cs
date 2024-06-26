@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpenseTrackerEntity.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace ExpenseTrackerEntity.ViewModel
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "CategoryName is Required")]
         public string CategoryName { get; set; } = null!;
+        public List<Category>? Categories { get; set; }
     }
 }

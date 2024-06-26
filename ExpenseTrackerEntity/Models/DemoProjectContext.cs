@@ -15,9 +15,13 @@ public partial class DemoProjectContext : DbContext
     {
     }
 
+    public virtual DbSet<Budget> Budgets { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Expense> Expenses { get; set; }
+
+    public virtual DbSet<Freequency> Freequencies { get; set; }
 
     public virtual DbSet<Recurrence> Recurrences { get; set; }
 
@@ -29,6 +33,30 @@ public partial class DemoProjectContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Budget>(entity =>
+        {
+            entity.HasKey(e => e.BudgetId).HasName("Budget_pkey");
+
+            entity.ToTable("Budget");
+
+            entity.Property(e => e.BudgetId).HasColumnName("Budget_Id");
+            entity.Property(e => e.CategroryId).HasColumnName("Categrory_Id");
+            entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
+            entity.Property(e => e.FrequenceyId).HasColumnName("Frequencey_Id");
+
+            entity.HasOne(d => d.Categrory).WithMany(p => p.Budgets)
+                .HasForeignKey(d => d.CategroryId)
+                .HasConstraintName("Budget_Categrory_Id_fkey");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Budgets)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("Budget_Created_By_fkey");
+
+            entity.HasOne(d => d.Frequencey).WithMany(p => p.Budgets)
+                .HasForeignKey(d => d.FrequenceyId)
+                .HasConstraintName("Budget_Frequencey_Id_fkey");
+        });
+
         modelBuilder.Entity<Expense>(entity =>
         {
             entity.HasIndex(e => e.CategoryId, "IX_Expenses_Category_Id");
@@ -43,6 +71,20 @@ public partial class DemoProjectContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.Expenses).HasForeignKey(d => d.CategoryId);
 
             entity.HasOne(d => d.User).WithMany(p => p.Expenses).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<Freequency>(entity =>
+        {
+            entity.HasKey(e => e.FreequencyId).HasName("Freequency_pkey");
+
+            entity.ToTable("Freequency");
+
+            entity.Property(e => e.FreequencyId)
+                .ValueGeneratedNever()
+                .HasColumnName("Freequency_Id");
+            entity.Property(e => e.Name)
+                .HasColumnType("character varying")
+                .HasColumnName("Name ");
         });
 
         modelBuilder.Entity<Recurrence>(entity =>
@@ -64,6 +106,10 @@ public partial class DemoProjectContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Recurrences)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("Recurrence_Created_By_fkey");
+
+            entity.HasOne(d => d.Freequency).WithMany(p => p.Recurrences)
+                .HasForeignKey(d => d.FreequencyId)
+                .HasConstraintName("Recurrence_Freequency_Id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
