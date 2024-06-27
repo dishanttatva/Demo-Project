@@ -23,7 +23,7 @@ namespace ExpenseTrackerRepository.Interface
         User GetUserDetail(int? u);
        
         void SaveExpense(Expense expense);
-        HomeVM GetExpenses(int categoryId, int userId,int CurrentPage,int ItemsPerPage, bool OrderByDate, bool OrderByAmount, string search);
+        HomeVM GetExpenses(int categoryId, int userId,int currentPage,int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
         HomeVM GetExpenseData(int id, int? userId);
         Expense GetExpense(int expenseId, int? userId);
         Task UpdateExpense(Expense expense);
@@ -42,12 +42,12 @@ namespace ExpenseTrackerRepository.Interface
         Recurrence CheckDueDate();
         void UpdateRecurrence(Recurrence recurrence);
         string GetEmailFromUserId(int? createdBy);
-        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount,int frequency, string search);
         RecurrenceVM GetRecurrenceData(int id, int? userId);
         Recurrence GetRecurrence(int expenseId, int? userId);
         void AddBudget(Budget budget);
         List<Budget> GetBudgets(int userId);
-        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage, bool OrderByAmount);
+        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage, bool OrderByAmount,int type);
         Budget GetBudgetById(int id);
         void UpdateBudget(Budget budget);
         List<Budget> GetCategoryWiseBudget(int? userId);
@@ -59,6 +59,7 @@ namespace ExpenseTrackerRepository.Interface
         int GetSumAmountForTimelyExpenses(DateOnly startDate, DateOnly endDate, int? userId);
         int GetSumForCategoryAndTimelyExpenses(int? userId, int? categroryId, DateOnly startDate, DateOnly endDate);
         List<Budget> GetBudgetsForAlert(int userId);
-        List<Freequency> GetFreequencies();
+        List<Freequency> GetFrequencies();
+        CategoryVM GetCategoriesForTable(int userId, int currentPage, int itemsPerPage, string search);
     }
 }

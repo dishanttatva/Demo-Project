@@ -6,12 +6,7 @@ using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 var builder = WebApplication.CreateBuilder(args);
-
-
 builder.Services.AddControllersWithViews();
-
-
-
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddDbContext<DemoProjectContext>();
@@ -20,7 +15,7 @@ builder.Services.AddHostedService<ExpenseBackgroundService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        
+
 
         options.Events = new JwtBearerEvents
         {
@@ -34,8 +29,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {
-               options.LoginPath = "/Expense/Index"; 
-               options.ExpireTimeSpan = TimeSpan.FromMinutes(60); 
+               options.LoginPath = "/Login/Login";
+               options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
            });
 builder.Services.AddSession(options =>
 {
@@ -45,11 +40,11 @@ builder.Services.AddSession(options =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Expense/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
     app.UseHsts();
 }
 

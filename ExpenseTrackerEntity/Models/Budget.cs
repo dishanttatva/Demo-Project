@@ -24,6 +24,4 @@ public partial class Budget
     public virtual Category? Categrory { get; set; }
 
     public virtual User? CreatedByNavigation { get; set; }
-
-    public virtual Freequency? Frequencey { get; set; }
 }

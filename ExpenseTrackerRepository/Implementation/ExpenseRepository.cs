@@ -261,11 +261,14 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Users.FirstOrDefault(x => x.Id == createdBy)?.Email??"";
         }
 
-        public RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
+        public RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount,int frequency, string search)
         {
             List<Recurrence> recurrences = _context.Recurrences.Where(x => x.CreatedBy == userId && x.IsDeleted!=true).ToList();
+            if (frequency != 0)
+            {
+                recurrences=recurrences.Where(x=>x.FreequencyId==frequency).ToList();
+            }
             
-
             var pageCount = recurrences.Count();
             if (search != "" && search != null && search != "undefined")
             {
@@ -330,9 +333,13 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Budgets.Include(x=>x.Categrory).Where(x=>x.CreatedBy== userId && x.IsDeleted!=true).ToList();    
         }
 
-        public BudgetVM GetBudgetsData(int userId, int currentPage, int itemsPerPage, bool OrderByAmount)
+        public BudgetVM GetBudgetsData(int userId, int currentPage, int itemsPerPage, bool OrderByAmount,int type)
         {
             List<Budget> budgets = _context.Budgets.Where(x => x.CreatedBy == userId && x.IsDeleted != true).Include(x => x.Categrory).ToList();
+            if (type != 0)
+            {
+                budgets=budgets.Where(x=>x.Type==type).ToList();
+            }
             var pageCount = budgets.Count();
             if (currentPage != 0 && itemsPerPage != 0)
             {
@@ -409,9 +416,30 @@ namespace ExpenseTrackerRepository.Implementation
             return _context.Budgets.Where(x=>x.CreatedBy == userId && x.IsDeleted!=true && x.IsAlertSend!=true).ToList();
         }
 
-        public List<Freequency> GetFreequencies()
+        public List<Freequency> GetFrequencies()
         {
            return _context.Freequencies.ToList();
+        }
+
+        public CategoryVM GetCategoriesForTable(int userId, int currentPage, int itemsPerPage, string search)
+        {
+            List<Category> categories = _context.Categories.Where(x => x.CreatedBy == userId).ToList();
+            var pageCount = categories.Count();
+            if (search != "" && search != null)
+            {
+                categories = categories.Where(x => x.Name.StartsWith(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (itemsPerPage != 0 && currentPage != 0)
+            {
+                categories = categories.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage).ToList();
+            }
+            return new CategoryVM()
+            {
+                Categories = categories,
+                ItemsPerPage = itemsPerPage,
+                PageCount = pageCount,
+
+            };
         }
     }
 }

@@ -26,37 +26,53 @@ namespace ExpenseTracker.Controllers
         [HttpPost("expense-tracker/register")]
         public IActionResult Register(RegisterVM model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _service.RegisterUser(model);
-                TempData["success"] = "User Registered Successfully";
-                return RedirectToAction(nameof(Login));
+                if (ModelState.IsValid)
+                {
+                    _service.RegisterUser(model);
+                    TempData["success"] = "User Registered Successfully";
+                    return RedirectToAction(nameof(Login));
+                }
+                return View(model);
             }
-            return View(model);
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
+            }
         }
         [HttpPost]
         public IActionResult Login(LoginVM viewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string token = _service.ValidateUser(viewModel);
-                if (token != "")
+                if (ModelState.IsValid)
                 {
-                    var cookieOptions = new CookieOptions
+                    string token = _service.ValidateUser(viewModel);
+                    if (token != "")
                     {
-                        Expires = DateTime.Now.AddMinutes(30),
-                        HttpOnly = true,
-                        Secure = true
-                    };
-                    HttpContext.Response.Cookies.Append("myToken", token, cookieOptions);
-                    TempData["success"] = "Login Successfull";
-                    return RedirectToAction("Index", "Expense");
-                }
-                TempData["error"] = "Invalid Credentials";
-                return RedirectToAction(nameof(Login));
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTime.Now.AddMinutes(30),
+                            HttpOnly = true,
+                            Secure = true
+                        };
+                        HttpContext.Response.Cookies.Append("myToken", token, cookieOptions);
+                        TempData["success"] = "Login Successfull";
+                        return RedirectToAction("Index", "Expense");
+                    }
+                    TempData["error"] = "Invalid Credentials";
+                    return RedirectToAction(nameof(Login));
 
+                }
+                return View(viewModel);
             }
-            return View(viewModel);
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
+            }
         }
         [HttpGet("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword()
@@ -68,10 +84,18 @@ namespace ExpenseTracker.Controllers
         [HttpPost("expense-tracker/forgot-password")]
         public IActionResult ForgotPassword(LoginVM model)
         {
-            string token = _service.GenerateToken(model.Email);
-            _service.SendMailForCreateAccount(model.Email,token);
-            TempData["success"] = "Email sent successfully";
-            return RedirectToAction(nameof(Login));
+            try
+            {
+                string token = _service.GenerateToken(model.Email);
+                _service.SendMailForCreateAccount(model.Email, token);
+                TempData["success"] = "Email sent successfully";
+                return RedirectToAction(nameof(Login));
+            }
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
+            }
         }
 
         [HttpGet("expense-tracker/change-password")]
@@ -84,9 +108,17 @@ namespace ExpenseTracker.Controllers
         [HttpPost("expense-tracker/change-password")]
         public IActionResult ChangePassword(LoginVM vm)
         {
-            bool isValid = _service.ValidateEmailToken(vm);
-            TempData["success"] = "Password Changed Successfully";
-            return RedirectToAction(nameof(Login));
+            try
+            {
+                bool isValid = _service.ValidateEmailToken(vm);
+                TempData["success"] = "Password Changed Successfully";
+                return RedirectToAction(nameof(Login));
+            }
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
+            }
         }
         
     }

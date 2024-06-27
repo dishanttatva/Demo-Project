@@ -41,19 +41,20 @@ namespace ExpenseTrackerService.Interface
         void AddRecurrenceExpense(RecurrenceVM vm, int userId);
         Recurrence CheckDueDate();
         void TriggerAlert(Recurrence recurrence);
-        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search);
+        RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount,int frequency, string search);
         RecurrenceVM GetRecurrenceData(int id, int? userId);
         void EditRecurrence(RecurrenceVM model, int? userId);
         void DeleteRecurrence(int id, int? userId);
         void CreateBudget(BudgetVM budgetVM, int userId);
         List<Budget> GetBudgets(int userId);
-        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage,bool OrderByAmount);
+        BudgetVM GetBudgetsData(int userId,int currentPage,int itemsPerPage,bool OrderByAmount,int type);
         BudgetVM GetBudget(int id, int? userId);
         void EditBudget(BudgetVM budgetVM, int? userId);
         void DeleteBudget(int id, int? userId);
         Budget CheckOverBudget(int? userId);
         void SendMailForOverBudget(Budget budget, int? userId);
-        List<Freequency> GetFreequencies();
+        List<Freequency> GetFrequencies();
+        CategoryVM GetCategoriesForTable(int userId, int currentPage, int itemsPerPage, string search);
         //string ValidatePassword(string email);
     }
 }

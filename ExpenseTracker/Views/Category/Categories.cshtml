@@ -19,52 +19,26 @@
         toastr.error("@TempData["error"]");
     </script>
 }
-<div class="container">
+<div class="container my-3">
     <div class="row">
 
         <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add a Category
         </button>
-        @if (Model.Categories?.Count > 0)
-        {
+        <div>
+            <input id="search" type="search" class="form-control w-25" onchange="pagination(1)" placeholder="Search by name">
+        </div>
+      <div id="showTable" class="shadow my-3 bg-white"></div>
+        <div class="d-flex justify-content-end">
+            <select onchange="pagination(1,false,false)" id="pageDropdown"  aria-label="Default select example">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
 
 
-            <table class="table my-5">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var index = 1;
-                    }
-                    @foreach (var item in Model.Categories)
-                    {
 
-                        <tr>
-                            <th scope="row">@index</th>
-                            <td>@item.Name</td>
-                            <td>
-                                <a onclick="OpenModal(@item.CategoryId)" class="btn btn-outline-primary">Edit</a>
-
-                                <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-outline-danger">Delete</a>
-                            </td>
-
-                        </tr>
-                        index++;
-                    }
-
-
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p class="fs-3 my-5">No Categories Available</p>
-        }
+            </select>
+        </div>
     </div>
 
 </div>
@@ -115,6 +89,52 @@
             return false;
         }
         return true;
+    }
+    $(document).ready(function () {
+
+        pagination(1);
+    });
+    function pagination(number) {
+
+        var itemsPerPage = document.getElementById('pageDropdown').value;
+        var serach = document.getElementById('search').value;
+        if (number == 0) {
+            number = $('#number').text();
+        }
+        $.ajax({
+            url: '/Category/CategoryTable',
+            method: 'GET',
+
+            data: {
+      
+                currentPage: number,
+                itemsPerPage: itemsPerPage,
+                search: serach
+            },
+            success: function (response) {
+                $('#showTable').html(response);
+                $('#number').html(number);
+            },
+            error: function (error) {
+                console.error('Error in AJAX', error);
+            }
+        });
+    }
+    function Increament(totalpages) {
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b + 1;
+        if (b <= totalpages) {
+            pagination(b);
+        }
+    }
+    function Decreament() {
+        var a = $('#number').text();
+        var b = parseInt(a);
+        b = b - 1;
+        if (b > 0) {
+            pagination(b);
+        }
     }
 
 </script>

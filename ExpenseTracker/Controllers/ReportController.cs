@@ -90,8 +90,6 @@ namespace ExpenseTracker.Controllers
         {
             var base64Data = dataURL.Split(',')[1];
             var imageBytes = Convert.FromBase64String(base64Data);
-
-            
             var imagePath = Path.Combine("wwwroot", "images", "chart2.png");
             System.IO.File.WriteAllBytes(imagePath, imageBytes);
 

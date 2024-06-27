@@ -272,10 +272,10 @@ namespace ExpenseTrackerService.Implimentation
         {
 
             SalesData data = new SalesData();
-            DateOnly TodayDate = DateOnly.FromDateTime(DateTime.Now);
-            for (int i = 1; i <= TodayDate.Day; i++)
+            DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
+            for (int i = 1; i <= todayDate.Day; i++)
             {
-                DateOnly date = DateOnly.FromDateTime(new DateTime(TodayDate.Year, TodayDate.Month, i));
+                DateOnly date = DateOnly.FromDateTime(new DateTime(todayDate.Year, todayDate.Month, i));
 
                 data.labels?.Add(i.ToString("D2"));
                 data.budget?.Add(_repository.GetSumAmountByDate(date, UserId));
@@ -326,8 +326,8 @@ namespace ExpenseTrackerService.Implimentation
             SalesData data = new SalesData();
             DateOnly TodayDate = DateOnly.FromDateTime(DateTime.Now);
             DateOnly firstDate = new DateOnly(TodayDate.Year, TodayDate.Month, 1);
-            int DayOfWeek = (int)firstDate.DayOfWeek;
-            DateOnly Date = firstDate.AddDays(7 - DayOfWeek);
+            int dayOfWeek = (int)firstDate.DayOfWeek;
+            DateOnly Date = firstDate.AddDays(7 - dayOfWeek);
             int amount = _repository.GetSumAmountByWeek(userId, firstDate, Date);
             int index = 1;
             data.labels?.Add("First");
@@ -538,9 +538,9 @@ namespace ExpenseTrackerService.Implimentation
             client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
         }
 
-        public RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount, string search)
+        public RecurrenceVM GetRecurrences(int categoryId, int userId, int currentPage, int itemsPerPage, bool orderByDate, bool orderByAmount,int frequency, string search)
         {
-            return _repository.GetRecurrences(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, search);
+            return _repository.GetRecurrences(categoryId, userId, currentPage, itemsPerPage, orderByDate, orderByAmount, frequency, search);
         }
 
         public RecurrenceVM GetRecurrenceData(int id, int? userId)
@@ -594,9 +594,9 @@ namespace ExpenseTrackerService.Implimentation
             return _repository.GetBudgets(userId);
         }
 
-        public BudgetVM GetBudgetsData(int userId, int currentPage, int itemsPerPage, bool OrderByAmount)
+        public BudgetVM GetBudgetsData(int userId, int currentPage, int itemsPerPage, bool OrderByAmount,int type)
         {
-            return _repository.GetBudgetsData(userId, currentPage, itemsPerPage, OrderByAmount);
+            return _repository.GetBudgetsData(userId, currentPage, itemsPerPage, OrderByAmount,type);
         }
 
         public BudgetVM GetBudget(int id, int? userId)
@@ -609,7 +609,7 @@ namespace ExpenseTrackerService.Implimentation
                 Category_Id = budget.Type == 1 ? (int)budget.CategroryId : budget.Type == 2 ? 0 : (int)budget.CategroryId,
                 Freequency_Type = budget.Type == 2 ? (int)budget.FrequenceyId : budget.Type == 1 ? 0 : (int)budget.FrequenceyId,
                 Categories = _repository.GetCategories((int)userId),
-                Freequencies=_repository.GetFreequencies(),
+                Freequencies=_repository.GetFrequencies(),
                 BudgetAmount = (int)budget.Amount,
             };
         }
@@ -741,9 +741,14 @@ namespace ExpenseTrackerService.Implimentation
             client.SendMailAsync(new MailMessage(from: mail, to: receiver, subject, message));
         }
 
-        public List<Freequency> GetFreequencies()
+        public List<Freequency> GetFrequencies()
         {
-            return _repository.GetFreequencies();
+            return _repository.GetFrequencies();
+        }
+
+        public CategoryVM GetCategoriesForTable(int userId, int currentPage, int itemsPerPage, string search)
+        {
+            return _repository.GetCategoriesForTable(userId,currentPage, itemsPerPage, search);
         }
     }
 }

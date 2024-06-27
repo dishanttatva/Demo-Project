@@ -1,16 +1,7 @@
 ﻿using ExpenseTrackerEntity.Models;
-using ExpenseTrackerRepository.Interface;
 using ExpenseTrackerService.Interface;
-using iText.Bouncycastle.Crypto;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace ExpenseTrackerService.Implimentation
 {
     public class ExpenseBackgroundService : BackgroundService
@@ -25,15 +16,15 @@ namespace ExpenseTrackerService.Implimentation
             while (!stoppingToken.IsCancellationRequested)
             {
 
-                
+
                 using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
                     IExpenseService scopedProcessingService =
                         scope.ServiceProvider.GetRequiredService<IExpenseService>();
                     Recurrence recurrence = scopedProcessingService.CheckDueDate();
-                    if(recurrence != null)
+                    if (recurrence != null)
                     {
-                    scopedProcessingService.TriggerAlert(recurrence);
+                        scopedProcessingService.TriggerAlert(recurrence);
                     }
                 }
                 await Task.Delay(TimeSpan.FromHours(24), stoppingToken);

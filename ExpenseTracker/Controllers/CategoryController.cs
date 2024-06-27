@@ -15,10 +15,16 @@ namespace ExpenseTracker.Controllers
         [HttpGet("expense-tracker/categories")]
         public IActionResult Categories()
         {
+            
+            return View();
+        }
+        [HttpGet]
+        public IActionResult CategoryTable(int currentPage, int itemsPerPage,string search) 
+        {
             var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<Category> categories = _service.GetCategories(userId);
-            CategoryVM viewModel = new() { Categories = categories };
-            return View(viewModel);
+            CategoryVM categories = _service.GetCategoriesForTable(userId,currentPage,itemsPerPage,search);
+            ViewBag.Page = currentPage;
+            return PartialView("_CategoryTable", categories);
         }
 
         [HttpPost("expense-tracker/create-categories")]

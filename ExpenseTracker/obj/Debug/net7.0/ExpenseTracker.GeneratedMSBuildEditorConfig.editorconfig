@@ -16,16 +16,24 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Project\demoProject\ExpenseTracker
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Project/demoProject/ExpenseTracker/Views/Budget/Budget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0XEJ1ZGdldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/demoProject/ExpenseTracker/Views/Budget/_BudgetTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0XF9CdWRnZXRUYWJsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/demoProject/ExpenseTracker/Views/Category/Categories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Category/_EditCategory.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0VkaXRDYXRlZ29yeS5jc2h0bWw=
+[D:/Project/demoProject/ExpenseTracker/Views/Category/_CategoryTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0NhdGVnb3J5VGFibGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Project/demoProject/ExpenseTracker/Views/Expense/Budget.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxCdWRnZXQuY3NodG1s
+[D:/Project/demoProject/ExpenseTracker/Views/Category/_EditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0VkaXRDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/Index.cshtml]
@@ -38,10 +46,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxNeVByb2ZpbGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Project/demoProject/ExpenseTracker/Views/Expense/_BudgetTable.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZVxfQnVkZ2V0VGFibGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/demoProject/ExpenseTracker/Views/Expense/_ExpenseTable.cshtml]

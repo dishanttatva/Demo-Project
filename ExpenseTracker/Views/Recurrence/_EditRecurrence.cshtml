@@ -13,7 +13,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="RecurrenceName" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense name</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your recurrence name</label><br />
                         <span asp-validation-for="RecurrenceName" class="text-danger"></span>
 
                     </div>
@@ -23,10 +23,14 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <select class="form-select" asp-for="FrequencyId" aria-label="Default select example">
-                            @foreach(var freequency in Model.Freequencies)
+                            @if (Model.Freequencies != null)
                             {
-                                <option value="@freequency.FreequencyId">@freequency.Name</option>
+                                @foreach (var frequency in Model.Freequencies)
+                                {
+                                    <option value="@frequency.FreequencyId">@frequency.Name</option>
+                                }
                             }
+                           
 
                            @*  @if (Model != null)
                             {
@@ -38,7 +42,7 @@
 
 
                         </select>
-                        <label class="form-label">select recurrence Freequency</label><br />
+                        <label class="form-label">select recurrence frequency</label><br />
                         <span asp-validation-for="FrequencyId" class="text-danger"></span>
                     </div>
                 </div>
@@ -57,7 +61,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Recurrence Amount</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your recurrence amount</label><br />
                         <span asp-validation-for="Amount" class="text-danger"></span>
 
                     </div>

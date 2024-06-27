@@ -14,15 +14,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 
 </head>
-<body>
+<body class="d-flex justify-content-between flex-column  p-0 m-0 vh-100">
+    <section>
     <div id="spinner" class="d-none d-flex justify-content-center align-items-center" style="position:fixed; top:0px; left:0px; width:100%; height:100%; background:rgba(0,0,0,0.4);">
         <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
 
-    <div class="d-flex justify-content-between flex-column">
-        <div>
+   
+        
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -31,7 +32,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
+                            <li class="nav-item ">
                                 <a class="nav-link active fs-3" asp-action="Index" asp-controller="Expense">Expense Tracker</a>
                             </li>
                             <li class="nav-item d-flex justify-content-center align-items-center">
@@ -50,7 +51,7 @@
                                 <a class="nav-link fs-5" asp-action="Chart" asp-controller="Report">My Trends</a>
                             </li>
                             <li class="nav-item d-flex justify-content-center align-items-center">
-                                <a class="nav-link fs-5" asp-action="Budget" asp-controller="Expense">My Budget</a>
+                                <a class="nav-link fs-5" asp-action="Budget" asp-controller="Budget">My Budget</a>
                             </li>
                         </ul>
                         <a asp-action="LogOut" asp-controller="Expense" class="btn btn-outline-danger my-2 mx-2 my-sm-0" type="button">LogOut</a>
@@ -63,9 +64,16 @@
                     @RenderBody()
                 </main>
             </div>
-        </div>
+    </section>
+    <footer>
+            <div class="foot w-100 bg-dark text-white " id="foot">
+            @* <p class=""><span>All Rights Reserved &trade; ExpenseTracker</span> <span class="vr"></span> Privacy Policy</p> *@
+            <p id="copyright" class=" fs-7 mx-5 text-grey m-0 d-flex justify-content-end align-items-center">
+                <span >Copyright &copy; 2024 ExpenseTracker.com <span class="vr"></span> Privacy Policy</span>
+            </p>
+            </div>
+    </footer>
 
-    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

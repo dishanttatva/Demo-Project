@@ -19,16 +19,34 @@
         toastr.error("@TempData["error"]");
     </script>
 }
-<div class="container">
+<div class="container my-3">
     <div class="row">
         @* <button class="">Add a Category</button> *@
         <button type="button" class="btn btn-outline-success my-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add a Reccurence Expense
         </button>
+        <div class="d-flex justify-content-end">
+            <select class="form-select w-25" onchange="pagination(1,false,false)" id="frequencyDropdown"  aria-label="Default select example">
+                <option selected value="0">Select your frequency</option>
+                @if (Model.Freequencies != null)
+                {
+                    foreach (var item in Model.Freequencies)
+                    {
+                        <option value="@item.FreequencyId">@item.Name</option>
+                    }
+                }
+                
 
 
 
-        <div id="showTable"></div>
+            </select>
+        </div>
+        <div>
+            <input id="search" type="text" class="form-control w-25" onchange="pagination(1,false,false)" placeholder="Search by name">
+        </div>
+
+
+        <div id="showTable" class="shadow my-3 bg-white"></div>
 
         <div class="d-flex justify-content-end">
             <select onchange="pagination(1,false,false)" id="pageDropdown" aria-label="Default select example">
@@ -60,7 +78,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="RecurrenceName" type="text" id="ExpenseName" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense name</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your Recurrence name</label><br />
                         <span asp-validation-for="RecurrenceName" class="text-danger"></span>
                     </div>
                 </div>
@@ -70,13 +88,13 @@
                 <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
                         <select class="form-select" id="CategoryDropdown" asp-for="FrequencyId" aria-label="Default select example">
-                            <option selected disabled value="">Select the Freequency</option>
+                            <option selected disabled value="">Select the frequency</option>
                             @foreach (var item in Model.Freequencies)
                             {
                                 <option value="@item.FreequencyId">@item.Name</option>
                             }
                         </select>
-                        <label class="form-label">select your category</label><br />
+                        <label class="form-label">select your recurrence frequency</label><br />
                         <span asp-validation-for="FrequencyId" class="text-danger"></span>
                     </div>
                 </div>
@@ -85,7 +103,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="RecurrenceDate" type="date" id="ExpenseDate" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense Date</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your recurrence date</label><br />
                         <span asp-validation-for="RecurrenceDate" class="text-danger"></span>
 
                     </div>
@@ -95,7 +113,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="Amount" type="text" id="ExpenseAmount" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense Amount</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your recurrence amount</label><br />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
                 </div>
@@ -104,7 +122,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="Description" type="text" id="ExpenseDescription" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
+                        <label class="form-label" for="form3Example3c">Enter your recurrence Description</label>
 
                     </div>
                 </div>
@@ -156,7 +174,8 @@
     function pagination(number, orderbyDate, orderByValue) {
 
         var itemsPerPage = document.getElementById('pageDropdown').value;
-
+        var frequency = document.getElementById('frequencyDropdown').value;
+        var search = document.getElementById('search').value;
         if (number == 0) {
             number = $('#number').text();
         }
@@ -167,6 +186,8 @@
             data: {
 
                 currentPage: number,
+                frequency:frequency,
+                search:search,
                 itemsPerPage: itemsPerPage,
                 orderByDate: orderbyDate,
                 orderByAmount: orderByValue,

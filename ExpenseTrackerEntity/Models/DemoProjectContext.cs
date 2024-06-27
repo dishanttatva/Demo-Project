@@ -37,9 +37,9 @@ public partial class DemoProjectContext : DbContext
         {
             entity.HasKey(e => e.BudgetId).HasName("Budget_pkey");
 
-            entity.ToTable("Budget");
-
-            entity.Property(e => e.BudgetId).HasColumnName("Budget_Id");
+            entity.Property(e => e.BudgetId)
+                .HasDefaultValueSql("nextval('\"Budget_Budget_Id_seq\"'::regclass)")
+                .HasColumnName("Budget_Id");
             entity.Property(e => e.CategroryId).HasColumnName("Categrory_Id");
             entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
             entity.Property(e => e.FrequenceyId).HasColumnName("Frequencey_Id");
@@ -51,10 +51,6 @@ public partial class DemoProjectContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Budgets)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("Budget_Created_By_fkey");
-
-            entity.HasOne(d => d.Frequencey).WithMany(p => p.Budgets)
-                .HasForeignKey(d => d.FrequenceyId)
-                .HasConstraintName("Budget_Frequencey_Id_fkey");
         });
 
         modelBuilder.Entity<Expense>(entity =>
@@ -91,10 +87,9 @@ public partial class DemoProjectContext : DbContext
         {
             entity.HasKey(e => e.RecurrenceId).HasName("Recurrence_pkey");
 
-            entity.ToTable("Recurrence");
-
-            entity.Property(e => e.RecurrenceId).HasColumnName("Recurrence_id");
-            entity.Property(e => e.Amount).HasColumnName("amount");
+            entity.Property(e => e.RecurrenceId)
+                .HasDefaultValueSql("nextval('\"Recurrence_Recurrence_id_seq\"'::regclass)")
+                .HasColumnName("Recurrence_id");
             entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
             entity.Property(e => e.DueDate).HasColumnName("Due_Date");
             entity.Property(e => e.FreequencyId).HasColumnName("Freequency_Id");
@@ -106,10 +101,6 @@ public partial class DemoProjectContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Recurrences)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("Recurrence_Created_By_fkey");
-
-            entity.HasOne(d => d.Freequency).WithMany(p => p.Recurrences)
-                .HasForeignKey(d => d.FreequencyId)
-                .HasConstraintName("Recurrence_Freequency_Id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

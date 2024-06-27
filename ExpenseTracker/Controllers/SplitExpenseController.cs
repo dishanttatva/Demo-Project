@@ -12,7 +12,7 @@ namespace ExpenseTracker.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("expense-tracker/split-expense")]
         public IActionResult SplitExpense()
         {
             return View();
@@ -20,6 +20,10 @@ namespace ExpenseTracker.Controllers
         public IActionResult ValidateEmail(string email)
         {
             bool isValidateEmail = _service.ValidateEmail(email);
+            if(isValidateEmail)
+            {
+                TempData["success"] = "Email validated successfully";
+            }
             return Json(new { result = isValidateEmail });
         }
         public IActionResult RegisterModal(string email)
@@ -31,37 +35,53 @@ namespace ExpenseTracker.Controllers
         [HttpPost]
         public IActionResult QuickRegister(string email, string password, string firstname, DateOnly dateofbirth)
         {
-            if (!email.Contains("@") || !email.Contains('.'))
+            try
             {
-                TempData["error"] = "Email is not valid";
-                return Ok();
+                if (!email.Contains("@") || !email.Contains('.'))
+                {
+                    TempData["error"] = "Email is not valid";
+                    return Ok();
+                }
+                _service.QuickRegister(email, password, firstname, dateofbirth);
+                _service.SendMailForCreateAccount(email, password);
+                TempData["success"] = "Account created successfully";
+                return RedirectToAction(nameof(SplitExpense));
             }
-            _service.QuickRegister(email, password, firstname, dateofbirth);
-            _service.SendMailForCreateAccount(email, password);
-            TempData["success"] = "Account created successfully";
-            return RedirectToAction(nameof(SplitExpense));
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
+            }
         }
         [HttpPost]
         public IActionResult SplitExpense(SpliteExpenseVM vm)
         {
-            string errorMessage = _service.ValidateEmails(vm);
-            if ((vm.SplittedAmount == 0 && vm.SplitAmounts?.Count() == 0) || (vm.SplitAmounts?.Count() != 0 && vm.SplitAmounts?.Count() != vm.Totals))
+            try
             {
-                TempData["error"] = "Split amount should not 0";
+                string errorMessage = _service.ValidateEmails(vm);
+                if ((vm.SplittedAmount == 0 && vm.SplitAmounts?.Count() == 0) || (vm.SplitAmounts?.Count() != 0 && vm.SplitAmounts?.Count() != vm.Totals))
+                {
+                    TempData["error"] = "Split amount should not 0";
+                    return RedirectToAction(nameof(SplitExpense));
+                }
+
+                if (errorMessage == "")
+                {
+                    _service.SendMailForSplitAmount(vm);
+                    _service.SplitExpense(vm);
+                    TempData["success"] = "Split Expense has been created";
+                }
+                else
+                {
+                    TempData["error"] = errorMessage;
+                }
                 return RedirectToAction(nameof(SplitExpense));
             }
-
-            if (errorMessage == "")
+            catch(Exception ex)
             {
-                _service.SendMailForSplitAmount(vm);
-                _service.SplitExpense(vm);
-                TempData["success"] = "Split Expense has been created";
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error", ex.Message);
             }
-            else
-            {
-                TempData["error"] = errorMessage;
-            }
-            return RedirectToAction(nameof(SplitExpense));
         }
     }
 }

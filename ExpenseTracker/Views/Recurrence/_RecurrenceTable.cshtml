@@ -1,76 +1,80 @@
 ﻿@model ExpenseTrackerEntity.ViewModel.RecurrenceVM;
 
-@if (Model.Recurrences.Count() > 0)
+@if (Model.Recurrences != null)
 {
+    if (Model.Recurrences.Count() > 0)
+    {
 
+        <div class="table-responsive">
+            <table class="table my-5 table-hover table-striped">
+                <thead>
+                    <tr>
 
-    <table class="table my-5 table-hover table-striped">
-        <thead>
-            <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col"><span>Amount <i onclick="pagination(0,false,true)" class="fa fa-long-arrow-up" aria-hidden="true"></i></span></th>
+                        <th scope="col">Date<i onclick="pagination(0,true,false)" class="fa fa-long-arrow-up" aria-hidden="true"></i></th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <th scope="col">Name</th>
-                <th scope="col">Amount <i onclick="pagination(0,false,true)" class="fa fa-long-arrow-up" aria-hidden="true"></i></th>
-                <th scope="col">Date<i onclick="pagination(0,true,false)" class="fa fa-long-arrow-up" aria-hidden="true"></i></th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model.Recurrences)
-            {
-
-                <tr>
-
-                    <td>@item.RecurrenceName</td>
-                    <td>@item.Amount</td>
-                    <td>@item.StartDate</td>
-                    <td>
-                        <div class="d-flex">
-                            <button type="button" onclick="OpenModal(@item.RecurrenceId)" class="btn btn-outline-primary d-lg-block d-none mx-1">Edit</button>
-                            <button class="btn btn-success btn-sm rounded-0 d-lg-none d-block mx-1" onclick="OpenModal(@item.RecurrenceId)" type="button"><i class="fa fa-edit"></i></button>
-                            <a onclick="DeleteModal(@item.RecurrenceId)" class="btn btn-outline-danger mx-1 d-lg-block d-none">Delete</a>
-                            <button onclick="DeleteModal(@item.RecurrenceId)" class="btn btn-danger btn-sm rounded-0 d-lg-none mx-1 d-block" type="button"><i class="fa fa-trash"></i></button>
-                        </div>
-                    </td>
-
-                </tr>
-
-            }
-            
-
-        </tbody>
-    </table>
-
-    <div class="d-flex justify-content-center">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination" id="container">
-
-
-                @{
-                    double itemsPerPage = Model.ItemsPerPage;
-                    var i = 1;
-                    double totalPages = 0;
-                    double pageCount = Model.PageCount;
-                    if (itemsPerPage != 0)
+                    @foreach (var item in Model.Recurrences)
                     {
-                        totalPages = Math.Ceiling(pageCount / itemsPerPage);
-                    }
-                    else
-                    {
-                        totalPages = 0;
-                    }
-                    <li class="page-item" id="prev"><a class="page-link" onclick="Decreament()"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
-                    <li class="page-item"><a id="number" class="page-link">@i</a></li>
-                    <li class="page-item" id="next"><a class="page-link" onclick="Increament(@totalPages)"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
-                }
 
-            </ul>
-        </nav>
+                        <tr>
 
-        <p class="fs-5 mx-2">Page @ViewBag.Page of @totalPages</p>
-    </div>
+                            <td class="col-3">@item.RecurrenceName</td>
+                            <td class="col-4">@item.Amount</td>
+                            <td class="col-3">@item.StartDate</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button type="button" onclick="OpenModal(@item.RecurrenceId)" class="btn btn-outline-primary d-lg-block d-none mx-1">Edit</button>
+                                    <button class="btn btn-success btn-sm rounded-0 d-lg-none d-block mx-1" onclick="OpenModal(@item.RecurrenceId)" type="button"><i class="fa fa-edit"></i></button>
+                                    <a onclick="DeleteModal(@item.RecurrenceId)" class="btn btn-outline-danger mx-1 d-lg-block d-none">Delete</a>
+                                    <button onclick="DeleteModal(@item.RecurrenceId)" class="btn btn-danger btn-sm rounded-0 d-lg-none mx-1 d-block" type="button"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="container">
+
+
+                    @{
+                        double itemsPerPage = Model.ItemsPerPage;
+                        var i = 1;
+                        double totalPages = 0;
+                        double pageCount = Model.PageCount;
+                        if (itemsPerPage != 0)
+                        {
+                            totalPages = Math.Ceiling(pageCount / itemsPerPage);
+                        }
+                        else
+                        {
+                            totalPages = 0;
+                        }
+                        <li class="page-item" id="prev"><a class="page-link" onclick="Decreament()"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                        <li class="page-item"><a id="number" class="page-link">@i</a></li>
+                        <li class="page-item" id="next"><a class="page-link" onclick="Increament(@totalPages)"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                    }
+
+                </ul>
+            </nav>
+
+            <p class="fs-5 mx-2">Page @ViewBag.Page of @totalPages</p>
+        </div>
+    }
 }
 else
 {
     <p class="fs-3 my-5">No Expenses Available</p>
 }
+   

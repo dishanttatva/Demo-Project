@@ -12,7 +12,7 @@
             data: {
                 labels: salesData.labels,
                 datasets: [{
-                    label: 'Monthly Sales',
+                    label: salesData.type == "1" ? 'Daily Sales' : salesData.type == "2" ? 'Weekly Sales' : 'Monthly Sales',
                     data: salesData.budget,
                     backgroundColor: 'rgba(75, 192, 192, 0.6)', // Customize the bar color
                     borderWidth: 1,

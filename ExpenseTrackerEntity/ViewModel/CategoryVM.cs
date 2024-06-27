@@ -14,5 +14,8 @@ namespace ExpenseTrackerEntity.ViewModel
         [Required(ErrorMessage = "CategoryName is Required")]
         public string CategoryName { get; set; } = null!;
         public List<Category>? Categories { get; set; }
+        public int ItemsPerPage { get; set; }
+        public int PageCount { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

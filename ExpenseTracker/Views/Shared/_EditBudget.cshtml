@@ -38,17 +38,20 @@
                             <select class="form-select" asp-for="Category_Id" aria-label="Default select example">
 
 
-                                
-                                    @foreach (var item in Model.Categories)
+                                @if (Model.Categories != null)
+                                {
+                                    foreach (var item in Model.Categories)
                                     {
                                         <option value="@item.CategoryId">@item.Name</option>
-                                    
+
+                                    }
                                 }
+                                
 
 
 
                             </select>
-                            <label class="form-label">select your category</label><br />
+                            <label class="form-label">select your budget category</label><br />
                             <span asp-validation-for="Category_Id" class="text-danger"></span>
                         </div>
                     </div>
@@ -59,12 +62,16 @@
 
                         <div class="form-outline flex-fill mb-0">
                             <select class="form-select" asp-for="Freequency_Type" aria-label="Default select example">
-                                @foreach(var item in Model.Freequencies)
+                                @if (Model.Freequencies != null)
                                 {
-                                    <option value="@item.FreequencyId">@item.Name</option>
+                                    foreach (var item in Model.Freequencies)
+                                    {
+                                        <option value="@item.FreequencyId">@item.Name</option>
+                                    }
                                 }
+                                
                             </select>
-                            <label class="form-label">select your Freequency</label><br />
+                            <label class="form-label">select your budget frequency</label><br />
                             <span asp-validation-for="Freequency_Type" class="text-danger"></span>
 
                         </div>
@@ -77,7 +84,7 @@
 
                     <div class="form-outline flex-fill mb-0">
                         <input asp-for="BudgetAmount" type="text" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Enter your Expense Amount</label><br />
+                        <label class="form-label" for="form3Example3c">Enter your budget amount</label><br />
                         <span asp-validation-for="BudgetAmount" class="text-danger"></span>
 
                     </div>
@@ -86,7 +93,7 @@
                
 
                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Edit</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Edit a budget</button>
                 </div>
 
 
