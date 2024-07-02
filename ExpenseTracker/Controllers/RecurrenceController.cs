@@ -1,11 +1,12 @@
-﻿using ExpenseTrackerEntity.Models;
+﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Controllers
 {
-    
+    [CustomeAuthorize()]
     public class RecurrenceController : Controller
     {
         private readonly IExpenseService _service;
@@ -20,8 +21,8 @@ namespace ExpenseTracker.Controllers
             {
                 int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
                 List<Category> categories = _service.GetCategories(userId);
-                List<Freequency> freequencies = _service.GetFrequencies();
-                RecurrenceVM data = new() { Categories = categories, Freequencies = freequencies };
+                List<Freequency> frequencies = _service.GetFrequencies();
+                RecurrenceVM data = new() { Categories = categories, Freequencies = frequencies };
                 return View(data);
             }
             catch (Exception ex)

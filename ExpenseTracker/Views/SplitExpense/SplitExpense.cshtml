@@ -23,7 +23,7 @@
     <div class="row">
         
         
-        <button type="button" onclick="AddMember()" class="btn btn-outline-success my-2 w-100">
+        <button type="button" onclick="AddMember()" class="btn btn-success my-2 w-100">
             Add a Member
         </button>
         <select class="form-select w-50 my-3" onchange="SplitType()" id="dropdown" aria-label="Default select example">
@@ -33,10 +33,10 @@
         </select>
         <form onsubmit="return countTotal()" asp-action="SplitExpense" method="post">
             <input type="number" class="w-50 mt-2" asp-for="SplittedAmount" id="splitamount" placeholder="Enter the splited amount" />
-       <div id="members" style="min-height:400px" class="shadow bg-light">
+       <div id="members" style="min-height:400px" class="shadow mt-2">
      
        </div>
-            <button type="submit" class="btn btn-outline-primary mt-4">Split the Expense</button>
+            <button type="submit" class="btn btn-primary mt-4">Split the Expense</button>
             
         </form>
     </div>

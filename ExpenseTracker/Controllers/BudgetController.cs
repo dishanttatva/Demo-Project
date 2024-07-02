@@ -1,10 +1,12 @@
-﻿using ExpenseTrackerEntity.Models;
+﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Controllers
 {
+    [CustomeAuthorize()]
     public class BudgetController : Controller
     {
         private readonly IExpenseService _service;
@@ -19,8 +21,8 @@ namespace ExpenseTracker.Controllers
             {
                 var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
                 List<Category> categories = _service.GetCategories(userId);
-                List<Freequency> freequencies = _service.GetFrequencies();
-                BudgetVM budgetVM = new BudgetVM() { Categories = categories, Freequencies = freequencies };
+                List<Freequency> frequencies = _service.GetFrequencies();
+                BudgetVM budgetVM = new BudgetVM() { Categories = categories, Freequencies = frequencies };
                 return View(budgetVM);
             }
             catch (Exception ex)
@@ -46,6 +48,7 @@ namespace ExpenseTracker.Controllers
                 return View("Error", ex.Message);
             }
         }
+        
         [HttpGet]
         public IActionResult BudgetTable(int currentPage, int itemsPerPage, bool orderByAmount, int type)
         {
@@ -62,6 +65,8 @@ namespace ExpenseTracker.Controllers
                 return View("Error", ex.Message);
             }
         }
+
+
         public IActionResult ShowBudgetModal(int id)
         {
             try
@@ -76,6 +81,7 @@ namespace ExpenseTracker.Controllers
                 return View("Error", ex.Message);
             }
         }
+
         [HttpPost]
         public IActionResult EditBudget(BudgetVM budgetVM)
         {
@@ -92,6 +98,7 @@ namespace ExpenseTracker.Controllers
                 return View("Error", ex.Message);
             }
         }
+
         public IActionResult DeleteBudget(int id)
         {
             try

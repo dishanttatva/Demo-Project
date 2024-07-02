@@ -387,6 +387,10 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
+            },
             "itext7": {
               "target": "Package",
               "version": "[8.0.3, )"

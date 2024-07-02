@@ -83,3 +83,4 @@ D:\Project\demoProject\ExpenseTracker\bin\Debug\net7.0\bcpkix-fips-1.0.2.dll
 D:\Project\demoProject\ExpenseTracker\bin\Debug\net7.0\itext.bouncy-castle-fips-adapter.dll
 D:\Project\demoProject\ExpenseTracker\bin\Debug\net7.0\itext.commons.dll
 D:\Project\demoProject\ExpenseTracker\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\Project\demoProject\ExpenseTracker\bin\Debug\net7.0\Microsoft.WindowsAzure.Storage.dll

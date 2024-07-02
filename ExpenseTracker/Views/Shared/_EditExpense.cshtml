@@ -8,22 +8,19 @@
             </div>
             <form method="post" asp-action="EditExpense" class="mx-1 mx-md-4 p-4">
 
-                    <input type="text" asp-for="ExpenseId" hidden/>
-                    <div class="d-flex flex-row align-items-center mb-4">
-                       
-                        <div class="form-outline flex-fill mb-0">
-                            <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
-                            <label class="form-label" for="form3Example3c">Enter your Expense name</label>
-                        </div>
+                <input type="text" asp-for="ExpenseId" hidden />
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="ExpenseName" type="text" id="form3Example3c" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your Expense name</label>
                     </div>
+                </div>
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                        
-                        <div class="form-outline flex-fill mb-0">
-                            <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
-                                
-
-                            @if(Model!=null && Model.Categories != null)
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                        <select class="form-select" asp-for="CategoryId" aria-label="Default select example">
+                            @if (Model != null && Model.Categories != null)
                             {
                                 @foreach (var item in Model.Categories)
                                 {
@@ -37,42 +34,40 @@
                                     }
                                 }
                             }
-                            
-
-
-                            </select>
-                            <label class="form-label">select your category</label>
-                        </div>
+                        </select>
+                        <label class="form-label">select your category</label>
                     </div>
+                </div>
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                       
-                        <div class="form-outline flex-fill mb-0">
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
                         <input asp-for="ExpenseDate" type="date" asp-format="{0:yyyy-MM-dd}" id="form3Example3c" class="form-control" />
-                            <label class="form-label" for="form3Example3c">Enter your Expense Date</label>
-                        </div>
+                        <label class="form-label" for="form3Example3c">Enter your Expense Date</label>
                     </div>
+                </div>
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                       
-                        <div class="form-outline flex-fill mb-0">
-                            <input asp-for="Amount" type="text" id="form3Example3c" class="form-control" />
-                            <label class="form-label" for="form3Example3c">Enter your Expense Amount</label>
-                        </div>
-                    </div>
+                <div class="d-flex flex-row align-items-center mb-4">
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                       
-                        <div class="form-outline flex-fill mb-0">
-                            <input asp-for="Description" type="text" id="form3Example3c" class="form-control" />
-                            <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
-                        </div>
-                    </div>
+                    <div class="input-group form-outline flex-fill mb-0">
+                        <span class="input-group-text">&#x20b9;</span>
+                        <input asp-for="Amount" type="number" id="form3Example3c" class="form-control" placeholder="Enter the amount of your expense" /><br />
 
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="submit" class="btn btn-primary btn-lg">Edit</button>
                     </div>
-                
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+
+                    <div class="form-outline flex-fill mb-0">
+                        <input asp-for="Description" type="text" id="form3Example3c" class="form-control" />
+                        <label class="form-label" for="form3Example3c">Enter your Expense Description</label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Edit</button>
+                </div>
+
 
 
             </form>

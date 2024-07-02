@@ -1,10 +1,12 @@
-﻿using ExpenseTrackerEntity.Models;
+﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.Models;
 using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Controllers
 {
+    [CustomeAuthorize()]
     public class CategoryController : Controller
     {
         private readonly IExpenseService _service;
@@ -15,14 +17,14 @@ namespace ExpenseTracker.Controllers
         [HttpGet("expense-tracker/categories")]
         public IActionResult Categories()
         {
-            
+
             return View();
         }
         [HttpGet]
-        public IActionResult CategoryTable(int currentPage, int itemsPerPage,string search) 
+        public IActionResult CategoryTable(int currentPage, int itemsPerPage, string search)
         {
             var userId = (int?)HttpContext.Session.GetInt32("UserId") ?? 0;
-            CategoryVM categories = _service.GetCategoriesForTable(userId,currentPage,itemsPerPage,search);
+            CategoryVM categories = _service.GetCategoriesForTable(userId, currentPage, itemsPerPage, search);
             ViewBag.Page = currentPage;
             return PartialView("_CategoryTable", categories);
         }
@@ -40,7 +42,6 @@ namespace ExpenseTracker.Controllers
             {
                 TempData["error"] = "Category already exists";
             }
-
             return RedirectToAction(nameof(Categories));
         }
 

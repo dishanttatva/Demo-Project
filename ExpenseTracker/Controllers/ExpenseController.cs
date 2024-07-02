@@ -16,6 +16,7 @@ public class ExpenseController : Controller
         _logger = logger;
         _service = service;
     }
+
     [HttpGet("expense-tracker/home")]
     public IActionResult Index()
     {
@@ -25,12 +26,13 @@ public class ExpenseController : Controller
             HttpContext.Session.SetInt32("UserId", userId);
             List<Category> categories = _service.GetCategories(userId);
             HomeVM data = new() { Categories = categories };
+            _logger.LogInformation("User {userId} accessed the expense page.", userId);
             return View(data);
         }
         catch (Exception ex)
-        {
+        {   
             ViewBag.ErrorMessage = ex.Message;
-            return View("Error", ex.Message);
+            return View("Error", ex.Message);                                     
         }
     }
 

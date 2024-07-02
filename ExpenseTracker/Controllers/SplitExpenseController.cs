@@ -1,9 +1,11 @@
-﻿using ExpenseTrackerEntity.ViewModel;
+﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Controllers
 {
+    [CustomeAuthorize()]
     public class SplitExpenseController : Controller
     {
         private readonly IExpenseService _service;
@@ -33,7 +35,7 @@ namespace ExpenseTracker.Controllers
             return PartialView("_RegisterModal", vm);
         }
         [HttpPost]
-        public IActionResult QuickRegister(string email, string password, string firstname, DateOnly dateofbirth)
+        public IActionResult QuickRegister(string email, string password, string firstName, DateOnly dateOfBirth)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace ExpenseTracker.Controllers
                     TempData["error"] = "Email is not valid";
                     return Ok();
                 }
-                _service.QuickRegister(email, password, firstname, dateofbirth);
+                _service.QuickRegister(email, password, firstName, dateOfBirth);
                 _service.SendMailForCreateAccount(email, password);
                 TempData["success"] = "Account created successfully";
                 return RedirectToAction(nameof(SplitExpense));

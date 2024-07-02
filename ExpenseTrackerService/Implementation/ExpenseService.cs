@@ -4,6 +4,7 @@ using ExpenseTrackerRepository.Interface;
 using ExpenseTrackerService.Interface;
 using iText.IO.Image;
 using iText.Kernel.Pdf;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,7 +27,7 @@ namespace ExpenseTrackerService.Implimentation
             _configuration = configuration;
 
         }
-
+        
         public void RegisterUser(RegisterVM model)
         {
             User data = new()
@@ -209,7 +210,7 @@ namespace ExpenseTrackerService.Implimentation
 
 
             var mail = "tatva.dotnet.dishantsoni@outlook.com";
-            var password = "I'm not written password beacuase of security";
+            var password = "Dishant@2002";
 
             var client = new SmtpClient("smtp.office365.com")
             {
@@ -234,7 +235,7 @@ namespace ExpenseTrackerService.Implimentation
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
+            expires: DateTime.Now.AddMinutes(60),
             signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -253,7 +254,7 @@ namespace ExpenseTrackerService.Implimentation
                 ValidateAudience = true,
                 ValidAudience = _configuration["Jwt:Audience"],
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero // Adjust the clock skew if needed
+                ClockSkew = TimeSpan.Zero 
             };
             var principal = tokenHandler.ValidateToken(vm.Token, tokenValidationParameters, out var validatedToken);
 

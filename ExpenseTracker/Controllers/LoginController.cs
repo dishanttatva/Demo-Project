@@ -3,6 +3,7 @@ using ExpenseTrackerEntity.ViewModel;
 // using ExpenseTracker.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 // using ExpenseTrackerEntity.ViewModel;
 namespace ExpenseTracker.Controllers
 {
@@ -54,7 +55,7 @@ namespace ExpenseTracker.Controllers
                     {
                         var cookieOptions = new CookieOptions
                         {
-                            Expires = DateTime.Now.AddMinutes(30),
+                            Expires = DateTime.Now.AddMinutes(60),
                             HttpOnly = true,
                             Secure = true
                         };

@@ -5,12 +5,24 @@
       "PackagePath": "staticwebassets\\ExpenseTracker.bundle.scp.css"
     },
     {
+      "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\css\\layout.css",
+      "PackagePath": "staticwebassets\\css\\layout.css"
+    },
+    {
       "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\back.jfif",
+      "PackagePath": "staticwebassets\\images\\back.jfif"
+    },
+    {
+      "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\background.jpg",
+      "PackagePath": "staticwebassets\\images\\background.jpg"
     },
     {
       "Id": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart.png",

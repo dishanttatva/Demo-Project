@@ -4,7 +4,7 @@
 {
 
 
-    <table class="table my-5 table-hover table-striped">
+    <table class="table my-5 table-hover table-striped ">
         <thead>
             <tr>
                
@@ -22,7 +22,7 @@
                 <tr>
                    
                     <td class="col-3">@item.Name</td>
-                    <td class="col-3">@item.Amount</td>
+                    <td class="col-3">&#x20b9; @item.Amount</td>
                     <td class="col-3">@item.CreatedDate</td>
                     <td>
                         <div class="d-flex">
@@ -38,7 +38,7 @@
             }
             <tr class="table-dark">
                 <th class="fs-5" scope="row"><p class="fs-5">Total</p></th>
-                <td class="fs-5" colspan="4">@Model.Sum</td>
+                <td class="fs-5" colspan="4"> &#x20b9; @Model.Sum</td>
             </tr>
 
         </tbody>

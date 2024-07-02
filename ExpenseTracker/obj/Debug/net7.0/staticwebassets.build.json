@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9qDTGiA9MUBo/bA+u77EG7Z8HsX2F9MItaLVYKEn1WU=",
+  "Hash": "0a9q8hNavMWbjp5OtEDDowusJ2ju683RsfJtIUnwppA=",
   "Source": "ExpenseTracker",
   "BasePath": "_content/ExpenseTracker",
   "Mode": "Default",
@@ -51,6 +51,23 @@
       "OriginalItemSpec": "D:\\Project\\demoProject\\ExpenseTracker\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ExpenseTracker.bundle.scp.css"
     },
     {
+      "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\css\\layout.css",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "_content/ExpenseTracker",
+      "RelativePath": "css/layout.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\layout.css"
+    },
+    {
       "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\css\\site.css",
       "SourceId": "ExpenseTracker",
       "SourceType": "Discovered",
@@ -83,6 +100,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\back.jfif",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "_content/ExpenseTracker",
+      "RelativePath": "images/back.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\back.jfif"
+    },
+    {
+      "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\background.jpg",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "_content/ExpenseTracker",
+      "RelativePath": "images/background.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\background.jpg"
     },
     {
       "Identity": "D:\\Project\\demoProject\\ExpenseTracker\\wwwroot\\images\\chart.png",

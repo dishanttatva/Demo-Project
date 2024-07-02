@@ -1,9 +1,11 @@
-﻿using ExpenseTrackerEntity.ViewModel;
+﻿using ExpenseTracker.AuthMIddleware;
+using ExpenseTrackerEntity.ViewModel;
 using ExpenseTrackerService.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Controllers
 {
+    [CustomeAuthorize()]
     public class ReportController : Controller
     {
         private readonly IExpenseService _service;
@@ -39,6 +41,7 @@ namespace ExpenseTracker.Controllers
             }
 
             return PartialView("_ChartGraph", salesData);
+
         }
 
         [HttpGet]
